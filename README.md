@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Notym — site B2B
 
-## Getting Started
+Site du grossiste en boissons et snacks Notym (Montataire, 60) : catalogue pour les professionnels et demandes de devis.
 
-First, run the development server:
+- **Stack** : Next.js 16 (App Router, Cache Components), TypeScript strict, Tailwind CSS 4, Supabase, déploiement Vercel.
+- **Fonctionnement** : pas de compte client ni de paiement en ligne. Les visiteurs consultent le catalogue (prix « à partir de » HT quand ils sont renseignés) et envoient une demande de devis ou de contact. Seuls les administrateurs se connectent.
+
+## Prérequis
+
+- Node.js 22.12 ou plus récent
+- npm
+- Supabase CLI et Docker Desktop pour la base locale (à partir de l'étape 5)
+
+## Installation
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # puis remplir les valeurs
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Scripts
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Commande                          | Rôle                                                 |
+| --------------------------------- | ---------------------------------------------------- |
+| `npm run dev`                     | Serveur de développement                             |
+| `npm run build`                   | Build de production                                  |
+| `npm run start`                   | Sert le build de production                          |
+| `npm run lint`                    | ESLint                                               |
+| `npm run typecheck`               | Génère les types de routes puis lance `tsc --noEmit` |
+| `npm run format` / `format:check` | Prettier (avec tri des classes Tailwind)             |
+| `npm test`                        | Tests unitaires (Vitest)                             |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure
 
-## Learn More
+```
+app/              routes (App Router)
+components/ui     composants génériques (boutons, champs, badges…)
+components/shop   composants catalogue (cartes produit, filtres…)
+components/layout header, footer
+lib/              utilitaires, accès aux données, validation
+public/brand      logo (ne pas redessiner, recolorer ni déformer)
+supabase/         migrations SQL et seed (étape 5)
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Logo
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `public/brand/notym_logo.png` : fichier source fourni (1024 × 1024, fond transparent).
+- `public/brand/notym-logo.png` : même image, recadrée sur sa zone utile (marges transparentes retirées, aucun autre changement). C'est celle qu'utilise le site.
+- Version blanche pour fonds sombres : **à fournir**. En attendant, le logo couleur est posé sur une pastille claire sur les fonds sombres.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Avancement
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. [x] Setup du projet
+2. [ ] Tokens et polices
+3. [ ] Composants UI
+4. [ ] Pages statiques
+5. [ ] Catalogue et fiche produit (Supabase)
+6. [ ] Demandes de devis et de contact
+7. [ ] Back-office
