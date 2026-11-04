@@ -1,3 +1,276 @@
 @import "tailwindcss";
 
-/* Les design tokens Notym sont ajoutés à l'étape 2. */
+/* ==========================================================================
+   Design tokens Notym
+   Thème clair par défaut. Thème sombre : réglage du système, ou forcé avec
+   data-theme="dark" sur <html> (data-theme="light" force le clair).
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  --surface: #faf8f3;
+  --surface-raised: #ffffff;
+  --surface-inverse: #111414;
+  --line: #e3e0d8;
+  /* Brief : #8A9294 (2,99:1 sur surface). Ajusté pour atteindre 3:1. */
+  --line-strong: #888f92;
+  --ink: #111414;
+  --ink-muted: #5c6466;
+  --on-inverse: #faf8f3;
+  /* Texte sur aplat teal ou wheat : reste foncé dans les deux thèmes. */
+  --on-accent: #111414;
+  --teal: #78b9c1;
+  --teal-deep: #1f6e78;
+  --on-teal: #ffffff;
+  --teal-soft: #e6f3f4;
+  --wheat: #e8b04a;
+  --wheat-soft: #fbf0d9;
+  --wheat-ink: #8a5a0b;
+  /* Brief : #2F7D4F (4,44:1 sur teal-soft). Ajusté pour atteindre 4,5:1. */
+  --success: #2e7a4d;
+  --danger: #b83a26;
+
+  --focus-ring: var(--teal-deep);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+
+    --surface: #0f1415;
+    --surface-raised: #172022;
+    --surface-inverse: #e9efef;
+    --line: #2a3537;
+    --line-strong: #5e6b6d;
+    --ink: #e9efef;
+    --ink-muted: #9baaac;
+    --on-inverse: #111414;
+    --teal: #8ed0d8;
+    --teal-deep: #8ed0d8;
+    --on-teal: #0f1415;
+    --teal-soft: #173236;
+    --wheat: #f0be5e;
+    --wheat-soft: #3a2c10;
+    --wheat-ink: #f2c46d;
+    --success: #6cc28e;
+    --danger: #f08a76;
+  }
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --surface: #0f1415;
+  --surface-raised: #172022;
+  --surface-inverse: #e9efef;
+  --line: #2a3537;
+  --line-strong: #5e6b6d;
+  --ink: #e9efef;
+  --ink-muted: #9baaac;
+  --on-inverse: #111414;
+  --teal: #8ed0d8;
+  --teal-deep: #8ed0d8;
+  --on-teal: #0f1415;
+  --teal-soft: #173236;
+  --wheat: #f0be5e;
+  --wheat-soft: #3a2c10;
+  --wheat-ink: #f2c46d;
+  --success: #6cc28e;
+  --danger: #f08a76;
+}
+
+/* ==========================================================================
+   Mapping Tailwind. Les palettes, rayons, ombres et tailles de texte par
+   défaut sont retirés : seuls les tokens Notym sont disponibles.
+   ========================================================================== */
+
+@theme inline {
+  --color-*: initial;
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-inverse: var(--surface-inverse);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-on-inverse: var(--on-inverse);
+  --color-on-accent: var(--on-accent);
+  --color-teal: var(--teal);
+  --color-teal-deep: var(--teal-deep);
+  --color-on-teal: var(--on-teal);
+  --color-teal-soft: var(--teal-soft);
+  --color-wheat: var(--wheat);
+  --color-wheat-soft: var(--wheat-soft);
+  --color-wheat-ink: var(--wheat-ink);
+  --color-success: var(--success);
+  --color-danger: var(--danger);
+
+  --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
+}
+
+@theme {
+  /* Titres (Bricolage Grotesque). Tailles fluides : la valeur haute du brief
+     est atteinte vers 1280px, la valeur basse protège les petits écrans. */
+  --text-*: initial;
+  --text-display: clamp(2.5rem, 1.6rem + 3.6vw, 4.5rem);
+  --text-display--line-height: 1;
+  --text-display--letter-spacing: -0.03em;
+  --text-display--font-weight: 800;
+  --text-h1: clamp(2.25rem, 1.9rem + 1.6vw, 3rem);
+  --text-h1--line-height: 1.05;
+  --text-h1--letter-spacing: -0.025em;
+  --text-h1--font-weight: 800;
+  --text-h2: clamp(1.75rem, 1.5rem + 0.9vw, 2.25rem);
+  --text-h2--line-height: 1.1;
+  --text-h2--letter-spacing: -0.02em;
+  --text-h2--font-weight: 700;
+  --text-h3: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.01em;
+  --text-h3--font-weight: 700;
+
+  /* Texte (DM Sans) */
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.75rem;
+  --text-body: 1rem;
+  --text-body--line-height: 1.5rem;
+  --text-label: 0.875rem;
+  --text-label--line-height: 1.25rem;
+  --text-label--font-weight: 600;
+  --text-caption: 0.8125rem;
+  --text-caption--line-height: 1.125rem;
+  --text-price: 1.25rem;
+  --text-price--line-height: 1.5rem;
+  --text-price--font-weight: 700;
+
+  /* Rayons */
+  --radius-*: initial;
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  /* Ombres */
+  --shadow-*: initial;
+  --shadow-card:
+    0 1px 2px rgba(17, 20, 20, 0.06), 0 4px 16px rgba(17, 20, 20, 0.06);
+  --shadow-lift: 0 8px 28px rgba(31, 110, 120, 0.18);
+
+  /* Mouvement */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --animate-cart-bounce: cart-bounce 250ms var(--ease-out);
+  --animate-marquee: marquee 45s linear infinite;
+
+  @keyframes cart-bounce {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/* ==========================================================================
+   Utilitaires de marque
+   ========================================================================== */
+
+/* Conteneur : 1280px maximum, 24px de marge latérale. */
+@utility container-site {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+/* Surfaces : fond, couleur de texte et anneau de focus cohérents. */
+@utility surface-inverse {
+  background-color: var(--surface-inverse);
+  color: var(--on-inverse);
+  --focus-ring: var(--on-inverse);
+}
+
+@utility surface-teal {
+  background-color: var(--teal);
+  color: var(--on-accent);
+  --focus-ring: var(--on-accent);
+}
+
+@utility surface-wheat {
+  background-color: var(--wheat);
+  color: var(--on-accent);
+  --focus-ring: var(--on-accent);
+}
+
+@utility surface-teal-soft {
+  background-color: var(--teal-soft);
+  color: var(--ink);
+  --focus-ring: var(--teal-deep);
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    min-height: 100dvh;
+    background-color: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--teal-soft);
+    color: var(--ink);
+  }
+
+  /* Focus visible : 2px d'écart + 2px plein, couleur selon la surface. */
+  :focus-visible {
+    outline: 2px solid var(--focus-ring);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

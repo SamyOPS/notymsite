@@ -52,7 +52,7 @@ supabase/         migrations SQL et seed (étape 5)
 ## Avancement
 
 1. [x] Setup du projet
-2. [ ] Tokens et polices
+2. [x] Tokens et polices
 3. [ ] Composants UI
 4. [ ] Pages statiques
 5. [ ] Catalogue et fiche produit (Supabase)
