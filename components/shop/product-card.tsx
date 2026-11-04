@@ -30,7 +30,7 @@ export function ProductCard({
   return (
     <article
       className={cn(
-        "group relative flex h-full flex-col rounded-lg border border-line bg-surface-raised p-3 shadow-card",
+        "group relative flex h-full flex-col rounded-lg border border-line bg-surface-raised p-3 text-ink shadow-card",
         "transition-[translate,box-shadow] duration-180 ease-out hover:shadow-lift motion-safe:hover:-translate-y-1",
         "has-[a:focus-visible]:outline-2 has-[a:focus-visible]:outline-offset-2 has-[a:focus-visible]:outline-focus",
         className,

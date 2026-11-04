@@ -63,8 +63,12 @@ function subscribe(listener: () => void) {
   };
 }
 
+/** Événement émis à chaque ajout (rebond du compteur dans le header). */
+export const QUOTE_ADDED_EVENT = "notym:devis-ajout";
+
 export function addToQuote(productId: string, quantity = 1) {
   write(addLine(getSnapshot(), productId, quantity));
+  window.dispatchEvent(new Event(QUOTE_ADDED_EVENT));
 }
 
 export function updateQuoteQuantity(productId: string, quantity: number) {

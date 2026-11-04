@@ -2,14 +2,13 @@
 
 Site du grossiste en boissons et snacks Notym (Montataire, 60) : catalogue pour les professionnels et demandes de devis.
 
-- **Stack** : Next.js 16 (App Router, Cache Components), TypeScript strict, Tailwind CSS 4, Supabase, déploiement Vercel.
-- **Fonctionnement** : pas de compte client ni de paiement en ligne. Les visiteurs consultent le catalogue (prix « à partir de » HT quand ils sont renseignés) et envoient une demande de devis ou de contact. Seuls les administrateurs se connectent.
+- **Stack** : Next.js 16 (App Router, Cache Components), TypeScript strict, Tailwind CSS 4, déploiement Vercel. Supabase prévu plus tard.
+- **Fonctionnement** : pas de compte client ni de paiement en ligne. Les visiteurs consultent le catalogue (prix « à partir de » HT quand ils sont renseignés, sinon « Prix sur devis ») et envoient une demande de devis ou de contact. Seuls les administrateurs se connecteront.
 
 ## Prérequis
 
 - Node.js 22.12 ou plus récent
 - npm
-- Supabase CLI et Docker Desktop pour la base locale (à partir de l'étape 5)
 
 ## Installation
 
@@ -34,27 +33,50 @@ npm run dev                  # http://localhost:3000
 ## Structure
 
 ```
-app/              routes (App Router)
-components/ui     composants génériques (boutons, champs, badges…)
-components/shop   composants catalogue (cartes produit, filtres…)
-components/layout header, footer
-lib/              utilitaires, accès aux données, validation
-public/brand      logo (ne pas redessiner, recolorer ni déformer)
-supabase/         migrations SQL et seed (étape 5)
+app/(site)/        pages publiques (header + footer communs)
+app/styleguide     tokens et composants (page interne, non indexée)
+components/ui      composants génériques (boutons, champs, badges…)
+components/shop    composants catalogue (cartes produit, filtres…)
+components/layout  header, footer, en-têtes de page
+lib/catalog        données du catalogue et requêtes (seul endroit à changer pour Supabase)
+lib/validation     validation des formulaires (SIRET, téléphone…)
+lib/site.ts        coordonnées, informations légales, navigation
+public/brand       logo (ne pas redessiner, recolorer ni déformer)
 ```
+
+## Données du catalogue
+
+En attendant la base de données, le catalogue vient de `lib/catalog/data.ts`. Les pages ne lisent que `lib/catalog/queries.ts` : le passage à Supabase ne touchera que ces fichiers.
+
+- **Aucun prix réel** : tous les prix valent `null` et s'affichent « Prix sur devis ».
+- **À confirmer** : type de contenant (canette, bouteille, poche…), catégorie de chaque produit, format de Perrier (« 35x25 » sur l'ancien site), descriptions, photos et références (SKU).
+
+## Contenus à confirmer
+
+- Engagements repris du site actuel, regroupés dans `site.claims` (`lib/site.ts`) : « Plus de 400 références », « Livraison en 48 h en France métropolitaine », « Réponse sous 48 h ».
+- Mentions légales : numéro RCS et directeur de la publication (absents du site actuel).
+- CGV et politique de confidentialité : gabarits, les passages « À compléter » sont visibles sur le site.
+- URLs des réseaux sociaux (icônes masquées tant qu'elles manquent).
+
+## Formulaire « Devenir client »
+
+Aucun canal d'envoi n'est encore branché (e-mail et base de données à venir) :
+
+- en développement, chaque demande valide est affichée dans la console du serveur ;
+- en production, le formulaire indique que l'envoi en ligne n'est pas disponible et renvoie vers le téléphone et l'e-mail. **À brancher avant la mise en ligne.**
 
 ## Logo
 
 - `public/brand/notym_logo.png` : fichier source fourni (1024 × 1024, fond transparent).
 - `public/brand/notym-logo.png` : même image, recadrée sur sa zone utile (marges transparentes retirées, aucun autre changement). C'est celle qu'utilise le site.
-- Version blanche pour fonds sombres : **à fournir**. En attendant, le logo couleur est posé sur une pastille claire sur les fonds sombres.
+- Pas de version blanche : sur les fonds sombres, le logo couleur est posé sur une pastille claire.
 
 ## Avancement
 
 1. [x] Setup du projet
 2. [x] Tokens et polices
 3. [x] Composants UI
-4. [ ] Pages statiques
-5. [ ] Catalogue et fiche produit (Supabase)
-6. [ ] Demandes de devis et de contact
+4. [x] Pages statiques (accueil, services, devenir client, légales, 404, redirections)
+5. [ ] Catalogue et fiche produit
+6. [ ] Demandes de devis (page `/devis`) et envoi
 7. [ ] Back-office

@@ -4,17 +4,28 @@ import { cn } from "@/lib/cn";
 
 export type Crumb = { label: string; href?: string };
 
+type BreadcrumbProps = {
+  items: readonly Crumb[];
+  /** « inverse » sur surface-inverse : texte on-inverse au lieu de ink-muted. */
+  tone?: "default" | "inverse";
+  className?: string;
+};
+
 /** Fil d'Ariane : le dernier élément est la page courante (non cliquable). */
 export function Breadcrumb({
   items,
+  tone = "default",
   className,
-}: {
-  items: readonly Crumb[];
-  className?: string;
-}) {
+}: BreadcrumbProps) {
+  const inverse = tone === "inverse";
   return (
     <nav aria-label="Fil d'Ariane" className={className}>
-      <ol className="flex flex-wrap items-center gap-x-2 text-caption text-ink-muted">
+      <ol
+        className={cn(
+          "flex flex-wrap items-center gap-x-2 text-caption",
+          inverse ? "text-on-inverse" : "text-ink-muted",
+        )}
+      >
         {items.map((item, index) => {
           const isLast = index === items.length - 1;
           return (
@@ -28,7 +39,10 @@ export function Breadcrumb({
               {item.href && !isLast ? (
                 <Link
                   href={item.href}
-                  className="inline-flex min-h-11 items-center underline-offset-4 hover:text-ink hover:underline"
+                  className={cn(
+                    "inline-flex min-h-11 items-center underline-offset-4 hover:underline",
+                    !inverse && "hover:text-ink",
+                  )}
                 >
                   {item.label}
                 </Link>
@@ -37,7 +51,8 @@ export function Breadcrumb({
                   aria-current={isLast ? "page" : undefined}
                   className={cn(
                     "inline-flex min-h-11 items-center",
-                    isLast && "font-semibold text-ink",
+                    isLast && "font-semibold",
+                    isLast && !inverse && "text-ink",
                   )}
                 >
                   {item.label}

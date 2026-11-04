@@ -20,6 +20,7 @@ export const site = {
     country: "FR",
     phone: "07 66 98 09 11",
     phoneHref: "tel:+33766980911",
+    phoneInternational: "+33766980911",
     email: "achat@notym.fr",
   },
   hours: {
@@ -32,6 +33,48 @@ export const site = {
     shipping: "Livraison partout en France",
     pickup: "Retrait possible au dépôt de Montataire",
   },
+  /**
+   * Engagements repris tels quels du site actuel (notym.fr/service et
+   * /devenir-client, consultés le 04/11/2026). À confirmer avant mise en ligne.
+   */
+  claims: {
+    references: "Plus de 400 références",
+    deliveryTime: "Livraison en 48 h en France métropolitaine",
+    responseTime: "Réponse sous 48 h",
+  },
+  /** Informations légales reprises des mentions légales du site actuel. */
+  legal: {
+    companyName: "NOTYM",
+    legalForm: "SAS (société par actions simplifiée)",
+    capital: "1 000,00 €",
+    siren: "980 484 190",
+    siret: "980 484 190 00023",
+    vatNumber: "FR41 980 484 190",
+    ape: "46.34Z — Commerce de gros de boissons",
+    /** Absents du site actuel : à compléter. */
+    rcs: null as string | null,
+    publicationDirector: null as string | null,
+    host: {
+      name: "Vercel Inc.",
+      address:
+        "340 Pine Street, Suite 701, San Francisco, CA 94104, États-Unis",
+      website: "https://vercel.com",
+    },
+  },
   /** URLs des réseaux sociaux : à fournir. Les icônes restent masquées tant que la liste est vide. */
   social: [] as ReadonlyArray<{ label: string; href: string }>,
 } as const;
+
+export const mainNav = [
+  { label: "Accueil", href: "/" },
+  { label: "Catalogue", href: "/catalogue" },
+  { label: "Nos services", href: "/services" },
+  { label: "Actualités", href: "/actualites" },
+  { label: "Devenir client", href: "/devenir-client" },
+] as const;
+
+export const legalNav = [
+  { label: "Mentions légales", href: "/mentions-legales" },
+  { label: "Conditions générales de vente", href: "/cgv" },
+  { label: "Politique de confidentialité", href: "/confidentialite" },
+] as const;

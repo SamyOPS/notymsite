@@ -291,6 +291,11 @@
     text-wrap: pretty;
   }
 
+  /* Pas de défilement de la page derrière un menu modal ouvert. */
+  html:has(dialog[open]:modal) {
+    overflow: hidden;
+  }
+
   ::selection {
     background-color: var(--teal-soft);
     color: var(--ink);

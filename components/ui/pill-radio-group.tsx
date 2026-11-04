@@ -4,6 +4,7 @@ import { cn } from "@/lib/cn";
 type Option = { value: string; label: string };
 
 type PillRadioGroupProps = {
+  id?: string;
   legend: string;
   name: string;
   options: readonly Option[];
@@ -18,6 +19,7 @@ type PillRadioGroupProps = {
  * Ce sont de vrais boutons radio : navigation au clavier avec les flèches.
  */
 export function PillRadioGroup({
+  id,
   legend,
   name,
   options,
@@ -29,6 +31,7 @@ export function PillRadioGroup({
   const errorId = `${useId()}-erreur`;
   return (
     <fieldset
+      id={id}
       className={cn("flex flex-col gap-3", className)}
       aria-describedby={error ? errorId : undefined}
     >
