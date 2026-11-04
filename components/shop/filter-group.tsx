@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { ChangeEvent } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/cn";
 
@@ -12,6 +13,11 @@ type FilterGroupProps = {
   selected: readonly string[];
   /** URL du catalogue sans ce filtre, pour « Réinitialiser ». */
   resetHref?: string;
+  /**
+   * Mode contrôlé (avec JavaScript) : les cases reflètent `selected` et chaque
+   * changement est remonté. Sans ce rappel, cases non contrôlées (formulaire GET).
+   */
+  onToggle?: (value: string, checked: boolean) => void;
   className?: string;
 };
 
@@ -25,6 +31,7 @@ export function FilterGroup({
   options,
   selected,
   resetHref,
+  onToggle,
   className,
 }: FilterGroupProps) {
   return (
@@ -55,7 +62,13 @@ export function FilterGroup({
             key={option.value}
             name={name}
             value={option.value}
-            defaultChecked={selected.includes(option.value)}
+            {...(onToggle
+              ? {
+                  checked: selected.includes(option.value),
+                  onChange: (event: ChangeEvent<HTMLInputElement>) =>
+                    onToggle(option.value, event.target.checked),
+                }
+              : { defaultChecked: selected.includes(option.value) })}
             disabled={option.count === 0 && !selected.includes(option.value)}
             aside={
               <span className="text-caption text-ink-muted tabular-nums">

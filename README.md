@@ -44,9 +44,14 @@ lib/site.ts        coordonnées, informations légales, navigation
 public/brand       logo (ne pas redessiner, recolorer ni déformer)
 ```
 
-## Données du catalogue
+## Catalogue
 
-En attendant la base de données, le catalogue vient de `lib/catalog/data.ts`. Les pages ne lisent que `lib/catalog/queries.ts` : le passage à Supabase ne touchera que ces fichiers.
+En attendant la base de données, le catalogue vient de `lib/catalog/data.ts`. Les pages ne lisent que `lib/catalog/queries.ts` (et `lib/catalog/routing.ts` pour les 404) : le passage à Supabase ne touchera que ces fichiers.
+
+- **Filtres dans l'URL** : `/catalogue/sodas-eaux?marque=coca-cola&conditionnement=24&dispo=en-stock&tri=nom&page=2`. La catégorie est dans le chemin, le reste dans la query. Lien partageable, rendu serveur, fonctionne sans JavaScript (formulaires GET).
+- **Tri** : les plus commandés (`popularity`), nom, prix croissant (produits « sur devis » en dernier), nouveautés.
+- **404** : `proxy.ts` renvoie un vrai statut 404 pour un produit ou une catégorie inconnus (avec le rendu en streaming, la page seule ne le pourrait pas).
+- **« Souvent commandés avec »** : affiché pour l'instant comme « Dans la même catégorie », faute d'historique de demandes pour le calculer.
 
 - **Aucun prix réel** : tous les prix valent `null` et s'affichent « Prix sur devis ».
 - **À confirmer** : type de contenant (canette, bouteille, poche…), catégorie de chaque produit, format de Perrier (« 35x25 » sur l'ancien site), descriptions, photos et références (SKU).
@@ -77,6 +82,6 @@ Aucun canal d'envoi n'est encore branché (e-mail et base de données à venir) 
 2. [x] Tokens et polices
 3. [x] Composants UI
 4. [x] Pages statiques (accueil, services, devenir client, légales, 404, redirections)
-5. [ ] Catalogue et fiche produit
+5. [x] Catalogue et fiche produit (données locales)
 6. [ ] Demandes de devis (page `/devis`) et envoi
 7. [ ] Back-office

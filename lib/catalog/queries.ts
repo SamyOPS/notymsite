@@ -8,6 +8,11 @@ import type {
   ProductCardData,
 } from "@/types/catalog";
 import { brands, categories, products } from "./data";
+import {
+  searchProducts,
+  type CatalogFilters,
+  type CatalogSearchResult,
+} from "./search";
 
 /**
  * Accès au catalogue. Seule cette couche connaît la source des données :
@@ -65,4 +70,73 @@ export async function getProductCardBySlug(
   cacheTag(CATALOG_TAG);
   const product = products.find((p) => p.slug === slug);
   return product ? toCardData(product) : null;
+}
+
+export async function getCategoryBySlug(
+  slug: string,
+): Promise<Category | null> {
+  "use cache";
+  cacheTag(CATALOG_TAG);
+  return categories.find((c) => c.slug === slug) ?? null;
+}
+
+export async function getAllProductSlugs(): Promise<string[]> {
+  "use cache";
+  cacheTag(CATALOG_TAG);
+  return products.map((p) => p.slug);
+}
+
+export type CatalogPage = Omit<CatalogSearchResult, "items"> & {
+  items: ProductCardData[];
+};
+
+/** Résultats du catalogue pour des filtres (les filtres font partie de la clé de cache). */
+export async function searchCatalog(
+  filters: CatalogFilters,
+): Promise<CatalogPage> {
+  "use cache";
+  cacheTag(CATALOG_TAG);
+  const result = searchProducts(products, filters, { brands, categories });
+  return { ...result, items: result.items.map(toCardData) };
+}
+
+export type ProductDetail = {
+  product: Product;
+  brand: Brand | null;
+  category: Category | null;
+};
+
+export async function getProductDetail(
+  slug: string,
+): Promise<ProductDetail | null> {
+  "use cache";
+  cacheTag(CATALOG_TAG);
+  const product = products.find((p) => p.slug === slug);
+  if (!product) return null;
+  return {
+    product,
+    brand: brands.find((b) => b.slug === product.brandSlug) ?? null,
+    category: categories.find((c) => c.slug === product.categorySlug) ?? null,
+  };
+}
+
+/**
+ * Produits de la même catégorie. À remplacer par « souvent commandés avec »
+ * quand l'historique des demandes de devis permettra de le calculer.
+ */
+export async function getRelatedProducts(
+  productId: string,
+  limit = 4,
+): Promise<ProductCardData[]> {
+  "use cache";
+  cacheTag(CATALOG_TAG);
+  const current = products.find((p) => p.id === productId);
+  if (!current) return [];
+  return products
+    .filter(
+      (p) => p.id !== productId && p.categorySlug === current.categorySlug,
+    )
+    .sort((a, b) => b.popularity - a.popularity)
+    .slice(0, limit)
+    .map(toCardData);
 }
