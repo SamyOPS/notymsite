@@ -47,6 +47,7 @@ const pairs: ReadonlyArray<[string, string, number]> = [
   ["teal-deep", "teal-soft", TEXT],
   ["on-teal", "teal-deep", TEXT],
   ["on-inverse", "surface-inverse", TEXT],
+  ["teal-on-inverse", "surface-inverse", TEXT],
   ["on-accent", "teal", TEXT],
   ["on-accent", "wheat", TEXT],
   ["wheat-ink", "wheat-soft", TEXT],

@@ -31,7 +31,17 @@
   --success: #2e7a4d;
   --danger: #b83a26;
 
+  /* Accent lisible sur surface-inverse (hero, footer) */
+  --teal-on-inverse: #78b9c1;
+  /* Pastille claire derrière le logo couleur tant que la version blanche
+     n'est pas fournie : visible uniquement sur les fonds sombres. */
+  --logo-plate: transparent;
+  --logo-plate-on-inverse: #faf8f3;
+
+  /* Variables contextuelles, redéfinies par les utilitaires surface-* */
   --focus-ring: var(--teal-deep);
+  --accent-text: var(--teal-deep);
+  --accent-fill: var(--teal);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -55,6 +65,9 @@
     --wheat-ink: #f2c46d;
     --success: #6cc28e;
     --danger: #f08a76;
+    --teal-on-inverse: #1f6e78;
+    --logo-plate: #faf8f3;
+    --logo-plate-on-inverse: transparent;
   }
 }
 
@@ -78,6 +91,9 @@
   --wheat-ink: #f2c46d;
   --success: #6cc28e;
   --danger: #f08a76;
+  --teal-on-inverse: #1f6e78;
+  --logo-plate: #faf8f3;
+  --logo-plate-on-inverse: transparent;
 }
 
 /* ==========================================================================
@@ -105,6 +121,18 @@
   --color-wheat-ink: var(--wheat-ink);
   --color-success: var(--success);
   --color-danger: var(--danger);
+
+  /* États et couleurs contextuelles */
+  --color-teal-deep-hover: color-mix(
+    in oklab,
+    var(--teal-deep) 82%,
+    var(--ink)
+  );
+  --color-ink-hover: color-mix(in oklab, var(--ink) 85%, var(--teal-deep));
+  --color-accent-text: var(--accent-text);
+  --color-accent-fill: var(--accent-fill);
+  --color-focus: var(--focus-ring);
+  --color-logo-plate: var(--logo-plate);
 
   --font-sans: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
   --font-display: var(--font-bricolage), ui-sans-serif, system-ui, sans-serif;
@@ -200,24 +228,35 @@
   background-color: var(--surface-inverse);
   color: var(--on-inverse);
   --focus-ring: var(--on-inverse);
+  --accent-text: var(--teal-on-inverse);
+  --accent-fill: var(--teal-on-inverse);
+  --logo-plate: var(--logo-plate-on-inverse);
 }
 
 @utility surface-teal {
   background-color: var(--teal);
   color: var(--on-accent);
   --focus-ring: var(--on-accent);
+  --accent-text: var(--on-accent);
+  --accent-fill: var(--on-accent);
+  --logo-plate: transparent;
 }
 
 @utility surface-wheat {
   background-color: var(--wheat);
   color: var(--on-accent);
   --focus-ring: var(--on-accent);
+  --accent-text: var(--on-accent);
+  --accent-fill: var(--on-accent);
+  --logo-plate: transparent;
 }
 
 @utility surface-teal-soft {
   background-color: var(--teal-soft);
   color: var(--ink);
   --focus-ring: var(--teal-deep);
+  --accent-text: var(--teal-deep);
+  --accent-fill: var(--teal);
 }
 
 /* ==========================================================================
