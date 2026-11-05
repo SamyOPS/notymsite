@@ -1,11 +1,15 @@
 "use client";
 
+import { ShoppingBasket } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/cn";
 import { QUOTE_ADDED_EVENT, useQuoteCount } from "@/lib/quote/store";
 
-/** Bouton pilule « Devis » avec compteur, qui rebondit à chaque ajout. */
+/**
+ * Bouton pilule « panier » (icône + « Devis ») avec compteur, qui rebondit à
+ * chaque ajout. Sur mobile : icône et compteur seulement.
+ */
 export function QuoteButton({ className }: { className?: string }) {
   const count = useQuoteCount();
   const [bounce, setBounce] = useState(0);
@@ -26,12 +30,13 @@ export function QuoteButton({ className }: { className?: string }) {
       href="/devis"
       aria-label={label}
       className={cn(
-        "inline-flex h-11 items-center gap-2 rounded-pill bg-ink pr-2 pl-5 font-semibold text-surface transition-colors duration-150 hover:bg-ink-hover",
-        count === 0 && "pr-5",
+        "inline-flex h-11 min-w-11 items-center justify-center gap-2 rounded-pill bg-ink pr-2 pl-3 font-semibold text-surface transition-colors duration-150 hover:bg-ink-hover sm:pl-4",
+        count === 0 && "pr-3 sm:pr-5",
         className,
       )}
     >
-      Devis
+      <ShoppingBasket aria-hidden className="size-5 shrink-0" />
+      <span className="hidden sm:inline">Devis</span>
       {count > 0 && (
         <span
           key={bounce}
