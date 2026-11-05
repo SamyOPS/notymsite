@@ -138,7 +138,10 @@ export default function LegalNoticePage() {
       </p>
       <CreditList credits={productImageCredits} />
       <h3>Photos de la page d&apos;accueil</h3>
-      <p>Photos placées dans le domaine public (licence CC0 1.0).</p>
+      <p>
+        Photos libres de droits, publiées sous licence Unsplash ou placées dans
+        le domaine public (licence CC0 1.0).
+      </p>
       <CreditList credits={heroImageCredits} />
 
       <h2>9. Droit applicable</h2>

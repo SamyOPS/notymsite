@@ -4,7 +4,8 @@
  * - Photos produits : Open Food Facts, licence CC BY-SA 3.0. Attribution
  *   obligatoire (Open Food Facts + lien) ; les versions recadrées et
  *   redimensionnées publiées ici restent sous la même licence.
- * - Photos du hero : domaine public (CC0), crédit facultatif mais indiqué.
+ * - Photos du hero : licence Unsplash (boissons, choisie par Notym) ou
+ *   domaine public (CC0). Crédit facultatif dans les deux cas, mais indiqué.
  */
 
 export type ImageCredit = {
@@ -13,7 +14,7 @@ export type ImageCredit = {
   subject: string;
   author: string;
   sourceUrl: string;
-  license: "CC BY-SA 3.0" | "CC0 1.0";
+  license: "CC BY-SA 3.0" | "CC0 1.0" | "Licence Unsplash";
   licenseUrl: string;
   /** Modifications apportées à l'image d'origine */
   changes?: string;
@@ -71,10 +72,12 @@ export const productImageCredits: ImageCredit[] = [
 export const heroImageCredits: ImageCredit[] = [
   {
     file: "/hero/boissons.webp",
-    subject: "Bouteilles de sodas",
-    author: "Topher (WordPress Photos)",
-    sourceUrl: "https://wordpress.org/photos/photo/40666954e4/",
-    ...CC0,
+    subject: "Rayon de canettes de sodas",
+    // Nom du photographe non identifié : à compléter depuis la page Unsplash.
+    author: "Unsplash",
+    sourceUrl: "https://images.unsplash.com/photo-1588238142232-7108fb7dcbb6",
+    license: "Licence Unsplash",
+    licenseUrl: "https://unsplash.com/fr/licence",
   },
   {
     file: "/hero/sucre.webp",
