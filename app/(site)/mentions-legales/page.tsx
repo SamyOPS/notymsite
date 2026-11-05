@@ -139,8 +139,11 @@ export default function LegalNoticePage() {
       <CreditList credits={productImageCredits} />
       <h3>Photos de la page d&apos;accueil</h3>
       <p>
-        Photos libres de droits, publiées sous licence Unsplash ou placées dans
-        le domaine public (licence CC0 1.0).
+        Photos publiées sur{" "}
+        <a href="https://unsplash.com" rel="noopener noreferrer">
+          Unsplash
+        </a>{" "}
+        sous licence Unsplash.
       </p>
       <CreditList credits={heroImageCredits} />
 

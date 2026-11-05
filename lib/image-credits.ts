@@ -4,9 +4,8 @@
  * - Photos produits : Open Food Facts, licence CC BY-SA 3.0. Attribution
  *   obligatoire (Open Food Facts + lien) ; les versions recadrées et
  *   redimensionnées publiées ici restent sous la même licence.
- * - Photos du hero : licence Unsplash (boissons et salé, choisies par Notym)
- *   ou domaine public (CC0, sucré). Crédit facultatif dans les deux cas,
- *   mais indiqué.
+ * - Photos du hero : licence Unsplash, choisies par Notym. Usage commercial
+ *   gratuit, crédit facultatif mais indiqué.
  */
 
 export type ImageCredit = {
@@ -15,7 +14,7 @@ export type ImageCredit = {
   subject: string;
   author: string;
   sourceUrl: string;
-  license: "CC BY-SA 3.0" | "CC0 1.0" | "Licence Unsplash";
+  license: "CC BY-SA 3.0" | "Licence Unsplash";
   licenseUrl: string;
   /** Modifications apportées à l'image d'origine */
   changes?: string;
@@ -35,9 +34,9 @@ const off = (file: string, subject: string, code: string): ImageCredit => ({
   ...OFF_LICENSE,
 });
 
-const CC0 = {
-  license: "CC0 1.0" as const,
-  licenseUrl: "https://creativecommons.org/publicdomain/zero/1.0/deed.fr",
+const UNSPLASH_LICENSE = {
+  license: "Licence Unsplash" as const,
+  licenseUrl: "https://unsplash.com/fr/licence",
 };
 
 export const productImageCredits: ImageCredit[] = [
@@ -77,15 +76,15 @@ export const heroImageCredits: ImageCredit[] = [
     // Nom du photographe non identifié : à compléter depuis la page Unsplash.
     author: "Unsplash",
     sourceUrl: "https://images.unsplash.com/photo-1588238142232-7108fb7dcbb6",
-    license: "Licence Unsplash",
-    licenseUrl: "https://unsplash.com/fr/licence",
+    ...UNSPLASH_LICENSE,
   },
   {
     file: "/hero/sucre.webp",
-    subject: "Tablette de chocolat",
-    author: "rawpixel",
-    sourceUrl: "https://www.rawpixel.com/image/5905466",
-    ...CC0,
+    subject: "Carton de barres chocolatées",
+    author: "Denny Müller",
+    sourceUrl:
+      "https://unsplash.com/fr/photos/cardboard-box-filled-with-chocolate-bars-mGP8gyGb8zY",
+    ...UNSPLASH_LICENSE,
   },
   {
     file: "/hero/sale.webp",
@@ -93,7 +92,6 @@ export const heroImageCredits: ImageCredit[] = [
     author: "Zoshua Colah",
     sourceUrl:
       "https://unsplash.com/fr/photos/emballages-de-nouilles-instantanees-sur-les-etageres-des-magasins-MP1w4QdqTBA",
-    license: "Licence Unsplash",
-    licenseUrl: "https://unsplash.com/fr/licence",
+    ...UNSPLASH_LICENSE,
   },
 ];
