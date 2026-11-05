@@ -53,7 +53,7 @@ Direction sobre et éditoriale, pour éviter l'effet « gabarit » :
 - **Bords carrés** partout (cartes, champs, blocs, visuels) ; seul le rayon `rounded-pill` existe, réservé aux boutons et éléments cliquables (bouton « + », pagination, filtres actifs, choix en pilules).
 - **Pas d'ombres ni de décors** : la structure passe par des filets (`border-line`, `border-ink` sous les titres de section). Les produits sont présentés dans une grille à filets (`ProductGrid`).
 - **Peu d'éléments** : header réduit au logo, à la navigation et au bouton « Devis » ; recherche dans le catalogue ; pas de sur-titres ni d'icônes décoratives.
-- **Hero plein écran en trois univers** (`components/home/hero-universes.tsx`) : Boissons à gauche sur toute la hauteur, Épicerie sucrée en haut à droite, Épicerie salée en bas à droite. Chaque panneau est entièrement cliquable. Les illustrations sont des SVG originaux (`components/illustrations/`), sur des fonds de marque fixes (`panel-teal`, `panel-wheat`, `panel-ink`) qui ne changent pas en thème sombre.
+- **Hero plein écran en trois univers** (`components/home/hero-universes.tsx`) : Boissons à gauche sur toute la hauteur, Épicerie sucrée en haut à droite, Épicerie salée en bas à droite. Chaque panneau est entièrement cliquable. Photo plein cadre (`public/hero/`) sous un voile sombre (`panel-shade`) qui garde le texte blanc lisible ; identique dans les deux thèmes.
 - Palette, polices (Bricolage Grotesque, DM Sans), logo et trait sous « livrées vite. » conservés. La page `/styleguide` présente le système.
 
 ## Catalogue
@@ -67,7 +67,7 @@ En attendant la base de données, le catalogue vient de `lib/catalog/data.ts`. I
 
 - **Prix masqués** : `site.features.showPrices = false` (`lib/site.ts`). Aucun prix, « Prix sur devis », estimation ni tri par prix n'apparaît. Le code reste en place : passer le réglage à `true` réaffiche les prix « à partir de » HT dès qu'ils sont saisis (`priceFromHtCents`, aujourd'hui `null` partout).
 - **Stock non renseigné** : `inStock = null` partout, donc ni badge « En stock » ni filtre « Disponibilité ». Ils réapparaissent dès qu'un produit a un stock connu (`true` ou `false`).
-- **À confirmer** : type de contenant (canette, bouteille, poche…), catégorie de chaque produit, format de Perrier (« 35x25 » sur l'ancien site), descriptions, photos et références (SKU).
+- **À confirmer** : type de contenant (canette, bouteille, poche…), catégorie de chaque produit, format de Perrier (« 35x25 » sur l'ancien site), descriptions et références (SKU). Les photos actuelles sont provisoires (voir « Images »).
 
 ## Contenus à confirmer
 
@@ -94,6 +94,16 @@ Aucun canal d'envoi n'est encore branché (e-mail et base de données à venir) 
 - `public/brand/notym-logo.png` : même image, recadrée sur sa zone utile (marges transparentes retirées, aucun autre changement). C'est celle qu'utilise le site.
 - Pas de version blanche : sur les fonds sombres, le logo couleur est posé sur une pastille claire.
 - **Favicon et icônes** (`app/favicon.ico` 16/32/48 px, `app/icon.png` 512 px, `app/apple-icon.png` 180 px) : logo entier centré sur un carré blanc, générés par `npm run icons` (`scripts/generate-icons.mjs`). À relancer si le logo change.
+
+## Images
+
+Toutes les images viennent de sources à licence libre, avec un usage commercial autorisé. Les crédits sont listés dans `lib/image-credits.ts` et affichés dans les mentions légales (section « Crédits photos »). **Toute image ajoutée ou remplacée doit y être reportée.**
+
+- **Produits** (`public/products/<slug>.webp`, 800 × 800, fond blanc) : photos [Open Food Facts](https://fr.openfoodfacts.org) sous licence CC BY-SA 3.0, à créditer, les versions modifiées restant sous la même licence. Elles ont été recadrées, posées sur fond blanc et redimensionnées. Le lien entre un produit et sa photo se fait dans `productImages` (`lib/catalog/data.ts`) ; sans photo, la carte affiche un emplacement neutre.
+  - B'lue 33 cl : aucune photo fiable trouvée, laissé sans image.
+  - Choix à confirmer : Capri-Sun **Multivitamin**, Lipton Ice Tea **pêche**, Perrier **slim 33 cl**, Minute Maid **Orange** (photo d'origine sur fond noir).
+  - Les marques et emballages restent la propriété de leurs titulaires. Des packshots fournis par les marques ou pris au dépôt seront préférables à terme.
+- **Hero** (`public/hero/`) : photos du domaine public (CC0). Les photos sucrée et salée ne font que 1024 px de large : elles peuvent paraître un peu douces sur grand écran Retina.
 
 ## Avancement
 

@@ -13,7 +13,12 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="relative aspect-square bg-teal-soft">
+      <div
+        className={cn(
+          "relative aspect-square overflow-hidden",
+          current ? "bg-white" : "bg-teal-soft",
+        )}
+      >
         {current ? (
           <Image
             src={current}
@@ -21,7 +26,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
             fill
             preload
             sizes="(min-width: 1024px) 600px, 100vw"
-            className="object-contain p-10"
+            className="object-contain"
           />
         ) : (
           <p className="absolute bottom-4 left-5 text-caption text-ink-muted">
@@ -51,7 +56,7 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
                   alt=""
                   fill
                   sizes="120px"
-                  className="object-contain p-2"
+                  className="object-contain"
                 />
               </button>
             </li>

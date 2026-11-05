@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { LegalPage } from "@/components/layout/legal-page";
+import {
+  heroImageCredits,
+  productImageCredits,
+  type ImageCredit,
+} from "@/lib/image-credits";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -114,12 +119,54 @@ export default function LegalNoticePage() {
         publicitaire.
       </p>
 
-      <h2>8. Droit applicable</h2>
+      <h2>8. Crédits photos</h2>
+      <h3>Photos des produits</h3>
+      <p>
+        Photos issues d&apos;
+        <a href="https://fr.openfoodfacts.org" rel="noopener noreferrer">
+          Open Food Facts
+        </a>{" "}
+        (contributeurs Open Food Facts), publiées sous licence{" "}
+        <a
+          href="https://creativecommons.org/licenses/by-sa/3.0/deed.fr"
+          rel="noopener noreferrer"
+        >
+          Creative Commons BY-SA 3.0
+        </a>
+        . Elles ont été recadrées, placées sur fond blanc et redimensionnées ;
+        ces versions sont diffusées sous la même licence.
+      </p>
+      <CreditList credits={productImageCredits} />
+      <h3>Photos de la page d&apos;accueil</h3>
+      <p>Photos placées dans le domaine public (licence CC0 1.0).</p>
+      <CreditList credits={heroImageCredits} />
+
+      <h2>9. Droit applicable</h2>
       <p>
         Les présentes mentions légales sont régies par le droit français. Tout
         litige relatif au site relève de la compétence des juridictions
         françaises.
       </p>
     </LegalPage>
+  );
+}
+
+function CreditList({ credits }: { credits: ImageCredit[] }) {
+  return (
+    <ul>
+      {credits.map((credit) => (
+        <li key={credit.file}>
+          {credit.subject} : {credit.author},{" "}
+          <a href={credit.sourceUrl} rel="noopener noreferrer">
+            source
+          </a>
+          ,{" "}
+          <a href={credit.licenseUrl} rel="noopener noreferrer">
+            {credit.license}
+          </a>
+          .
+        </li>
+      ))}
+    </ul>
   );
 }

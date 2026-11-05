@@ -195,12 +195,28 @@ const seeds: ProductSeed[] = [
   },
 ];
 
+/**
+ * Photos disponibles (Open Food Facts, CC BY-SA 3.0, voir lib/image-credits.ts).
+ * B'lue n'a pas de photo fiable : le site affiche « Visuel à venir ».
+ */
+const productImages: Record<string, string> = {
+  "coca-cola-1-5-l-x24": "/products/coca-cola-1-5-l-x24.webp",
+  "lipton-ice-tea-33-cl-x12": "/products/lipton-ice-tea-33-cl-x12.webp",
+  "hawai-33-cl-x24": "/products/hawai-33-cl-x24.webp",
+  "capri-sun-20-cl-x10": "/products/capri-sun-20-cl-x10.webp",
+  "red-bull-25-cl-x24": "/products/red-bull-25-cl-x24.webp",
+  "minute-maid-orange-33-cl-x24": "/products/minute-maid-orange-33-cl-x24.webp",
+  perrier: "/products/perrier.webp",
+};
+
 export const products: Product[] = seeds.map((seed, index) => ({
   ...seed,
   id: `prod-${seed.legacyId ?? index + 1}`,
   sku: null,
   description: null,
-  images: [],
+  images: [productImages[seed.slug]].filter((src): src is string =>
+    Boolean(src),
+  ),
   isBestSeller: false,
   isNew: false,
   isPromo: false,

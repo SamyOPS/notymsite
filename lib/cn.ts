@@ -45,6 +45,7 @@ const twMerge = extendTailwindMerge({
         "accent-fill",
         "focus",
         "logo-plate",
+        "white",
       ],
       radius: ["pill"],
     },

@@ -40,14 +40,20 @@ export function ProductCard({
         className,
       )}
     >
-      <div className="relative aspect-square bg-teal-soft">
+      {/* Les photos sont déjà centrées sur un carré blanc : elles remplissent la zone. */}
+      <div
+        className={cn(
+          "relative aspect-square overflow-hidden",
+          product.imageUrl ? "bg-white" : "bg-teal-soft",
+        )}
+      >
         {product.imageUrl ? (
           <Image
             src={product.imageUrl}
             alt=""
             fill
             sizes="(min-width: 1024px) 300px, 50vw"
-            className="object-contain p-6 transition-transform duration-300 motion-safe:group-hover:scale-[1.03] sm:p-8"
+            className="object-contain transition-transform duration-300 motion-safe:group-hover:scale-[1.03]"
           />
         ) : (
           <span className="absolute bottom-3 left-3 text-caption text-ink-muted sm:left-4">

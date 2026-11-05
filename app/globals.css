@@ -103,6 +103,8 @@
 
 @theme inline {
   --color-*: initial;
+  /* Blanc fixe (fond des photos produit, identique dans les deux thèmes). */
+  --color-white: #ffffff;
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
   --color-surface-inverse: var(--surface-inverse);
@@ -244,26 +246,8 @@
   --accent-fill: var(--teal);
 }
 
-/* Panneaux du hero : couleurs de marque fixes, identiques dans les deux
-   thèmes (les illustrations sont dessinées pour ces fonds). */
-@utility panel-teal {
-  background-color: #78b9c1;
-  color: #111414;
-  --focus-ring: #111414;
-  --accent-fill: #111414;
-  --panel-cta-bg: #111414;
-  --panel-cta-fg: #ffffff;
-}
-
-@utility panel-wheat {
-  background-color: #e8b04a;
-  color: #111414;
-  --focus-ring: #111414;
-  --accent-fill: #111414;
-  --panel-cta-bg: #111414;
-  --panel-cta-fg: #ffffff;
-}
-
+/* Panneaux photo du hero : texte blanc sur voile sombre, identiques dans les
+   deux thèmes (fond visible le temps du chargement de la photo). */
 @utility panel-ink {
   background-color: #111414;
   color: #ffffff;
@@ -271,6 +255,16 @@
   --accent-fill: #78b9c1;
   --panel-cta-bg: #ffffff;
   --panel-cta-fg: #111414;
+}
+
+/* Voile sur les photos du hero : sombre en haut (zone de texte), léger en bas. */
+@utility panel-shade {
+  background-image: linear-gradient(
+    to bottom,
+    rgb(17 20 20 / 0.86) 0%,
+    rgb(17 20 20 / 0.6) 50%,
+    rgb(17 20 20 / 0.15) 100%
+  );
 }
 
 /* ==========================================================================

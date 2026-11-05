@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/cn";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { QuantityStepper } from "@/components/ui/quantity-stepper";
 import { formatPrice, packagingLabel } from "@/lib/format";
@@ -49,14 +50,19 @@ export function QuoteLinesStep({
               key={line.productId}
               className="flex gap-4 border-b border-line py-5"
             >
-              <div className="relative size-20 shrink-0 overflow-hidden bg-teal-soft">
+              <div
+                className={cn(
+                  "relative size-20 shrink-0 overflow-hidden border border-line",
+                  product.imageUrl ? "bg-white" : "bg-teal-soft",
+                )}
+              >
                 {product.imageUrl ? (
                   <Image
                     src={product.imageUrl}
                     alt=""
                     fill
                     sizes="80px"
-                    className="object-contain p-2"
+                    className="object-contain"
                   />
                 ) : null}
               </div>
