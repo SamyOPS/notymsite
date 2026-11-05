@@ -214,3 +214,19 @@ describe("searchProducts", () => {
     expect(beyond.items.map((p) => p.id)).toEqual(["p4"]);
   });
 });
+
+describe("stock non renseigné", () => {
+  it("n'est jamais compté ni filtré comme « en stock »", () => {
+    const unknown = [
+      product("u1", { inStock: null }),
+      product("u2", { inStock: true }),
+    ];
+    const filtered = searchProducts(
+      unknown,
+      { ...base, inStockOnly: true },
+      context,
+    );
+    expect(filtered.items.map((p) => p.id)).toEqual(["u2"]);
+    expect(searchProducts(unknown, base, context).facets.inStock).toBe(1);
+  });
+});

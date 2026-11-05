@@ -76,17 +76,20 @@ export function FiltersForm({ filters, facets }: FiltersFormProps) {
         />
       )}
 
-      <FilterGroup
-        legend="Disponibilité"
-        name="dispo"
-        options={[
-          { value: "en-stock", label: "En stock", count: facets.inStock },
-        ]}
-        selected={optimistic.inStockOnly ? ["en-stock"] : []}
-        onToggle={(_value, checked) =>
-          apply({ ...optimistic, inStockOnly: checked })
-        }
-      />
+      {/* Masqué tant que le stock n'est renseigné pour aucun produit. */}
+      {(facets.inStock > 0 || filters.inStockOnly) && (
+        <FilterGroup
+          legend="Disponibilité"
+          name="dispo"
+          options={[
+            { value: "en-stock", label: "En stock", count: facets.inStock },
+          ]}
+          selected={optimistic.inStockOnly ? ["en-stock"] : []}
+          onToggle={(_value, checked) =>
+            apply({ ...optimistic, inStockOnly: checked })
+          }
+        />
+      )}
 
       <noscript>
         <Button type="submit" variant="dark" className="mt-4 w-full">

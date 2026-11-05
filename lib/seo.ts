@@ -60,7 +60,7 @@ type ProductJsonLdInput = {
   description: string | null;
   images: string[];
   priceFromHtCents: number | null;
-  inStock: boolean;
+  inStock: boolean | null;
 };
 
 /**
@@ -102,9 +102,13 @@ export function productJsonLd(
               priceCurrency: "EUR",
               valueAddedTaxIncluded: false,
             },
-            availability: product.inStock
-              ? "https://schema.org/InStock"
-              : "https://schema.org/OutOfStock",
+            ...(product.inStock !== null
+              ? {
+                  availability: product.inStock
+                    ? "https://schema.org/InStock"
+                    : "https://schema.org/OutOfStock",
+                }
+              : {}),
             seller: { "@id": `${site.url}/#entreprise` },
           },
         }

@@ -58,10 +58,16 @@ export default async function ProductPage({
       : []),
     { label: product.name },
   ];
+  const showPrices = site.features.showPrices;
   const unitPrice =
-    product.priceFromHtCents !== null && product.unitsPerPack
+    showPrices && product.priceFromHtCents !== null && product.unitsPerPack
       ? unitPriceCents(product.priceFromHtCents, product.unitsPerPack)
       : null;
+  const hasBadges =
+    product.inStock !== null ||
+    product.isBestSeller ||
+    product.isPromo ||
+    product.isNew;
 
   const characteristics: Array<[string, string]> = [
     ["Marque", brand?.name ?? "Non renseignée"],
@@ -86,7 +92,7 @@ export default async function ProductPage({
           category: category?.name ?? null,
           description: product.description,
           images: product.images,
-          priceFromHtCents: product.priceFromHtCents,
+          priceFromHtCents: showPrices ? product.priceFromHtCents : null,
           inStock: product.inStock,
         })}
       />
@@ -100,12 +106,15 @@ export default async function ProductPage({
         <ProductGallery images={product.images} productName={product.name} />
 
         <div className="flex flex-col gap-6">
-          <div className="flex flex-wrap gap-2">
-            <Badge variant={product.inStock ? "in-stock" : "out-of-stock"} />
-            {product.isBestSeller && <Badge variant="best-seller" />}
-            {product.isPromo && <Badge variant="promo" />}
-            {product.isNew && <Badge variant="new" />}
-          </div>
+          {hasBadges && (
+            <div className="flex flex-wrap gap-2">
+              {product.inStock === true && <Badge variant="in-stock" />}
+              {product.inStock === false && <Badge variant="out-of-stock" />}
+              {product.isBestSeller && <Badge variant="best-seller" />}
+              {product.isPromo && <Badge variant="promo" />}
+              {product.isNew && <Badge variant="new" />}
+            </div>
+          )}
 
           <div>
             {brand && <p className="text-label text-ink-muted">{brand.name}</p>}
@@ -118,25 +127,32 @@ export default async function ProductPage({
             </p>
           </div>
 
-          <div className="flex flex-col gap-2 rounded-lg surface-teal-soft p-6">
-            <PriceTag priceFromHtCents={product.priceFromHtCents} size="lg" />
-            {unitPrice !== null && (
-              <p className="text-body text-ink-muted">
-                soit à partir de {formatPrice(unitPrice)} HT l&apos;unité
+          {showPrices ? (
+            <div className="flex flex-col gap-2 rounded-lg surface-teal-soft p-6">
+              <PriceTag priceFromHtCents={product.priceFromHtCents} size="lg" />
+              {unitPrice !== null && (
+                <p className="text-body text-ink-muted">
+                  soit à partir de {formatPrice(unitPrice)} HT l&apos;unité
+                </p>
+              )}
+              <p className="text-caption text-ink-muted">
+                {product.priceFromHtCents === null
+                  ? "Ajoutez ce produit à votre demande : son prix figurera sur votre devis."
+                  : "Prix indicatif hors taxes. Le prix définitif figure sur votre devis."}
               </p>
-            )}
-            <p className="text-caption text-ink-muted">
-              {product.priceFromHtCents === null
-                ? "Ajoutez ce produit à votre demande : son prix figurera sur votre devis."
-                : "Prix indicatif hors taxes. Le prix définitif figure sur votre devis."}
+            </div>
+          ) : (
+            <p className="text-body-lg text-ink-muted">
+              Ajoutez ce produit à votre demande : notre équipe vous répond avec
+              un devis.
             </p>
-          </div>
+          )}
 
           <AddToQuotePanel
             productId={product.id}
             productName={product.name}
             packLabel={product.packLabel}
-            disabled={!product.inStock}
+            disabled={product.inStock === false}
           />
 
           <ul className="flex flex-col gap-2 border-t border-line pt-6 text-body">

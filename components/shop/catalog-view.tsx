@@ -5,8 +5,13 @@ import type { Crumb } from "@/components/ui/breadcrumb";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Pagination } from "@/components/ui/pagination";
 import { getBrands, searchCatalog } from "@/lib/catalog/queries";
-import { buildCatalogHref, parseCatalogParams } from "@/lib/catalog/search";
+import {
+  buildCatalogHref,
+  DEFAULT_SORT,
+  parseCatalogParams,
+} from "@/lib/catalog/search";
 import type { SearchParamsRecord } from "@/lib/pagination";
+import { site } from "@/lib/site";
 import type { Category } from "@/types/catalog";
 import { ActiveFilters } from "./active-filters";
 import { CatalogNavigationProvider, ResultsRegion } from "./catalog-navigation";
@@ -43,8 +48,8 @@ export function CatalogView({ category, searchParams }: CatalogViewProps) {
         intro={
           <p>
             {category
-              ? `${category.description}. Prix indicatifs HT, devis sur demande.`
-              : "Sodas, eaux, énergisants, jus et snacks pour les professionnels. Prix indicatifs HT, devis sur demande."}
+              ? `${category.description}. Devis sur demande.`
+              : "Sodas, eaux, énergisants, jus et snacks pour les professionnels. Devis sur demande."}
           </p>
         }
       />
@@ -59,7 +64,12 @@ export function CatalogView({ category, searchParams }: CatalogViewProps) {
 
 async function CatalogResults({ category, searchParams }: CatalogViewProps) {
   const params = await searchParams;
-  const filters = parseCatalogParams(params, category?.slug ?? null);
+  const parsed = parseCatalogParams(params, category?.slug ?? null);
+  // Prix masqués : le tri par prix n'est pas proposé (ancien lien → tri par défaut).
+  const filters =
+    !site.features.showPrices && parsed.sort === "prix"
+      ? { ...parsed, sort: DEFAULT_SORT }
+      : parsed;
   const [result, brands, allCategories] = await Promise.all([
     searchCatalog(filters),
     getBrands(),

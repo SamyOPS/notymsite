@@ -3,7 +3,7 @@
 Site du grossiste en boissons et snacks Notym (Montataire, 60) : catalogue pour les professionnels et demandes de devis.
 
 - **Stack** : Next.js 16 (App Router, Cache Components), TypeScript strict, Tailwind CSS 4, déploiement Vercel. Supabase prévu plus tard.
-- **Fonctionnement** : pas de compte client ni de paiement en ligne. Les visiteurs consultent le catalogue (prix « à partir de » HT quand ils sont renseignés, sinon « Prix sur devis ») et envoient une demande de devis ou de contact. Seuls les administrateurs se connecteront.
+- **Fonctionnement** : pas de compte client ni de paiement en ligne. Le site présente les produits, **sans prix pour l'instant** ; les visiteurs envoient une demande de devis ou de contact. Back-office reporté.
 
 ## Prérequis
 
@@ -54,7 +54,8 @@ En attendant la base de données, le catalogue vient de `lib/catalog/data.ts`. L
 - **404** : `proxy.ts` renvoie un vrai statut 404 pour un produit ou une catégorie inconnus (avec le rendu en streaming, la page seule ne le pourrait pas).
 - **« Souvent commandés avec »** : affiché pour l'instant comme « Dans la même catégorie », faute d'historique de demandes pour le calculer.
 
-- **Aucun prix réel** : tous les prix valent `null` et s'affichent « Prix sur devis ».
+- **Prix masqués** : `site.features.showPrices = false` (`lib/site.ts`). Aucun prix, « Prix sur devis », estimation ni tri par prix n'apparaît. Le code reste en place : passer le réglage à `true` réaffiche les prix « à partir de » HT dès qu'ils sont saisis (`priceFromHtCents`, aujourd'hui `null` partout).
+- **Stock non renseigné** : `inStock = null` partout, donc ni badge « En stock » ni filtre « Disponibilité ». Ils réapparaissent dès qu'un produit a un stock connu (`true` ou `false`).
 - **À confirmer** : type de contenant (canette, bouteille, poche…), catégorie de chaque produit, format de Perrier (« 35x25 » sur l'ancien site), descriptions, photos et références (SKU).
 
 ## Contenus à confirmer
@@ -90,4 +91,4 @@ Aucun canal d'envoi n'est encore branché (e-mail et base de données à venir) 
 4. [x] Pages statiques (accueil, services, devenir client, légales, 404, redirections)
 5. [x] Catalogue et fiche produit (données locales)
 6. [x] Demandes de devis (page `/devis`) — envoi à brancher
-7. [ ] Back-office
+7. [ ] Back-office (reporté : nécessite une base de données)

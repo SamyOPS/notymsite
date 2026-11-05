@@ -61,6 +61,14 @@ export const site = {
       website: "https://vercel.com",
     },
   },
+  /**
+   * Fonctionnalités activables. Prix masqués pour l'instant : le site
+   * présente les produits, les prix figurent uniquement sur les devis.
+   * Passer à true pour afficher les prix « à partir de » une fois saisis.
+   */
+  features: {
+    showPrices: false as boolean,
+  },
   /** URLs des réseaux sociaux : à fournir. Les icônes restent masquées tant que la liste est vide. */
   social: [] as ReadonlyArray<{ label: string; href: string }>,
 } as const;

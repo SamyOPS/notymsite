@@ -36,7 +36,8 @@ export type Product = {
   isBestSeller: boolean;
   isNew: boolean;
   isPromo: boolean;
-  inStock: boolean;
+  /** true = en stock, false = rupture, null = non renseigné (rien n'est affiché) */
+  inStock: boolean | null;
   /** Mis en avant sur l'accueil (« produits phares ») */
   featured: boolean;
   popularity: number;
@@ -59,7 +60,8 @@ export type ProductCardData = {
   volume: string | null;
   imageUrl: string | null;
   badges: ProductBadge[];
-  inStock: boolean;
+  /** true = en stock, false = rupture, null = non renseigné */
+  inStock: boolean | null;
   /** Prix « à partir de » HT en centimes ; null = « Prix sur devis » */
   priceFromHtCents: number | null;
 };

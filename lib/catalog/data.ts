@@ -4,8 +4,9 @@ import type { Brand, Category, Product } from "@/types/catalog";
  * Catalogue local, en attendant la base Supabase.
  *
  * - Produits repris de la page d'accueil de notym.fr (04/11/2026).
- * - AUCUN PRIX RÉEL : priceFromHtCents = null partout (« Prix sur devis »).
- *   Les prix seront saisis depuis la page admin « Tarifs ».
+ * - AUCUN PRIX : priceFromHtCents = null partout. Les prix sont d'ailleurs
+ *   masqués sur le site (site.features.showPrices = false).
+ * - AUCUN STOCK : inStock = null partout (non renseigné, rien n'est affiché).
  * - À CONFIRMER : type de contenant (canette, bouteille, poche…), catégorie
  *   de chaque produit, format de Perrier, descriptions et photos.
  */
@@ -174,7 +175,7 @@ export const products: Product[] = seeds.map((seed, index) => ({
   isBestSeller: false,
   isNew: false,
   isPromo: false,
-  inStock: true,
+  inStock: null,
   featured: true,
   popularity: 0,
   priceFromHtCents: null,

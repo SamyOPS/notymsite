@@ -9,6 +9,7 @@ import {
   type CatalogFilters,
   type SortKey,
 } from "@/lib/catalog/search";
+import { site } from "@/lib/site";
 import { useCatalogNavigation } from "./catalog-navigation";
 
 /** Tri du catalogue. Conserve les filtres actifs, revient en page 1. */
@@ -50,11 +51,15 @@ export function SortSelect({ filters }: { filters: CatalogFilters }) {
           }}
           className="h-11 cursor-pointer appearance-none rounded-sm border border-line-strong bg-surface-raised pr-10 pl-4 text-body text-ink hover:border-ink-muted focus-visible:border-teal-deep"
         >
-          {sortOptions.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
+          {sortOptions
+            .filter(
+              (option) => site.features.showPrices || option.value !== "prix",
+            )
+            .map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
         </select>
         <ChevronDown
           aria-hidden

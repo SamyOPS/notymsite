@@ -10,6 +10,7 @@ import { QuantityStepper } from "@/components/ui/quantity-stepper";
 import { formatPrice, packagingLabel } from "@/lib/format";
 import type { QuoteLine } from "@/lib/quote/lines";
 import { removeFromQuote, updateQuoteQuantity } from "@/lib/quote/store";
+import { site } from "@/lib/site";
 import type { QuoteProduct } from "@/types/catalog";
 
 type QuoteLinesStepProps = {
@@ -76,7 +77,7 @@ export function QuoteLinesStep({
                   <p className="text-caption text-ink-muted">
                     {packagingLabel(product.packLabel, product.volume)}
                   </p>
-                  {!product.inStock && (
+                  {product.inStock === false && (
                     <Badge variant="out-of-stock" className="mt-2" />
                   )}
                 </div>
@@ -89,25 +90,27 @@ export function QuoteLinesStep({
                       updateQuoteQuantity(line.productId, quantity)
                     }
                   />
-                  <p className="min-w-28 text-right">
-                    {product.priceFromHtCents === null ? (
-                      <span className="text-label text-ink-muted">
-                        Sur devis
-                      </span>
-                    ) : (
-                      <>
-                        <span className="block text-caption text-ink-muted">
-                          à partir de
+                  {site.features.showPrices && (
+                    <p className="min-w-28 text-right">
+                      {product.priceFromHtCents === null ? (
+                        <span className="text-label text-ink-muted">
+                          Sur devis
                         </span>
-                        <span className="font-semibold tabular-nums">
-                          {formatPrice(
-                            product.priceFromHtCents * line.quantity,
-                          )}{" "}
-                          HT
-                        </span>
-                      </>
-                    )}
-                  </p>
+                      ) : (
+                        <>
+                          <span className="block text-caption text-ink-muted">
+                            à partir de
+                          </span>
+                          <span className="font-semibold tabular-nums">
+                            {formatPrice(
+                              product.priceFromHtCents * line.quantity,
+                            )}{" "}
+                            HT
+                          </span>
+                        </>
+                      )}
+                    </p>
+                  )}
                   <button
                     type="button"
                     aria-label={`Retirer ${product.name} du devis`}

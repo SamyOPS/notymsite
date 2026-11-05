@@ -139,7 +139,12 @@ function matches(
   ) {
     return false;
   }
-  if (ignore !== "inStockOnly" && filters.inStockOnly && !product.inStock)
+  // Stock non renseigné (null) : le produit n'est pas compté comme « en stock ».
+  if (
+    ignore !== "inStockOnly" &&
+    filters.inStockOnly &&
+    product.inStock !== true
+  )
     return false;
   if (ignore !== "q" && filters.q) {
     const brand =
@@ -228,7 +233,7 @@ export function searchProducts(
     p.unitsPerPack === null ? null : String(p.unitsPerPack),
   );
   const inStock = products.filter(
-    (p) => p.inStock && matches(p, filters, context, "inStockOnly"),
+    (p) => p.inStock === true && matches(p, filters, context, "inStockOnly"),
   ).length;
 
   return {

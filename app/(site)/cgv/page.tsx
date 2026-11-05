@@ -32,7 +32,7 @@ const sections: Array<{ title: string; todo: string }> = [
   },
   {
     title: "5. Prix",
-    todo: "prix indicatifs « à partir de » exprimés HT, TVA, tarifs dégressifs, frais de livraison",
+    todo: "prix communiqués sur devis, TVA, tarifs dégressifs, frais de livraison",
   },
   {
     title: "6. Paiement",

@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { GrainCluster } from "@/components/ui/grain";
 import { cn } from "@/lib/cn";
 import { packagingLabel } from "@/lib/format";
+import { site } from "@/lib/site";
 import type { ProductBadge, ProductCardData } from "@/types/catalog";
 import { AddToQuoteButton } from "./add-to-quote-button";
 import { PriceTag } from "./price-tag";
@@ -23,9 +24,12 @@ export function ProductCard({
   headingLevel: Heading = "h3",
   className,
 }: ProductCardProps) {
-  const badge = product.inStock
-    ? BADGE_PRIORITY.find((b) => product.badges.includes(b))
-    : undefined;
+  const outOfStock = product.inStock === false;
+  const badge = outOfStock
+    ? undefined
+    : BADGE_PRIORITY.find((b) => product.badges.includes(b));
+  const packaging = packagingLabel(product.packLabel, product.volume);
+  const showPrices = site.features.showPrices;
 
   return (
     <article
@@ -50,7 +54,7 @@ export function ProductCard({
         )}
         <div className="absolute top-3 left-3 flex gap-2">
           {badge && <Badge variant={badge} />}
-          {!product.inStock && <Badge variant="out-of-stock" />}
+          {outOfStock && <Badge variant="out-of-stock" />}
         </div>
       </div>
 
@@ -65,16 +69,21 @@ export function ProductCard({
             {product.name}
           </Link>
         </Heading>
-        <p className="mt-1 text-caption text-ink-muted">
-          {packagingLabel(product.packLabel, product.volume)}
-        </p>
+        {showPrices && (
+          <p className="mt-1 text-caption text-ink-muted">{packaging}</p>
+        )}
 
         <div className="mt-auto flex items-end justify-between gap-3 pt-4">
-          <PriceTag priceFromHtCents={product.priceFromHtCents} />
+          {/* Sans prix affichés, le conditionnement prend la place du prix. */}
+          {showPrices ? (
+            <PriceTag priceFromHtCents={product.priceFromHtCents} />
+          ) : (
+            <p className="text-label text-ink">{packaging}</p>
+          )}
           <AddToQuoteButton
             productId={product.id}
             productName={product.name}
-            disabled={!product.inStock}
+            disabled={outOfStock}
             className="relative z-10"
           />
         </div>

@@ -3,7 +3,7 @@ import { formatPrice } from "@/lib/format";
 import type { QuoteEstimate } from "@/lib/quote/estimate";
 import { site } from "@/lib/site";
 
-/** Récapitulatif : nombre de produits, packs et estimation indicative HT. */
+/** Récapitulatif : nombre de produits, packs et, si les prix sont affichés, estimation HT. */
 export function QuoteSummary({ estimate }: { estimate: QuoteEstimate }) {
   const {
     lineCount,
@@ -32,7 +32,11 @@ export function QuoteSummary({ estimate }: { estimate: QuoteEstimate }) {
       </dl>
 
       <div className="border-t border-line pt-4">
-        {pricedLines > 0 ? (
+        {!site.features.showPrices ? (
+          <p className="text-body">
+            Notre équipe vous répond avec un devis adapté à votre sélection.
+          </p>
+        ) : pricedLines > 0 ? (
           <>
             <p className="text-caption text-ink-muted">
               Estimation à partir de
@@ -54,8 +58,8 @@ export function QuoteSummary({ estimate }: { estimate: QuoteEstimate }) {
           <p className="text-label">Prix communiqués sur le devis</p>
         )}
         <p className="mt-3 text-caption text-ink-muted">
-          Le devis précise les prix définitifs, la TVA et les conditions de
-          livraison ou de retrait.
+          Le devis précise les prix, la TVA et les conditions de livraison ou de
+          retrait.
         </p>
       </div>
 
