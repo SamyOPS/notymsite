@@ -1,12 +1,13 @@
 "use server";
 
-import { z } from "zod";
-import { deliverContactRequest } from "@/lib/requests/deliver";
+import { deliverRequest } from "@/lib/requests/deliver";
+import { createReference } from "@/lib/requests/reference";
 import {
   contactRequestSchema,
   contactRequestTextFields,
   type ContactRequestField,
 } from "@/lib/validation/contact-request";
+import { firstErrors } from "@/lib/validation/fields";
 
 export type FormValues = Partial<Record<ContactRequestField, string>>;
 export type FormErrors = Partial<Record<ContactRequestField, string>>;
@@ -15,7 +16,7 @@ export type ContactFormState =
   | { status: "idle" }
   | { status: "invalid"; errors: FormErrors; values: FormValues }
   | { status: "unavailable"; values: FormValues }
-  | { status: "success" };
+  | { status: "success"; reference?: string };
 
 export async function submitContactRequest(
   _previous: ContactFormState,
@@ -31,22 +32,24 @@ export async function submitContactRequest(
     const value = formData.get(field);
     if (typeof value === "string") values[field] = value;
   }
-  const consent = formData.get("consent");
-  if (consent === "on") values.consent = "on";
+  if (formData.get("consent") === "on") values.consent = "on";
 
   const parsed = contactRequestSchema.safeParse(values);
   if (!parsed.success) {
-    const fieldErrors = z.flattenError(parsed.error).fieldErrors as Partial<
-      Record<ContactRequestField, string[]>
-    >;
-    const errors: FormErrors = {};
-    for (const [field, messages] of Object.entries(fieldErrors)) {
-      if (messages?.[0]) errors[field as ContactRequestField] = messages[0];
-    }
-    return { status: "invalid", errors, values };
+    return {
+      status: "invalid",
+      errors: firstErrors<ContactRequestField>(parsed.error),
+      values,
+    };
   }
 
-  const result = await deliverContactRequest(parsed.data);
+  const reference = createReference("C");
+  const result = await deliverRequest({
+    type: "contact",
+    reference,
+    receivedAt: new Date().toISOString(),
+    data: parsed.data,
+  });
   if (!result.ok) return { status: "unavailable", values };
-  return { status: "success" };
+  return { status: "success", reference };
 }

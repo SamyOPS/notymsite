@@ -63,3 +63,6 @@ export type ProductCardData = {
   /** Prix « à partir de » HT en centimes ; null = « Prix sur devis » */
   priceFromHtCents: number | null;
 };
+
+/** Produit tel qu'affiché dans la demande de devis. */
+export type QuoteProduct = ProductCardData & { unitsPerPack: number | null };

@@ -38,6 +38,7 @@ app/styleguide     tokens et composants (page interne, non indexée)
 components/ui      composants génériques (boutons, champs, badges…)
 components/shop    composants catalogue (cartes produit, filtres…)
 components/layout  header, footer, en-têtes de page
+components/forms   champs partagés des formulaires (entreprise, adresse, consentement…)
 lib/catalog        données du catalogue et requêtes (seul endroit à changer pour Supabase)
 lib/validation     validation des formulaires (SIRET, téléphone…)
 lib/site.ts        coordonnées, informations légales, navigation
@@ -63,12 +64,17 @@ En attendant la base de données, le catalogue vient de `lib/catalog/data.ts`. L
 - CGV et politique de confidentialité : gabarits, les passages « À compléter » sont visibles sur le site.
 - URLs des réseaux sociaux (icônes masquées tant qu'elles manquent).
 
-## Formulaire « Devenir client »
+## Demandes de devis et de contact
+
+- **`/devis`** : la sélection est gardée dans le navigateur (`localStorage`, pas de compte). Parcours en 3 étapes : Sélection (quantités en packs, suppression) → Coordonnées (livraison ou retrait au dépôt ; l'adresse n'est demandée qu'en livraison) → Envoi (relecture, consentement). Le récapitulatif additionne seulement les prix « à partir de » renseignés.
+- **`/devenir-client`** : demande de contact ou de devis libre.
+- Le serveur revalide tout (SIRET, téléphone, produits encore au catalogue…) et attribue une référence lisible (`D-20261105-7K3F` pour un devis, `C-…` pour un contact).
+- Les deux formulaires passent par `lib/requests/deliver.ts`, le seul fichier à modifier pour brancher l'envoi.
 
 Aucun canal d'envoi n'est encore branché (e-mail et base de données à venir) :
 
 - en développement, chaque demande valide est affichée dans la console du serveur ;
-- en production, le formulaire indique que l'envoi en ligne n'est pas disponible et renvoie vers le téléphone et l'e-mail. **À brancher avant la mise en ligne.**
+- en production, le formulaire indique que l'envoi en ligne n'est pas disponible et renvoie vers le téléphone et l'e-mail (la saisie est conservée). **À brancher avant la mise en ligne.**
 
 ## Logo
 
@@ -83,5 +89,5 @@ Aucun canal d'envoi n'est encore branché (e-mail et base de données à venir) 
 3. [x] Composants UI
 4. [x] Pages statiques (accueil, services, devenir client, légales, 404, redirections)
 5. [x] Catalogue et fiche produit (données locales)
-6. [ ] Demandes de devis (page `/devis`) et envoi
+6. [x] Demandes de devis (page `/devis`) — envoi à brancher
 7. [ ] Back-office

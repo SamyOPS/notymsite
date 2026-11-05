@@ -49,7 +49,9 @@ describe("submitContactRequest", () => {
   it("accepte une demande valide en développement", async () => {
     vi.spyOn(console, "info").mockImplementation(() => {});
     const state = await submitContactRequest(idle, form(valid));
-    expect(state).toEqual({ status: "success" });
+    expect(state.status).toBe("success");
+    if (state.status === "success")
+      expect(state.reference).toMatch(/^C-\d{8}-\w{4}$/);
   });
 
   it("ne prétend jamais avoir envoyé la demande en production sans canal branché", async () => {

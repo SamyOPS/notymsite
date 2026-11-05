@@ -6,6 +6,7 @@ import type {
   Product,
   ProductBadge,
   ProductCardData,
+  QuoteProduct,
 } from "@/types/catalog";
 import { brands, categories, products } from "./data";
 import {
@@ -139,4 +140,14 @@ export async function getRelatedProducts(
     .sort((a, b) => b.popularity - a.popularity)
     .slice(0, limit)
     .map(toCardData);
+}
+
+/** Produits d'une sélection de devis (les identifiants inconnus sont ignorés). */
+export async function getQuoteProducts(ids: string[]): Promise<QuoteProduct[]> {
+  "use cache";
+  cacheTag(CATALOG_TAG);
+  const wanted = new Set(ids);
+  return products
+    .filter((p) => wanted.has(p.id))
+    .map((p) => ({ ...toCardData(p), unitsPerPack: p.unitsPerPack }));
 }
