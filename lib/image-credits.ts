@@ -23,7 +23,7 @@ const OFF_LICENSE = {
   author: "Contributeurs Open Food Facts",
   license: "CC BY-SA 3.0" as const,
   licenseUrl: "https://creativecommons.org/licenses/by-sa/3.0/deed.fr",
-  changes: "recadrage, fond blanc, redimensionnement",
+  changes: "recadrage, fond blanchi, redimensionnement",
 };
 
 const off = (file: string, subject: string, code: string): ImageCredit => ({
@@ -39,11 +39,15 @@ const CC0 = {
 };
 
 export const productImageCredits: ImageCredit[] = [
-  off("/products/coca-cola-1-5-l-x24.webp", "Coca-Cola 1,5 L", "5000112523065"),
+  off(
+    "/products/coca-cola-1-5-l-x24.webp",
+    "Coca-Cola Original Taste 1,5 L",
+    "5449000000439",
+  ),
   off(
     "/products/lipton-ice-tea-33-cl-x12.webp",
     "Lipton Ice Tea pêche 33 cl",
-    "8474034088877",
+    "3228886030011",
   ),
   off(
     "/products/hawai-33-cl-x24.webp",
@@ -52,16 +56,16 @@ export const productImageCredits: ImageCredit[] = [
   ),
   off(
     "/products/capri-sun-20-cl-x10.webp",
-    "Capri-Sun Multivitamin 20 cl",
-    "3760079798211",
+    "Capri-Sun Multivitamines, pack de 10 × 20 cl",
+    "4000177158326",
   ),
   off("/products/red-bull-25-cl-x24.webp", "Red Bull 25 cl", "90162602"),
   off(
     "/products/minute-maid-orange-33-cl-x24.webp",
-    "Minute Maid Orange 33 cl",
-    "3292090941579",
+    "Minute Maid Orange, bouteille 33 cl",
+    "87303223",
   ),
-  off("/products/perrier.webp", "Perrier 33 cl", "7613034479112"),
+  off("/products/perrier.webp", "Perrier, canette slim 25 cl", "7613034579942"),
 ];
 
 export const heroImageCredits: ImageCredit[] = [

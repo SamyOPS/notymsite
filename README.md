@@ -99,9 +99,9 @@ Aucun canal d'envoi n'est encore branché (e-mail et base de données à venir) 
 
 Toutes les images viennent de sources à licence libre, avec un usage commercial autorisé. Les crédits sont listés dans `lib/image-credits.ts` et affichés dans les mentions légales (section « Crédits photos »). **Toute image ajoutée ou remplacée doit y être reportée.**
 
-- **Produits** (`public/products/<slug>.webp`, 800 × 800, fond blanc) : photos [Open Food Facts](https://fr.openfoodfacts.org) sous licence CC BY-SA 3.0, à créditer, les versions modifiées restant sous la même licence. Elles ont été recadrées, posées sur fond blanc et redimensionnées. Le lien entre un produit et sa photo se fait dans `productImages` (`lib/catalog/data.ts`) ; sans photo, la carte affiche un emplacement neutre.
+- **Produits** (`public/products/<slug>.webp`, 800 × 800, fond blanc) : photos [Open Food Facts](https://fr.openfoodfacts.org) sous licence CC BY-SA 3.0, à créditer, les versions modifiées restant sous la même licence. Seuls des visuels de marque (packshots) déjà sur fond blanc ont été retenus : le fond est rendu blanc pur depuis les bords (l'intérieur du produit n'est pas retouché), puis l'image est recadrée sur le produit et centrée dans un carré, le produit faisant au plus 680 px. Le lien entre un produit et sa photo se fait dans `productImages` (`lib/catalog/data.ts`) ; sans photo, la carte affiche un emplacement neutre.
   - B'lue 33 cl : aucune photo fiable trouvée, laissé sans image.
-  - Choix à confirmer : Capri-Sun **Multivitamin**, Lipton Ice Tea **pêche**, Perrier **slim 33 cl**, Minute Maid **Orange** (photo d'origine sur fond noir).
+  - Choix à confirmer : Capri-Sun **Multivitamines** (pack de 10), Lipton Ice Tea **pêche** en canette, Minute Maid **Orange en bouteille** 33 cl (aucun visuel propre de la canette), Perrier en **canette slim 25 cl** (cohérent avec le « 35x25 » de l'ancien site).
   - Les marques et emballages restent la propriété de leurs titulaires. Des packshots fournis par les marques ou pris au dépôt seront préférables à terme.
 - **Hero** (`public/hero/`) : photos du domaine public (CC0). Les photos sucrée et salée ne font que 1024 px de large : elles peuvent paraître un peu douces sur grand écran Retina.
 

@@ -133,8 +133,8 @@ export default function LegalNoticePage() {
         >
           Creative Commons BY-SA 3.0
         </a>
-        . Elles ont été recadrées, placées sur fond blanc et redimensionnées ;
-        ces versions sont diffusées sous la même licence.
+        . Elles ont été recadrées et redimensionnées, et leur fond a été blanchi
+        ; ces versions sont diffusées sous la même licence.
       </p>
       <CreditList credits={productImageCredits} />
       <h3>Photos de la page d&apos;accueil</h3>
