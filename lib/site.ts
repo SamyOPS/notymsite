@@ -43,6 +43,12 @@ export const site = {
     responseTime: "Réponse sous 48 h",
   },
   /** Informations légales reprises des mentions légales du site actuel. */
+  /**
+   * Informations légales. Sources : registre national des entreprises
+   * (recherche-entreprises.api.gouv.fr, consulté le 05/11/2026) pour la forme,
+   * le SIREN/SIRET, l'APE, la date de création et le dirigeant ; mentions
+   * légales du site actuel pour le capital ; vercel.com pour l'hébergeur.
+   */
   legal: {
     companyName: "NOTYM",
     legalForm: "SAS (société par actions simplifiée)",
@@ -51,15 +57,17 @@ export const site = {
     siret: "980 484 190 00023",
     vatNumber: "FR41 980 484 190",
     ape: "46.34Z — Commerce de gros de boissons",
-    /** Absents du site actuel : à compléter. */
-    rcs: null as string | null,
-    publicationDirector: null as string | null,
+    creationDate: "10 octobre 2023",
+    /** Ville du greffe (format « RCS Ville 980 484 190 ») : à reprendre du Kbis. */
+    rcsCity: null as string | null,
+    publicationDirector: "M. Adil Samir Khizar, Président",
     host: {
       name: "Vercel Inc.",
-      address:
-        "340 Pine Street, Suite 701, San Francisco, CA 94104, États-Unis",
+      address: "440 N Barranca Avenue #4133, Covina, CA 91723, États-Unis",
       website: "https://vercel.com",
     },
+    /** Date de dernière mise à jour des pages légales. */
+    updatedAt: "5 novembre 2026",
   },
   /**
    * Fonctionnalités activables. Prix masqués pour l'instant : le site

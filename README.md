@@ -72,8 +72,8 @@ En attendant la base de données, le catalogue vient de `lib/catalog/data.ts`. I
 ## Contenus à confirmer
 
 - Engagements repris du site actuel, regroupés dans `site.claims` (`lib/site.ts`) : « Plus de 400 références », « Livraison en 48 h en France métropolitaine », « Réponse sous 48 h ».
-- Mentions légales : numéro RCS et directeur de la publication (absents du site actuel).
-- CGV et politique de confidentialité : gabarits, les passages « À compléter » sont visibles sur le site.
+- Pages légales rédigées (mentions légales, CGV, confidentialité) à partir du registre national des entreprises ; données dans `site.legal` (`lib/site.ts`). À faire relire par un conseil juridique avant mise en ligne, notamment les CGV (vente entre professionnels, sur devis) et les durées de conservation.
+- Ville du greffe pour la mention « RCS Ville 980 484 190 » : à reporter depuis le Kbis dans `site.legal.rcsCity` (la page affiche sinon « Immatriculée au RCS sous le numéro 980 484 190 »).
 - URLs des réseaux sociaux (icônes masquées tant qu'elles manquent).
 
 ## Demandes de devis et de contact
