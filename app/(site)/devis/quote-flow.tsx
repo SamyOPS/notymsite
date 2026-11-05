@@ -1,6 +1,5 @@
 "use client";
 
-import { CheckCircle2 } from "lucide-react";
 import {
   useEffect,
   useMemo,
@@ -137,9 +136,8 @@ export function QuoteFlow() {
       <div
         ref={successRef}
         tabIndex={-1}
-        className="flex max-w-3xl flex-col items-start gap-4 rounded-lg surface-teal-soft p-8 focus:outline-none"
+        className="flex max-w-3xl flex-col items-start gap-4 border-t border-ink pt-8 focus:outline-none"
       >
-        <CheckCircle2 aria-hidden className="size-10 text-teal-deep" />
         <h2 className="text-h2">Votre demande de devis est envoyée.</h2>
         {result.reference && (
           <p className="text-body-lg">
@@ -199,10 +197,7 @@ export function QuoteFlow() {
       />
 
       {removedCount > 0 && (
-        <p
-          role="status"
-          className="rounded-md bg-wheat-soft p-4 text-body text-wheat-ink"
-        >
+        <p role="status" className="bg-wheat-soft p-4 text-body text-wheat-ink">
           {removedCount > 1
             ? `${removedCount} produits ne sont plus disponibles et ont été retirés de votre sélection.`
             : "Un produit n'est plus disponible et a été retiré de votre sélection."}
@@ -270,18 +265,15 @@ function QuoteSkeleton() {
       <div aria-hidden className="flex flex-col gap-4">
         {Array.from({ length: 3 }, (_, i) => (
           <div key={i} className="flex gap-4 border-b border-line py-5">
-            <div className="size-20 rounded-md bg-teal-soft motion-safe:animate-pulse" />
+            <div className="size-20 bg-teal-soft motion-safe:animate-pulse" />
             <div className="flex flex-1 flex-col gap-2">
-              <div className="h-4 w-1/4 rounded-pill bg-line/60" />
-              <div className="h-5 w-1/2 rounded-pill bg-line/60" />
+              <div className="h-4 w-1/4 bg-line/60" />
+              <div className="h-5 w-1/2 bg-line/60" />
             </div>
           </div>
         ))}
       </div>
-      <div
-        aria-hidden
-        className="h-64 rounded-lg bg-line/40 motion-safe:animate-pulse"
-      />
+      <div aria-hidden className="h-64 bg-line/40 motion-safe:animate-pulse" />
     </div>
   );
 }

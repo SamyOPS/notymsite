@@ -1,14 +1,12 @@
-import { ArrowRight, FileText } from "lucide-react";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import { CategoryCard } from "@/components/shop/category-card";
 import { FilterGroup } from "@/components/shop/filter-group";
 import { ProductCard } from "@/components/shop/product-card";
+import { ProductGrid } from "@/components/shop/product-grid";
 import { Badge } from "@/components/ui/badge";
 import { Breadcrumb } from "@/components/ui/breadcrumb";
 import { Button, ButtonLink } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Grain, GrainCluster } from "@/components/ui/grain";
 import { Input } from "@/components/ui/input";
 import { Logo } from "@/components/ui/logo";
 import { Pagination } from "@/components/ui/pagination";
@@ -16,9 +14,11 @@ import { PillRadioGroup } from "@/components/ui/pill-radio-group";
 import { QuantityStepper } from "@/components/ui/quantity-stepper";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Select } from "@/components/ui/select";
+import { Steps } from "@/components/ui/steps";
 import { Textarea } from "@/components/ui/textarea";
 import { Trait } from "@/components/ui/trait";
 import { cn } from "@/lib/cn";
+import { establishmentTypes } from "@/lib/validation/fields";
 import type { ProductCardData } from "@/types/catalog";
 
 export const metadata: Metadata = {
@@ -26,62 +26,42 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-type Swatch = { token: string; className: string; usage: string };
-
-const swatches: Swatch[] = [
+const swatches = [
   { token: "surface", className: "bg-surface text-ink", usage: "Fond de page" },
   {
     token: "surface-raised",
     className: "bg-surface-raised text-ink",
-    usage: "Cartes, menus",
+    usage: "Cartes produit",
   },
+  { token: "surface-inverse", className: "surface-inverse", usage: "Hero" },
+  { token: "line", className: "bg-line text-ink", usage: "Filets" },
   {
-    token: "surface-inverse",
-    className: "surface-inverse",
-    usage: "Hero, bandeaux, footer",
+    token: "ink",
+    className: "bg-ink text-surface",
+    usage: "Texte, filets forts",
   },
-  {
-    token: "line",
-    className: "bg-line text-ink",
-    usage: "Filets, bordures de cartes",
-  },
-  {
-    token: "line-strong",
-    className: "bg-line-strong text-ink",
-    usage: "Bordures de champs",
-  },
-  { token: "ink", className: "bg-ink text-surface", usage: "Texte principal" },
   {
     token: "ink-muted",
     className: "bg-ink-muted text-surface",
     usage: "Texte secondaire",
   },
-  { token: "teal", className: "surface-teal", usage: "Aplats uniquement" },
+  { token: "teal", className: "surface-teal", usage: "Bandeau pro" },
   {
     token: "teal-deep",
     className: "bg-teal-deep text-on-teal",
-    usage: "Boutons, liens, actif",
+    usage: "Action principale",
   },
   {
     token: "teal-soft",
     className: "surface-teal-soft",
-    usage: "Fonds teintés, photos",
+    usage: "Visuels produit",
   },
-  {
-    token: "wheat",
-    className: "surface-wheat",
-    usage: "Best-sellers (1 zone / écran)",
-  },
-  {
-    token: "wheat-soft",
-    className: "bg-wheat-soft text-wheat-ink",
-    usage: "Fond badge promo",
-  },
+  { token: "wheat", className: "surface-wheat", usage: "Compteur du devis" },
   { token: "success", className: "bg-success text-surface", usage: "En stock" },
   {
     token: "danger",
     className: "bg-danger text-surface",
-    usage: "Rupture, erreurs",
+    usage: "Erreurs, rupture",
   },
 ];
 
@@ -91,120 +71,69 @@ const typeScale = [
     className: "font-display text-display",
     sample: "Vos boissons en gros",
   },
-  {
-    name: "h1",
-    className: "font-display text-h1",
-    sample: "Catalogue professionnel",
-  },
-  {
-    name: "h2",
-    className: "font-display text-h2",
-    sample: "Nos produits phares",
-  },
+  { name: "h1", className: "font-display text-h1", sample: "Catalogue" },
+  { name: "h2", className: "font-display text-h2", sample: "Produits phares" },
   { name: "h3", className: "font-display text-h3", sample: "Sodas & Eaux" },
   {
     name: "body-lg",
     className: "text-body-lg",
     sample: "Livraison partout en France, retrait au dépôt.",
   },
-  {
-    name: "body",
-    className: "text-body",
-    sample: "Pack de 24 canettes de 33 cl.",
-  },
+  { name: "body", className: "text-body", sample: "Pack de 24 · 33 cl" },
   { name: "label", className: "text-label", sample: "Type d'établissement" },
   {
     name: "caption",
     className: "text-caption text-ink-muted",
-    sample: "Référence et conditionnement",
+    sample: "Visuel à venir",
   },
-  { name: "price", className: "text-price", sample: "0,00 € HT" },
 ];
 
-/** Données FICTIVES de démonstration : aucun prix ni produit réel. */
-const demoProducts: ProductCardData[] = [
-  {
-    id: "demo-1",
-    slug: "produit-demo-1",
-    name: "Produit de démonstration A",
-    brand: "Marque fictive",
-    packLabel: "Pack de 24 canettes",
-    volume: "33 cl",
-    imageUrl: null,
-    badges: ["best-seller"],
-    inStock: true,
-    priceFromHtCents: 0,
-  },
-  {
-    id: "demo-2",
-    slug: "produit-demo-2",
-    name: "Produit de démonstration B",
-    brand: "Marque fictive",
-    packLabel: "Pack de 6 bouteilles",
+/** Données FICTIVES de démonstration. */
+const demo = (
+  id: string,
+  name: string,
+  overrides: Partial<ProductCardData> = {},
+): ProductCardData => ({
+  id,
+  slug: id,
+  name,
+  brand: "Marque fictive",
+  packLabel: "Pack de 24",
+  volume: "33 cl",
+  imageUrl: null,
+  badges: [],
+  inStock: null,
+  priceFromHtCents: null,
+  ...overrides,
+});
+
+const demoProducts = [
+  demo("demo-1", "Produit de démonstration A"),
+  demo("demo-2", "Produit de démonstration B", { badges: ["new"] }),
+  demo("demo-3", "Produit de démonstration C au nom plus long", {
     volume: "1,5 L",
-    imageUrl: null,
-    badges: ["promo"],
-    inStock: true,
-    priceFromHtCents: null,
-  },
-  {
-    id: "demo-3",
-    slug: "produit-demo-3",
-    name: "Produit de démonstration C au nom plus long",
-    brand: "Marque fictive",
-    packLabel: "Carton de 10 gourdes",
-    volume: "20 cl",
-    imageUrl: null,
-    badges: ["new"],
-    inStock: true,
-    priceFromHtCents: null,
-  },
-  {
-    id: "demo-4",
-    slug: "produit-demo-4",
-    name: "Produit de démonstration D",
-    brand: "Marque fictive",
-    packLabel: "Pack de 12 canettes",
-    volume: "25 cl",
-    imageUrl: null,
-    badges: [],
-    inStock: false,
-    priceFromHtCents: null,
-  },
+  }),
+  demo("demo-4", "Produit de démonstration D", { inStock: false }),
 ];
-
-const establishmentTypes = [
-  { value: "epicerie", label: "Épicerie" },
-  { value: "cafe-bar", label: "Café / Bar" },
-  { value: "restaurant", label: "Restaurant" },
-  { value: "grande-surface", label: "Grande surface" },
-  { value: "autre", label: "Autre" },
-] as const;
 
 export default function StyleguidePage() {
   return (
     <main className="container-site py-12">
-      <header className="mb-12 flex flex-wrap items-end justify-between gap-6">
+      <header className="mb-16 flex flex-wrap items-end justify-between gap-6 border-b border-ink pb-8">
         <div className="max-w-3xl">
-          <p className="text-label tracking-[0.08em] text-accent-text uppercase">
-            Notym · interne
-          </p>
-          <h1 className="mt-2 text-h1">Styleguide</h1>
+          <h1 className="text-h1">Styleguide</h1>
           <p className="mt-4 text-body-lg text-ink-muted">
-            Tokens, typographie et composants. Page non indexée. Toutes les
-            données affichées sont fictives.
+            Bords carrés, filets plutôt qu&apos;ombres, pilules réservées aux
+            boutons. Page interne, non indexée. Données fictives.
           </p>
         </div>
-        <Logo eager className="w-40" />
+        <Logo eager className="w-32" />
       </header>
 
       <Section id="couleurs" title="Couleurs">
-        <ul className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+        <ul className="grid grid-cols-2 border-t border-l border-line sm:grid-cols-3 lg:grid-cols-4">
           {swatches.map((s) => (
-            <li
-              key={s.token}
-              className="overflow-hidden rounded-md border border-line bg-surface-raised"
-            >
+            <li key={s.token} className="border-r border-b border-line">
               <div
                 className={cn(
                   "flex h-20 items-end p-3 font-display text-h3",
@@ -223,7 +152,7 @@ export default function StyleguidePage() {
       </Section>
 
       <Section id="typographie" title="Typographie">
-        <ul className="divide-y divide-line">
+        <ul className="divide-y divide-line border-y border-line">
           {typeScale.map((t) => (
             <li
               key={t.name}
@@ -236,33 +165,6 @@ export default function StyleguidePage() {
         </ul>
       </Section>
 
-      <Section id="rayons-ombres" title="Rayons et ombres">
-        <div className="flex flex-wrap gap-6">
-          {[
-            ["sm · 6px", "rounded-sm"],
-            ["md · 12px", "rounded-md"],
-            ["lg · 20px", "rounded-lg"],
-            ["pill", "rounded-pill"],
-          ].map(([label, radius]) => (
-            <div
-              key={label}
-              className={cn(
-                "flex h-20 w-32 items-center justify-center bg-teal-soft text-label",
-                radius,
-              )}
-            >
-              {label}
-            </div>
-          ))}
-          <div className="flex h-20 w-40 items-center justify-center rounded-lg bg-surface-raised text-label shadow-card">
-            shadow-card
-          </div>
-          <div className="flex h-20 w-40 items-center justify-center rounded-lg bg-surface-raised text-label shadow-lift">
-            shadow-lift
-          </div>
-        </div>
-      </Section>
-
       <Section id="boutons" title="Boutons">
         <div className="flex flex-col gap-6">
           <div className="flex flex-wrap items-center gap-3">
@@ -270,31 +172,21 @@ export default function StyleguidePage() {
             <Button variant="secondary">Secondaire</Button>
             <Button variant="dark">Dark</Button>
             <Button disabled>Désactivé</Button>
-            <ButtonLink href="/styleguide#boutons" variant="primary">
-              Lien bouton <ArrowRight aria-hidden />
-            </ButtonLink>
+            <ButtonLink href="/styleguide#boutons">Lien bouton</ButtonLink>
           </div>
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3 surface-inverse p-8">
             <Button size="lg">Voir le catalogue</Button>
             <Button size="lg" variant="secondary">
-              <FileText aria-hidden /> Demander un devis
-            </Button>
-          </div>
-          <div className="flex flex-wrap items-center gap-3 rounded-lg surface-inverse p-6">
-            <Button size="lg" variant="primary">
-              Voir le catalogue
-            </Button>
-            <Button size="lg" variant="inverse">
               Devenir client
             </Button>
-            <Button size="lg" variant="secondary">
-              Secondaire sur fond sombre
+            <Button size="lg" variant="inverse">
+              Inverse
             </Button>
           </div>
         </div>
       </Section>
 
-      <Section id="badges" title="Badges">
+      <Section id="badges" title="Étiquettes">
         <div className="flex flex-wrap items-center gap-3">
           <Badge variant="best-seller" />
           <Badge variant="promo" />
@@ -304,54 +196,17 @@ export default function StyleguidePage() {
         </div>
       </Section>
 
-      <Section id="cartes-produit" title="Cartes produit">
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <Section id="produits" title="Grille produits">
+        <ProductGrid>
           {demoProducts.map((product) => (
             <li key={product.id}>
               <ProductCard product={product} />
             </li>
           ))}
-        </ul>
+        </ProductGrid>
       </Section>
 
-      <Section id="cartes-categorie" title="Cartes catégorie">
-        <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          <li>
-            <CategoryCard
-              href="/styleguide#cartes-categorie"
-              title="Sodas & Eaux"
-              subtitle="Sous-titre de démonstration"
-              tone="teal"
-            />
-          </li>
-          <li>
-            <CategoryCard
-              href="/styleguide#cartes-categorie"
-              title="Énergisants"
-              subtitle="Sous-titre de démonstration"
-              tone="ink"
-            />
-          </li>
-          <li>
-            <CategoryCard
-              href="/styleguide#cartes-categorie"
-              title="Jus & Nectars"
-              subtitle="Sous-titre de démonstration"
-              tone="wheat"
-            />
-          </li>
-          <li>
-            <CategoryCard
-              href="/styleguide#cartes-categorie"
-              title="Chips & Snacks"
-              subtitle="Sous-titre de démonstration"
-              tone="teal-soft"
-            />
-          </li>
-        </ul>
-      </Section>
-
-      <Section id="formulaires" title="Champs de formulaire">
+      <Section id="formulaires" title="Champs">
         <form className="grid max-w-3xl gap-6 sm:grid-cols-2" action="#">
           <PillRadioGroup
             className="sm:col-span-2"
@@ -361,16 +216,10 @@ export default function StyleguidePage() {
             defaultValue="epicerie"
             required
           />
-          <Input
-            label="Raison sociale"
-            name="company"
-            required
-            autoComplete="organization"
-          />
+          <Input label="Raison sociale" name="company" required />
           <Input
             label="SIRET"
             name="siret"
-            inputMode="numeric"
             hint="14 chiffres, sans espaces."
             required
           />
@@ -393,21 +242,12 @@ export default function StyleguidePage() {
             fieldClassName="sm:col-span-2"
             label="Votre besoin"
             name="message"
-            placeholder="Références, volumes, fréquence de livraison…"
           />
-          <div className="flex flex-col gap-2 sm:col-span-2">
-            <Checkbox name="rgpd" required>
-              J&apos;accepte que mes données soient utilisées pour traiter ma
-              demande.
-            </Checkbox>
-          </div>
-          <div className="flex flex-col gap-2">
-            <span className="text-label">Quantité</span>
-            <QuantityStepper
-              label="Quantité de démonstration"
-              defaultValue={2}
-            />
-          </div>
+          <Checkbox name="rgpd" className="sm:col-span-2">
+            J&apos;accepte que mes données soient utilisées pour traiter ma
+            demande.
+          </Checkbox>
+          <QuantityStepper label="Quantité de démonstration" defaultValue={2} />
         </form>
       </Section>
 
@@ -424,17 +264,11 @@ export default function StyleguidePage() {
               { value: "marque-c", label: "Marque C", count: 0 },
             ]}
           />
-          <FilterGroup
-            legend="Disponibilité"
-            name="dispo"
-            selected={[]}
-            options={[{ value: "en-stock", label: "En stock", count: 21 }]}
-          />
         </form>
       </Section>
 
       <Section id="navigation" title="Navigation">
-        <div className="flex flex-col gap-8">
+        <div className="flex flex-col gap-10">
           <Breadcrumb
             items={[
               { label: "Accueil", href: "/" },
@@ -442,49 +276,25 @@ export default function StyleguidePage() {
               { label: "Sodas & Eaux" },
             ]}
           />
-          <Pagination
-            page={6}
-            totalPages={12}
-            pathname="/styleguide"
-            searchParams={{ marque: "marque-a" }}
+          <Steps
+            label="Étapes"
+            steps={["Sélection", "Coordonnées", "Envoi"]}
+            current={1}
           />
+          <Pagination page={6} totalPages={12} pathname="/styleguide" />
           <SectionHeader
-            eyebrow="Sélection"
-            title="Nos produits phares"
+            title="Produits phares"
             href="/styleguide"
-            description="Description courte de la section."
+            linkLabel="Tout le catalogue"
           />
         </div>
       </Section>
 
-      <Section id="motifs" title="Motifs de marque">
-        <div className="grid gap-6 lg:grid-cols-2">
-          <div className="rounded-lg surface-inverse p-8">
-            <p className="font-display text-display">
-              Vos boissons en gros, <Trait>livrées vite.</Trait>
-            </p>
-          </div>
-          <div className="relative min-h-64 overflow-hidden rounded-lg surface-teal">
-            <GrainCluster preset="hero" />
-          </div>
-          <div className="relative min-h-64 overflow-hidden rounded-lg border border-line bg-surface-raised">
-            <GrainCluster preset="empty" />
-          </div>
-          <div className="flex items-center justify-center gap-6 rounded-lg border border-line bg-surface-raised p-8">
-            <Grain tone="teal" size="lg" angle={35} />
-            <Grain tone="wheat" size="lg" angle={-35} />
-            <Grain tone="ink" size="lg" angle={35} />
-            <span className="rounded-md bg-teal p-3">
-              <Grain tone="surface" size="lg" angle={-35} />
-            </span>
-          </div>
-          <div className="flex items-center gap-6 rounded-lg surface-inverse p-8 lg:col-span-2">
-            <Logo className="w-40" />
-            <p className="text-body text-on-inverse">
-              Logo sur fond sombre : pastille claire en attendant la version
-              blanche.
-            </p>
-          </div>
+      <Section id="trait" title="Motif de marque">
+        <div className="surface-inverse p-8">
+          <p className="font-display text-display">
+            Vos boissons en gros, <Trait>livrées vite.</Trait>
+          </p>
         </div>
       </Section>
     </main>
@@ -501,7 +311,7 @@ function Section({
   children: ReactNode;
 }) {
   return (
-    <section id={id} className="mb-16 scroll-mt-8" aria-labelledby={`sg-${id}`}>
+    <section id={id} className="mb-20 scroll-mt-8" aria-labelledby={`sg-${id}`}>
       <h2 id={`sg-${id}`} className="mb-6 text-h2">
         {title}
       </h2>

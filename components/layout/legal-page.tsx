@@ -35,7 +35,7 @@ export function LegalPage({
 /** Information à fournir par Notym, bien visible tant qu'elle manque. */
 export function Placeholder({ children }: { children: ReactNode }) {
   return (
-    <mark className="rounded-sm bg-wheat-soft px-1.5 py-0.5 font-semibold text-wheat-ink">
+    <mark className="bg-wheat-soft px-1.5 py-0.5 font-semibold text-wheat-ink">
       [À compléter : {children}]
     </mark>
   );

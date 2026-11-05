@@ -40,7 +40,7 @@ export function AddToQuoteButton({
           setAdded(true);
         }}
         className={cn(
-          "inline-flex size-11 shrink-0 items-center justify-center rounded-md bg-teal-deep text-on-teal",
+          "inline-flex size-11 shrink-0 items-center justify-center rounded-pill bg-teal-deep text-on-teal",
           "transition-colors duration-150 hover:bg-teal-deep-hover",
           "disabled:cursor-not-allowed disabled:opacity-40",
           className,

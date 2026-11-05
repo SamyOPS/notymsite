@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, Store } from "lucide-react";
 import { useRef, useState, type FormEvent } from "react";
 import {
   AddressFields,
@@ -117,15 +116,9 @@ export function QuoteDetailsStep({
       />
 
       {mode === "retrait" && (
-        <p className="flex items-start gap-3 rounded-md surface-teal-soft p-4 text-body">
-          <Store
-            aria-hidden
-            className="mt-0.5 size-5 shrink-0 text-teal-deep"
-          />
-          <span>
-            Retrait au dépôt : {site.contact.streetAddress},{" "}
-            {site.contact.postalCode} {site.contact.city}. {site.hours.label}.
-          </span>
+        <p className="border-l-2 border-ink pl-4 text-body">
+          Retrait au dépôt : {site.contact.streetAddress},{" "}
+          {site.contact.postalCode} {site.contact.city}. {site.hours.label}.
         </p>
       )}
 
@@ -162,10 +155,10 @@ export function QuoteDetailsStep({
             onBack(formRef.current ? readValues(formRef.current) : values)
           }
         >
-          <ArrowLeft aria-hidden /> Retour à la sélection
+          Retour à la sélection
         </Button>
         <Button type="submit" size="lg">
-          Vérifier ma demande <ArrowRight aria-hidden />
+          Vérifier ma demande
         </Button>
       </div>
     </form>

@@ -1,4 +1,3 @@
-import { Check } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 type StepsProps = {
@@ -11,7 +10,10 @@ type StepsProps = {
   className?: string;
 };
 
-/** Indicateur d'étapes. Les étapes terminées sont cliquables pour revenir en arrière. */
+/**
+ * Indicateur d'étapes en texte : « 01 Sélection  02 Coordonnées  03 Envoi ».
+ * L'étape en cours est soulignée ; les étapes terminées sont cliquables.
+ */
 export function Steps({
   steps,
   current,
@@ -21,58 +23,40 @@ export function Steps({
 }: StepsProps) {
   return (
     <nav aria-label={label} className={className}>
-      <ol className="flex flex-wrap items-center gap-x-2 gap-y-1">
+      <ol className="grid grid-cols-3 border-b border-line">
         {steps.map((step, index) => {
           const done = index < current;
           const active = index === current;
           const content = (
             <>
-              <span
-                aria-hidden
-                className={cn(
-                  "flex size-8 shrink-0 items-center justify-center rounded-pill text-label tabular-nums",
-                  active && "bg-ink text-surface",
-                  done && "bg-teal-deep text-on-teal",
-                  !active &&
-                    !done &&
-                    "border border-line-strong text-ink-muted",
-                )}
-              >
-                {done ? <Check className="size-4" /> : index + 1}
+              <span aria-hidden className="tabular-nums">
+                {String(index + 1).padStart(2, "0")}
               </span>
-              <span
-                className={cn(
-                  "text-label",
-                  active ? "text-ink" : "hidden text-ink-muted sm:inline",
-                )}
-              >
+              <span className={cn(!active && "hidden sm:inline")}>
                 <span className="sr-only">Étape {index + 1} : </span>
                 {step}
                 {done && <span className="sr-only"> (terminée)</span>}
               </span>
             </>
           );
+          const base = cn(
+            "-mb-px flex min-h-12 w-full items-center gap-3 border-b-2 text-label",
+            active
+              ? "border-ink text-ink"
+              : "border-transparent text-ink-muted",
+          );
           return (
-            <li
-              key={step}
-              aria-current={active ? "step" : undefined}
-              className="flex items-center gap-2"
-            >
-              {index > 0 && (
-                <span aria-hidden className="h-px w-5 bg-line-strong sm:w-10" />
-              )}
+            <li key={step} aria-current={active ? "step" : undefined}>
               {done && onSelect ? (
                 <button
                   type="button"
                   onClick={() => onSelect(index)}
-                  className="inline-flex min-h-11 items-center gap-2 rounded-md pr-2 hover:underline"
+                  className={cn(base, "text-left hover:text-ink")}
                 >
                   {content}
                 </button>
               ) : (
-                <span className="inline-flex min-h-11 items-center gap-2">
-                  {content}
-                </span>
+                <span className={base}>{content}</span>
               )}
             </li>
           );

@@ -45,6 +45,15 @@ lib/site.ts        coordonnées, informations légales, navigation
 public/brand       logo (ne pas redessiner, recolorer ni déformer)
 ```
 
+## Design
+
+Direction sobre et éditoriale, pour éviter l'effet « gabarit » :
+
+- **Bords carrés** partout (cartes, champs, blocs, visuels) ; seul le rayon `rounded-pill` existe, réservé aux boutons et éléments cliquables (bouton « + », pagination, filtres actifs, choix en pilules).
+- **Pas d'ombres ni de décors** : la structure passe par des filets (`border-line`, `border-ink` sous les titres de section). Les produits sont présentés dans une grille à filets (`ProductGrid`).
+- **Peu d'éléments** : header réduit au logo, à la navigation et au bouton « Devis » ; recherche dans le catalogue ; accueil en quatre blocs (hero avec l'index des catégories, produits phares, bandeau professionnels, footer) ; pas de sur-titres ni d'icônes décoratives.
+- Palette, polices (Bricolage Grotesque, DM Sans), logo et trait sous « livrées vite. » conservés. La page `/styleguide` présente le système.
+
 ## Catalogue
 
 En attendant la base de données, le catalogue vient de `lib/catalog/data.ts`. Les pages ne lisent que `lib/catalog/queries.ts` (et `lib/catalog/routing.ts` pour les 404) : le passage à Supabase ne touchera que ces fichiers.

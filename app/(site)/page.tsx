@@ -1,30 +1,20 @@
-import {
-  ArrowRight,
-  BadgeCheck,
-  Headset,
-  PackageCheck,
-  Phone,
-  Truck,
-  type LucideIcon,
-} from "lucide-react";
 import type { Metadata } from "next";
+import Link from "next/link";
+import { ProBand } from "@/components/layout/pro-band";
 import { JsonLd } from "@/components/seo/json-ld";
-import { BrandMarquee } from "@/components/shop/brand-marquee";
-import { CategoryCard } from "@/components/shop/category-card";
 import { ProductCard } from "@/components/shop/product-card";
-import { ButtonLink, buttonStyles } from "@/components/ui/button";
-import { GrainCluster } from "@/components/ui/grain";
+import { ProductGrid } from "@/components/shop/product-grid";
+import { ButtonLink } from "@/components/ui/button";
 import { SectionHeader } from "@/components/ui/section-header";
 import { Trait } from "@/components/ui/trait";
 import {
   getBrands,
-  getCategories,
   getFeaturedProducts,
-  getProductCardBySlug,
+  searchCatalog,
 } from "@/lib/catalog/queries";
+import { parseCatalogParams } from "@/lib/catalog/search";
 import { localBusinessJsonLd } from "@/lib/seo";
 import { site } from "@/lib/site";
-import type { ProductCardData } from "@/types/catalog";
 
 export const metadata: Metadata = {
   title: { absolute: `${site.name} — ${site.tagline}` },
@@ -32,198 +22,87 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 };
 
-/** Atouts repris du site actuel. */
-const strengths: Array<{ icon: LucideIcon; title: string; text: string }> = [
-  {
-    icon: Truck,
-    title: "Livraison rapide",
-    text: "Partout en France, ou retrait au dépôt.",
-  },
-  {
-    icon: PackageCheck,
-    title: "Stock permanent",
-    text: "Des produits toujours disponibles.",
-  },
-  {
-    icon: BadgeCheck,
-    title: "Grandes marques",
-    text: "Les références les plus vendues.",
-  },
-  {
-    icon: Headset,
-    title: "Support pro",
-    text: "Un service B2B dédié, du lundi au samedi.",
-  },
-];
-
 export default async function HomePage() {
-  const [categories, featured, brands, heroProduct] = await Promise.all([
-    getCategories(),
+  const [overview, featured, brands] = await Promise.all([
+    searchCatalog(parseCatalogParams({})),
     getFeaturedProducts(4),
     getBrands(),
-    getProductCardBySlug("red-bull-25-cl-x24"),
   ]);
 
   return (
     <>
       <JsonLd data={localBusinessJsonLd()} />
 
-      {/* Hero */}
-      <section
-        aria-labelledby="hero-titre"
-        className="overflow-hidden surface-inverse"
-      >
-        <div className="container-site grid items-center gap-12 py-16 lg:grid-cols-[1.15fr_1fr] lg:py-24">
+      <section aria-labelledby="hero-titre" className="surface-inverse">
+        <div className="container-site grid gap-14 py-16 lg:grid-cols-[1.4fr_1fr] lg:items-end lg:py-24">
           <div>
-            <p className="inline-flex items-center gap-2 rounded-pill border border-current/25 px-4 py-1.5 text-label">
-              <span
-                aria-hidden
-                className="size-2 rounded-pill bg-accent-fill"
-              />
-              Fournisseur B2B · Montataire (60)
-            </p>
-            <h1 id="hero-titre" className="mt-6 text-display">
+            <h1 id="hero-titre" className="text-display">
               Vos boissons en gros, <Trait>livrées vite.</Trait>
             </h1>
             <p className="mt-8 max-w-xl text-body-lg">
-              Sodas, eaux, énergisants, jus et snacks des grandes marques pour
-              les épiceries, cafés, restaurants et grandes surfaces. Livraison
-              partout en France ou retrait au dépôt.
+              Sodas, eaux, énergisants, jus et snacks pour les commerces et la
+              restauration. Livraison partout en France ou retrait au dépôt de
+              Montataire (60).
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-10 flex flex-wrap gap-3">
               <ButtonLink href="/catalogue" size="lg">
-                Voir le catalogue <ArrowRight aria-hidden />
+                Voir le catalogue
               </ButtonLink>
-              <ButtonLink href="/devenir-client" size="lg" variant="inverse">
+              <ButtonLink href="/devenir-client" size="lg" variant="secondary">
                 Devenir client
               </ButtonLink>
             </div>
           </div>
-          {heroProduct && <HeroComposition product={heroProduct} />}
+
+          {/* Index des catégories : sert de navigation, pas de décor. */}
+          <nav aria-labelledby="hero-categories">
+            <h2 id="hero-categories" className="font-sans text-label">
+              Catégories
+            </h2>
+            <ul className="mt-3 border-t border-current/30">
+              {overview.facets.categories.map((category) => (
+                <li key={category.value} className="border-b border-current/30">
+                  <Link
+                    href={`/catalogue/${category.value}`}
+                    className="flex min-h-16 items-center justify-between gap-4 font-display text-h3 transition-colors hover:text-accent-text"
+                  >
+                    {category.label}
+                    <span className="font-sans text-body tabular-nums">
+                      <span aria-hidden>{category.count}</span>
+                      <span className="sr-only">
+                        , {category.count} produit
+                        {category.count > 1 ? "s" : ""}
+                      </span>
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </section>
 
-      {/* Atouts */}
-      <section aria-labelledby="atouts-titre" className="border-b border-line">
-        <h2 id="atouts-titre" className="sr-only">
-          Nos atouts
-        </h2>
-        <ul className="container-site grid gap-8 py-12 sm:grid-cols-2 lg:grid-cols-4">
-          {strengths.map(({ icon: Icon, title, text }) => (
-            <li key={title} className="flex items-start gap-4">
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-md bg-teal-soft text-teal-deep">
-                <Icon aria-hidden className="size-6" />
-              </span>
-              <div>
-                <h3 className="font-sans text-body-lg font-semibold">
-                  {title}
-                </h3>
-                <p className="text-body text-ink-muted">{text}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Catégories */}
-      <section
-        aria-labelledby="categories-titre"
-        className="container-site py-20"
-      >
+      <section aria-labelledby="phares-titre" className="container-site pt-20">
         <SectionHeader
-          eyebrow="Catalogue"
-          title="Nos catégories de produits"
-          titleId="categories-titre"
+          title="Produits phares"
+          titleId="phares-titre"
           href="/catalogue"
           linkLabel="Tout le catalogue"
         />
-        <ul className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-          {categories.map((category) => (
-            <li key={category.id}>
-              <CategoryCard
-                href={`/catalogue/${category.slug}`}
-                title={category.name}
-                subtitle={category.description}
-                tone={category.tone}
-                className="h-full"
-              />
-            </li>
-          ))}
-        </ul>
-      </section>
-
-      {/* Produits phares */}
-      <section aria-labelledby="phares-titre" className="container-site pb-20">
-        <SectionHeader
-          eyebrow="Sélection"
-          title="Nos produits phares"
-          titleId="phares-titre"
-          href="/catalogue"
-        />
-        <ul className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
+        <ProductGrid className="mt-8">
           {featured.map((product) => (
             <li key={product.id}>
               <ProductCard product={product} />
             </li>
           ))}
-        </ul>
+        </ProductGrid>
+        <p className="mt-8 max-w-4xl text-body text-ink-muted">
+          <span className="font-semibold text-ink">Marques distribuées :</span>{" "}
+          {brands.map((b) => b.name).join(", ")}.
+        </p>
       </section>
 
-      {/* Bandeau devenir client */}
-      <section aria-labelledby="cta-titre" className="container-site pb-20">
-        <div className="flex flex-col gap-8 rounded-lg surface-teal p-8 md:flex-row md:items-center md:justify-between md:p-12">
-          <div className="max-w-2xl">
-            <h2 id="cta-titre" className="text-h2">
-              Vous êtes un professionnel ?
-            </h2>
-            <p className="mt-3 text-body-lg">
-              Envoyez-nous votre demande : notre équipe vous recontacte avec un
-              devis adapté à vos volumes.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <ButtonLink href="/devenir-client" size="lg" variant="dark">
-              Devenir client
-            </ButtonLink>
-            <a
-              href={site.contact.phoneHref}
-              className={buttonStyles({ variant: "secondary", size: "lg" })}
-            >
-              <Phone aria-hidden /> {site.contact.phone}
-            </a>
-          </div>
-        </div>
-      </section>
-
-      {/* Marques */}
-      <section
-        aria-labelledby="marques-titre"
-        className="border-t border-line bg-surface-raised py-20"
-      >
-        <div className="container-site">
-          <SectionHeader
-            eyebrow="Marques"
-            title="Les marques disponibles"
-            titleId="marques-titre"
-          />
-          <BrandMarquee brands={brands.map((b) => b.name)} className="mt-10" />
-        </div>
-      </section>
+      <ProBand />
     </>
-  );
-}
-
-/** Composition décorative du hero : bloc teal à grains, bloc wheat, carte produit inclinée. */
-function HeroComposition({ product }: { product: ProductCardData }) {
-  return (
-    <div aria-hidden inert className="relative hidden h-115 lg:block">
-      <div className="absolute top-0 right-0 h-85 w-[78%] overflow-hidden rounded-lg surface-teal">
-        <GrainCluster preset="hero" />
-      </div>
-      <div className="absolute bottom-2 left-0 size-40 rounded-lg surface-wheat" />
-      <div className="absolute bottom-0 left-[18%] w-64 -rotate-3">
-        <ProductCard product={product} />
-      </div>
-    </div>
   );
 }

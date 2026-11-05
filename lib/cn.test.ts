@@ -11,7 +11,5 @@ describe("cn", () => {
 
   it("résout les conflits entre deux tokens du même groupe", () => {
     expect(cn("bg-surface", "bg-teal-soft")).toBe("bg-teal-soft");
-    expect(cn("rounded-md", "rounded-pill")).toBe("rounded-pill");
-    expect(cn("shadow-card", "shadow-lift")).toBe("shadow-lift");
   });
 });

@@ -28,7 +28,7 @@ export function ErrorSummary({
       ref={ref}
       tabIndex={-1}
       role="alert"
-      className="rounded-md border-2 border-danger bg-surface-raised p-5 focus:outline-none"
+      className="border-2 border-danger bg-surface-raised p-5 focus:outline-none"
     >
       <h2 className="font-sans text-body-lg font-semibold text-danger">
         {list.length > 1
@@ -140,7 +140,7 @@ export function AddressFields({
   errors: FieldMap;
 }) {
   return (
-    <fieldset className="grid gap-6 sm:grid-cols-[1fr_10rem_1fr]">
+    <fieldset className="grid gap-6 sm:grid-cols-[10rem_1fr]">
       <legend className="mb-4 font-display text-h3">
         Adresse de livraison
       </legend>
@@ -152,7 +152,7 @@ export function AddressFields({
         required
         defaultValue={values.addressLine}
         error={errors.addressLine}
-        fieldClassName="sm:col-span-3"
+        fieldClassName="sm:col-span-2"
       />
       <Input
         id={fieldId("postalCode")}
@@ -163,7 +163,7 @@ export function AddressFields({
         required
         defaultValue={values.postalCode}
         error={errors.postalCode}
-        fieldClassName="sm:col-start-1 sm:col-end-2 sm:max-w-40"
+        fieldClassName="sm:col-start-1"
       />
       <Input
         id={fieldId("city")}
@@ -173,7 +173,7 @@ export function AddressFields({
         required
         defaultValue={values.city}
         error={errors.city}
-        fieldClassName="sm:col-span-2"
+        fieldClassName="sm:col-start-2"
       />
     </fieldset>
   );
@@ -249,7 +249,7 @@ export function UnavailableNotice({
       ref={ref}
       tabIndex={-1}
       role="alert"
-      className="rounded-md border-2 border-danger bg-surface-raised p-5 focus:outline-none"
+      className="border-2 border-danger bg-surface-raised p-5 focus:outline-none"
     >
       <h2 className="font-sans text-body-lg font-semibold text-danger">
         L&apos;envoi en ligne n&apos;est pas encore disponible.

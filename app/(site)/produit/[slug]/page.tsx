@@ -1,4 +1,3 @@
-import { Truck, Store } from "lucide-react";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/seo/json-ld";
@@ -6,6 +5,7 @@ import { AddToQuotePanel } from "@/components/shop/add-to-quote-panel";
 import { PriceTag } from "@/components/shop/price-tag";
 import { ProductCard } from "@/components/shop/product-card";
 import { ProductGallery } from "@/components/shop/product-gallery";
+import { ProductGrid } from "@/components/shop/product-grid";
 import { Badge } from "@/components/ui/badge";
 import { Breadcrumb, type Crumb } from "@/components/ui/breadcrumb";
 import { SectionHeader } from "@/components/ui/section-header";
@@ -102,7 +102,7 @@ export default async function ProductPage({
         <Breadcrumb items={breadcrumb} />
       </div>
 
-      <div className="container-site grid gap-10 pb-16 lg:grid-cols-2 lg:gap-16">
+      <div className="container-site grid gap-10 lg:grid-cols-2 lg:gap-16">
         <ProductGallery images={product.images} productName={product.name} />
 
         <div className="flex flex-col gap-6">
@@ -128,7 +128,7 @@ export default async function ProductPage({
           </div>
 
           {showPrices ? (
-            <div className="flex flex-col gap-2 rounded-lg surface-teal-soft p-6">
+            <div className="flex flex-col gap-2 surface-teal-soft p-6">
               <PriceTag priceFromHtCents={product.priceFromHtCents} size="lg" />
               {unitPrice !== null && (
                 <p className="text-body text-ink-muted">
@@ -155,16 +155,9 @@ export default async function ProductPage({
             disabled={product.inStock === false}
           />
 
-          <ul className="flex flex-col gap-2 border-t border-line pt-6 text-body">
-            <li className="flex items-center gap-3">
-              <Truck aria-hidden className="size-5 text-teal-deep" />
-              {site.delivery.shipping}
-            </li>
-            <li className="flex items-center gap-3">
-              <Store aria-hidden className="size-5 text-teal-deep" />
-              {site.delivery.pickup}
-            </li>
-          </ul>
+          <p className="border-t border-line pt-6 text-body text-ink-muted">
+            {site.delivery.shipping}. {site.delivery.pickup}.
+          </p>
 
           <Tabs
             label="Informations sur le produit"
@@ -204,23 +197,23 @@ export default async function ProductPage({
       {related.length > 0 && (
         <section
           aria-labelledby="similaires-titre"
-          className="border-t border-line bg-surface-raised py-16"
+          className="container-site pt-20"
         >
-          <div className="container-site">
-            <SectionHeader
-              eyebrow={category?.name ?? "Catalogue"}
-              title="Dans la même catégorie"
-              titleId="similaires-titre"
-              href={category ? `/catalogue/${category.slug}` : "/catalogue"}
-            />
-            <ul className="mt-10 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-              {related.map((item) => (
-                <li key={item.id}>
-                  <ProductCard product={item} />
-                </li>
-              ))}
-            </ul>
-          </div>
+          <SectionHeader
+            title="Dans la même catégorie"
+            titleId="similaires-titre"
+            href={category ? `/catalogue/${category.slug}` : "/catalogue"}
+            linkLabel={
+              category ? `Tout « ${category.name} »` : "Tout le catalogue"
+            }
+          />
+          <ProductGrid className="mt-8">
+            {related.map((item) => (
+              <li key={item.id}>
+                <ProductCard product={item} />
+              </li>
+            ))}
+          </ProductGrid>
         </section>
       )}
     </>

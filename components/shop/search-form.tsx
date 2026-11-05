@@ -1,12 +1,14 @@
 import { Search } from "lucide-react";
 import { cn } from "@/lib/cn";
 
-/** Recherche en pill : envoie vers /catalogue?q=… (fonctionne sans JavaScript). */
+/** Recherche dans le catalogue : envoie vers /catalogue?q=… (fonctionne sans JavaScript). */
 export function SearchForm({
   id,
+  defaultValue,
   className,
 }: {
   id: string;
+  defaultValue?: string;
   className?: string;
 }) {
   return (
@@ -23,14 +25,15 @@ export function SearchForm({
         id={id}
         type="search"
         name="q"
+        defaultValue={defaultValue}
         placeholder="Rechercher un produit"
         autoComplete="off"
-        className="h-11 w-full rounded-pill border border-line-strong bg-surface-raised pr-12 pl-5 text-body text-ink placeholder:text-ink-muted hover:border-ink-muted focus-visible:border-teal-deep"
+        className="h-11 w-full border-b border-ink bg-transparent pr-11 text-body text-ink placeholder:text-ink-muted focus-visible:border-teal-deep focus-visible:outline-offset-4"
       />
       <button
         type="submit"
         aria-label="Lancer la recherche"
-        className="absolute top-0 right-0 inline-flex size-11 items-center justify-center rounded-pill text-ink-muted transition-colors hover:text-ink"
+        className="absolute top-0 right-0 inline-flex size-11 items-center justify-center rounded-pill text-ink transition-colors hover:bg-teal-soft"
       >
         <Search aria-hidden className="size-5" />
       </button>

@@ -23,10 +23,10 @@ export default function QuotePage() {
           </p>
         }
       />
-      <div className="container-site py-10 lg:py-14">
+      <div className="container-site">
         <QuoteFlow />
         <noscript>
-          <p className="rounded-md border-2 border-danger bg-surface-raised p-5 text-body">
+          <p className="border-2 border-danger bg-surface-raised p-5 text-body">
             Votre sélection est enregistrée dans votre navigateur et nécessite
             JavaScript. Vous pouvez aussi nous appeler au {site.contact.phone}{" "}
             ou écrire à {site.contact.email}.

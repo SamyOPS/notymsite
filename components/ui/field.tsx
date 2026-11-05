@@ -3,7 +3,7 @@ import { cn } from "@/lib/cn";
 
 /** Styles communs aux champs : 48px de haut, bordure line-strong, focus teal-deep. */
 export const controlStyles = cn(
-  "block w-full rounded-sm border border-line-strong bg-surface-raised px-4 text-body text-ink",
+  "block w-full border border-line-strong bg-surface-raised px-4 text-body text-ink",
   "transition-colors duration-150 placeholder:text-ink-muted",
   "hover:border-ink-muted focus-visible:border-teal-deep",
   "disabled:cursor-not-allowed disabled:opacity-60 aria-invalid:border-danger",

@@ -15,12 +15,7 @@ type LogoProps = {
  */
 export function Logo({ className, eager }: LogoProps) {
   return (
-    <span
-      className={cn(
-        "inline-flex rounded-md bg-logo-plate px-2 py-1",
-        className,
-      )}
-    >
+    <span className={cn("inline-flex bg-logo-plate px-2 py-1", className)}>
       <Image
         src={logo}
         alt="Notym"

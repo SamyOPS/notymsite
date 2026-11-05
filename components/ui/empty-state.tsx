@@ -1,6 +1,5 @@
 import type { ReactNode } from "react";
 import { cn } from "@/lib/cn";
-import { GrainCluster } from "./grain";
 
 type EmptyStateProps = {
   title: string;
@@ -10,7 +9,7 @@ type EmptyStateProps = {
   className?: string;
 };
 
-/** État vide (panier vide, 404, aucune actualité) avec le motif des grains. */
+/** État vide (devis vide, 404, aucune actualité) : un titre, une phrase, une action. */
 export function EmptyState({
   title,
   description,
@@ -21,24 +20,17 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        "flex flex-col items-center gap-6 py-12 text-center",
+        "flex max-w-xl flex-col items-start gap-4 py-12",
         className,
       )}
     >
-      <div aria-hidden className="relative h-40 w-56">
-        <GrainCluster preset="empty" />
-      </div>
       <Heading className={Heading === "h1" ? "text-h1" : "text-h2"}>
         {title}
       </Heading>
       {description && (
-        <div className="max-w-md text-body-lg text-ink-muted">
-          {description}
-        </div>
+        <div className="text-body-lg text-ink-muted">{description}</div>
       )}
-      {actions && (
-        <div className="flex flex-wrap justify-center gap-3">{actions}</div>
-      )}
+      {actions && <div className="mt-2 flex flex-wrap gap-3">{actions}</div>}
     </div>
   );
 }

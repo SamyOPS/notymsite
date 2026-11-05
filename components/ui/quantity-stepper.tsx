@@ -56,12 +56,12 @@ export function QuantityStepper({
   }
 
   const buttonClass =
-    "flex size-11 shrink-0 items-center justify-center text-ink transition-colors duration-150 hover:bg-teal-soft disabled:cursor-not-allowed disabled:text-ink-muted disabled:opacity-50 disabled:hover:bg-transparent [&_svg]:size-4";
+    "flex size-11 shrink-0 items-center justify-center rounded-pill text-ink transition-colors duration-150 hover:bg-teal-soft disabled:cursor-not-allowed disabled:text-ink-muted disabled:opacity-50 disabled:hover:bg-transparent [&_svg]:size-4";
 
   return (
     <div
       className={cn(
-        "inline-flex w-fit items-center overflow-hidden rounded-md border border-line-strong bg-surface-raised",
+        "inline-flex w-fit items-center overflow-hidden rounded-pill border border-line-strong bg-surface-raised",
         className,
       )}
     >

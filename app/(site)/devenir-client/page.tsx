@@ -1,12 +1,3 @@
-import {
-  BadgeEuro,
-  Clock,
-  Mail,
-  MapPin,
-  Phone,
-  Truck,
-  UserRound,
-} from "lucide-react";
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/page-hero";
 import { site } from "@/lib/site";
@@ -21,18 +12,12 @@ export const metadata: Metadata = {
 
 /** Avantages repris de la page « Devenir client » du site actuel. */
 const advantages = [
+  { title: "Tarifs grossiste", text: "Des prix dégressifs selon vos volumes." },
   {
-    icon: BadgeEuro,
-    title: "Tarifs grossiste",
-    text: "Des prix dégressifs selon vos volumes.",
-  },
-  {
-    icon: Truck,
     title: "Commandes en volume",
     text: "Livraison partout en France ou retrait au dépôt.",
   },
   {
-    icon: UserRound,
     title: "Un conseiller dédié",
     text: "Un interlocuteur du lundi au samedi.",
   },
@@ -42,12 +27,10 @@ export default function BecomeClientPage() {
   return (
     <>
       <PageHero
-        tone="inverse"
         breadcrumb={[
           { label: "Accueil", href: "/" },
           { label: "Devenir client" },
         ]}
-        eyebrow="Professionnels"
         title="Devenir client Notym"
         intro={
           <p>
@@ -55,78 +38,59 @@ export default function BecomeClientPage() {
             une proposition adaptée. {site.claims.responseTime}.
           </p>
         }
-      >
-        <ul className="mt-10 grid gap-6 md:grid-cols-3">
-          {advantages.map(({ icon: Icon, title, text }) => (
-            <li key={title} className="flex items-start gap-4">
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-md surface-teal">
-                <Icon aria-hidden className="size-6" />
-              </span>
-              <div>
-                <p className="text-body-lg font-semibold">{title}</p>
-                <p className="text-body">{text}</p>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </PageHero>
+      />
 
-      <div className="container-site grid gap-12 py-16 lg:grid-cols-[minmax(0,1fr)_20rem] lg:py-20">
-        <section
-          aria-labelledby="formulaire-titre"
-          className="rounded-lg border border-line bg-surface-raised p-6 shadow-card sm:p-10"
-        >
-          <h2 id="formulaire-titre" className="mb-8 text-h2">
+      <div className="container-site grid gap-14 border-t border-ink pt-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-20">
+        <section aria-labelledby="formulaire-titre">
+          <h2 id="formulaire-titre" className="sr-only">
             Votre demande
           </h2>
           <BecomeClientForm />
         </section>
 
-        <aside
-          aria-labelledby="contact-direct"
-          className="flex flex-col gap-6 lg:pt-4"
-        >
-          <h2 id="contact-direct" className="text-h3">
-            Nous contacter directement
-          </h2>
-          <ul className="flex flex-col gap-4 text-body">
-            <li>
-              <a
-                href={site.contact.phoneHref}
-                className="flex min-h-11 items-center gap-3 font-semibold"
-              >
-                <Phone aria-hidden className="size-5 text-teal-deep" />{" "}
-                {site.contact.phone}
-              </a>
-            </li>
-            <li>
-              <a
-                href={`mailto:${site.contact.email}`}
-                className="flex min-h-11 items-center gap-3"
-              >
-                <Mail aria-hidden className="size-5 text-teal-deep" />{" "}
-                {site.contact.email}
-              </a>
-            </li>
-            <li className="flex items-start gap-3">
-              <Clock
-                aria-hidden
-                className="mt-0.5 size-5 shrink-0 text-teal-deep"
-              />
-              {site.hours.label}
-            </li>
-            <li className="flex items-start gap-3">
-              <MapPin
-                aria-hidden
-                className="mt-0.5 size-5 shrink-0 text-teal-deep"
-              />
-              <span>
-                {site.contact.streetAddress}
-                <br />
-                {site.contact.postalCode} {site.contact.city}
-              </span>
-            </li>
-          </ul>
+        <aside className="flex flex-col gap-10 lg:pt-1">
+          <section aria-labelledby="avantages-titre">
+            <h2 id="avantages-titre" className="font-sans text-label">
+              Pourquoi Notym
+            </h2>
+            <ul className="mt-3 border-t border-line">
+              {advantages.map((advantage) => (
+                <li key={advantage.title} className="border-b border-line py-4">
+                  <p className="text-body font-semibold">{advantage.title}</p>
+                  <p className="text-body text-ink-muted">{advantage.text}</p>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          <section aria-labelledby="contact-direct">
+            <h2 id="contact-direct" className="font-sans text-label">
+              Nous contacter directement
+            </h2>
+            <ul className="mt-3 flex flex-col text-body">
+              <li>
+                <a
+                  href={site.contact.phoneHref}
+                  className="inline-flex min-h-11 items-center font-semibold underline-offset-4 hover:underline"
+                >
+                  {site.contact.phone}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={`mailto:${site.contact.email}`}
+                  className="inline-flex min-h-11 items-center underline-offset-4 hover:underline"
+                >
+                  {site.contact.email}
+                </a>
+              </li>
+              <li className="text-ink-muted">{site.hours.label}</li>
+              <li className="mt-2 text-ink-muted">
+                {site.contact.streetAddress}, {site.contact.postalCode}{" "}
+                {site.contact.city}
+              </li>
+            </ul>
+          </section>
         </aside>
       </div>
     </>

@@ -1,6 +1,5 @@
 "use client";
 
-import { CheckCircle2, Phone } from "lucide-react";
 import { useActionState, useEffect, useRef } from "react";
 import {
   AddressFields,
@@ -56,9 +55,8 @@ export function BecomeClientForm() {
       <div
         ref={successRef}
         tabIndex={-1}
-        className="flex flex-col items-start gap-4 rounded-lg surface-teal-soft p-8 focus:outline-none"
+        className="flex flex-col items-start gap-4 border-t border-ink pt-8 focus:outline-none"
       >
-        <CheckCircle2 aria-hidden className="size-10 text-teal-deep" />
         <h2 className="text-h2">Merci, votre demande est bien envoyée.</h2>
         {state.reference && (
           <p className="text-body">
@@ -145,8 +143,7 @@ export function BecomeClientForm() {
           href={site.contact.phoneHref}
           className="inline-flex min-h-11 items-center gap-2 text-body font-semibold text-teal-deep"
         >
-          <Phone aria-hidden className="size-5" /> Ou appelez le{" "}
-          {site.contact.phone}
+          Ou appelez le {site.contact.phone}
         </a>
       </div>
     </form>

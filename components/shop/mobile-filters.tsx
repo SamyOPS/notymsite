@@ -56,7 +56,7 @@ export function MobileFilters({
               type="button"
               onClick={close}
               aria-label="Fermer les filtres"
-              className="inline-flex size-11 items-center justify-center rounded-md hover:bg-teal-soft"
+              className="inline-flex size-11 items-center justify-center hover:bg-teal-soft"
             >
               <X aria-hidden className="size-6" />
             </button>

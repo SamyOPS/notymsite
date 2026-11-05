@@ -39,7 +39,7 @@ export function FilterGroup({
       <legend className="float-left flex min-h-11 w-full items-center pr-28 text-label text-ink">
         {legend}
         {selected.length > 0 && (
-          <span className="ml-2 inline-flex min-w-6 items-center justify-center rounded-pill bg-ink px-2 text-caption font-semibold text-surface">
+          <span className="ml-2 text-caption font-semibold text-ink-muted tabular-nums">
             {selected.length}
             <span className="sr-only">
               {" "}

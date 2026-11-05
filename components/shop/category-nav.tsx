@@ -48,21 +48,12 @@ export function CategoryNav({
                 })}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex min-h-11 items-center justify-between gap-3 rounded-sm px-3 text-body transition-colors",
-                  active
-                    ? "bg-teal-soft font-semibold text-ink"
-                    : "text-ink hover:bg-teal-soft/60",
+                  "flex min-h-11 items-center justify-between gap-3 text-body text-ink underline-offset-4 transition-colors hover:underline",
+                  active &&
+                    "font-semibold underline decoration-accent-fill decoration-2",
                 )}
               >
-                <span className="flex items-center gap-2">
-                  {active && (
-                    <span
-                      aria-hidden
-                      className="h-5 w-1 rounded-pill bg-accent-fill"
-                    />
-                  )}
-                  {item.label}
-                </span>
+                <span>{item.label}</span>
                 <span className="text-caption text-ink-muted tabular-nums">
                   <span aria-hidden>{item.count}</span>
                   <span className="sr-only">

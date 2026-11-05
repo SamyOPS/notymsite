@@ -49,7 +49,7 @@ export function SortSelect({ filters }: { filters: CatalogFilters }) {
               () => setSort(next),
             );
           }}
-          className="h-11 cursor-pointer appearance-none rounded-sm border border-line-strong bg-surface-raised pr-10 pl-4 text-body text-ink hover:border-ink-muted focus-visible:border-teal-deep"
+          className="h-11 cursor-pointer appearance-none border border-line-strong bg-surface-raised pr-10 pl-4 text-body text-ink hover:border-ink-muted focus-visible:border-teal-deep"
         >
           {sortOptions
             .filter(

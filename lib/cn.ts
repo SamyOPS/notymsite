@@ -46,8 +46,7 @@ const twMerge = extendTailwindMerge({
         "focus",
         "logo-plate",
       ],
-      radius: ["sm", "md", "lg", "pill"],
-      shadow: ["card", "lift"],
+      radius: ["pill"],
     },
   },
 });

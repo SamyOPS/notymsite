@@ -1,4 +1,3 @@
-import { Phone, Store, Truck } from "lucide-react";
 import { formatPrice } from "@/lib/format";
 import type { QuoteEstimate } from "@/lib/quote/estimate";
 import { site } from "@/lib/site";
@@ -15,7 +14,7 @@ export function QuoteSummary({ estimate }: { estimate: QuoteEstimate }) {
   return (
     <aside
       aria-labelledby="recap-titre"
-      className="flex flex-col gap-5 rounded-lg border border-line bg-surface-raised p-6 shadow-card lg:sticky lg:top-28"
+      className="flex flex-col gap-5 border-t border-ink pt-4 lg:sticky lg:top-24"
     >
       <h2 id="recap-titre" className="text-h3">
         Récapitulatif
@@ -63,24 +62,15 @@ export function QuoteSummary({ estimate }: { estimate: QuoteEstimate }) {
         </p>
       </div>
 
-      <ul className="flex flex-col gap-2 border-t border-line pt-4 text-caption">
-        <li className="flex items-center gap-2">
-          <Truck aria-hidden className="size-4 text-teal-deep" />{" "}
-          {site.delivery.shipping}
-        </li>
-        <li className="flex items-center gap-2">
-          <Store aria-hidden className="size-4 text-teal-deep" />{" "}
-          {site.delivery.pickup}
-        </li>
-        <li>
-          <a
-            href={site.contact.phoneHref}
-            className="inline-flex min-h-11 items-center gap-2 font-semibold text-teal-deep"
-          >
-            <Phone aria-hidden className="size-4" /> {site.contact.phone}
-          </a>
-        </li>
-      </ul>
+      <p className="border-t border-line pt-4 text-caption text-ink-muted">
+        Une question ?{" "}
+        <a
+          href={site.contact.phoneHref}
+          className="font-semibold text-ink underline underline-offset-4"
+        >
+          {site.contact.phone}
+        </a>
+      </p>
     </aside>
   );
 }

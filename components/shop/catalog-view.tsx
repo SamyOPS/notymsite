@@ -19,6 +19,8 @@ import { CategoryNav } from "./category-nav";
 import { FiltersForm } from "./filters-form";
 import { MobileFilters } from "./mobile-filters";
 import { ProductCard } from "./product-card";
+import { ProductGrid } from "./product-grid";
+import { SearchForm } from "./search-form";
 import { SortSelect } from "./sort-select";
 
 type CatalogViewProps = {
@@ -43,17 +45,16 @@ export function CatalogView({ category, searchParams }: CatalogViewProps) {
     <>
       <PageHero
         breadcrumb={breadcrumb}
-        eyebrow={category ? "Catégorie" : "Catalogue"}
-        title={category ? category.name : "Catalogue professionnel"}
+        title={category ? category.name : "Catalogue"}
         intro={
           <p>
             {category
-              ? `${category.description}. Devis sur demande.`
-              : "Sodas, eaux, énergisants, jus et snacks pour les professionnels. Devis sur demande."}
+              ? `${category.description}.`
+              : "Sodas, eaux, énergisants, jus et snacks pour les professionnels."}
           </p>
         }
       />
-      <div className="container-site py-10 lg:py-14">
+      <div className="container-site border-t border-ink pt-8">
         <Suspense fallback={<CatalogSkeleton />}>
           <CatalogResults category={category} searchParams={searchParams} />
         </Suspense>
@@ -82,6 +83,11 @@ async function CatalogResults({ category, searchParams }: CatalogViewProps) {
     (filters.inStockOnly ? 1 : 0);
   const sidebar = (idPrefix: string) => (
     <>
+      <SearchForm
+        id={`${idPrefix}-recherche`}
+        defaultValue={filters.q}
+        className="mb-6"
+      />
       <CategoryNav
         filters={filters}
         categories={result.facets.categories}
@@ -123,13 +129,13 @@ async function CatalogResults({ category, searchParams }: CatalogViewProps) {
 
           <ResultsRegion>
             {result.items.length > 0 ? (
-              <ul className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
+              <ProductGrid columns="xl:grid-cols-3">
                 {result.items.map((product) => (
                   <li key={product.id}>
                     <ProductCard product={product} headingLevel="h2" />
                   </li>
                 ))}
-              </ul>
+              </ProductGrid>
             ) : (
               <EmptyState
                 title="Aucun produit ne correspond"
@@ -175,28 +181,22 @@ function CatalogSkeleton() {
       <span className="sr-only">Chargement du catalogue…</span>
       <div aria-hidden className="hidden flex-col gap-3 lg:flex">
         {Array.from({ length: 8 }, (_, i) => (
-          <div
-            key={i}
-            className="h-11 rounded-sm bg-line/60 motion-safe:animate-pulse"
-          />
+          <div key={i} className="h-10 bg-line/50 motion-safe:animate-pulse" />
         ))}
       </div>
-      <ul
-        aria-hidden
-        className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4"
-      >
-        {Array.from({ length: 6 }, (_, i) => (
-          <li
-            key={i}
-            className="flex flex-col gap-4 rounded-lg border border-line bg-surface-raised p-3"
-          >
-            <div className="aspect-square rounded-md bg-teal-soft motion-safe:animate-pulse" />
-            <div className="h-4 w-1/3 rounded-pill bg-line/60" />
-            <div className="h-5 w-2/3 rounded-pill bg-line/60" />
-            <div className="h-11 w-full rounded-md bg-line/40" />
-          </li>
-        ))}
-      </ul>
+      <div aria-hidden>
+        <ProductGrid columns="xl:grid-cols-3">
+          {Array.from({ length: 6 }, (_, i) => (
+            <li key={i} className="flex flex-col bg-surface-raised">
+              <div className="aspect-square bg-teal-soft motion-safe:animate-pulse" />
+              <div className="flex flex-col gap-2 p-4">
+                <div className="h-5 w-2/3 bg-line/60" />
+                <div className="h-4 w-1/3 bg-line/40" />
+              </div>
+            </li>
+          ))}
+        </ProductGrid>
+      </div>
     </div>
   );
 }

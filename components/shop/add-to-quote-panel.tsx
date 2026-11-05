@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowRight, Check, Plus } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
@@ -49,7 +48,6 @@ export function AddToQuotePanel({
             setAdded(quantity);
           }}
         >
-          {added === null ? <Plus aria-hidden /> : <Check aria-hidden />}
           Ajouter au devis
         </Button>
       </div>
@@ -68,7 +66,7 @@ export function AddToQuotePanel({
               href="/devis"
               className="inline-flex min-h-11 items-center gap-1 font-semibold text-teal-deep underline underline-offset-4"
             >
-              Voir mon devis <ArrowRight aria-hidden className="size-4" />
+              Voir mon devis
             </Link>
           </p>
         )}

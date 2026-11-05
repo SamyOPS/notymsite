@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowRight, Package, Trash2 } from "lucide-react";
+import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -34,7 +34,7 @@ export function QuoteLinesStep({
       {error && (
         <p
           role="alert"
-          className="rounded-md border-2 border-danger bg-surface-raised p-4 text-body"
+          className="border-2 border-danger bg-surface-raised p-4 text-body"
         >
           {error}
         </p>
@@ -49,7 +49,7 @@ export function QuoteLinesStep({
               key={line.productId}
               className="flex gap-4 border-b border-line py-5"
             >
-              <div className="relative flex size-20 shrink-0 items-center justify-center overflow-hidden rounded-md bg-teal-soft">
+              <div className="relative size-20 shrink-0 overflow-hidden bg-teal-soft">
                 {product.imageUrl ? (
                   <Image
                     src={product.imageUrl}
@@ -58,9 +58,7 @@ export function QuoteLinesStep({
                     sizes="80px"
                     className="object-contain p-2"
                   />
-                ) : (
-                  <Package aria-hidden className="size-8 text-teal-deep" />
-                )}
+                ) : null}
               </div>
 
               <div className="flex min-w-0 flex-1 flex-col gap-3 md:flex-row md:items-center md:justify-between">
@@ -118,7 +116,7 @@ export function QuoteLinesStep({
                       removeFromQuote(line.productId);
                       setAnnouncement(`${product.name} retiré du devis.`);
                     }}
-                    className="inline-flex size-11 items-center justify-center rounded-md text-ink-muted transition-colors hover:bg-teal-soft hover:text-danger"
+                    className="inline-flex size-11 items-center justify-center text-ink-muted transition-colors hover:bg-teal-soft hover:text-danger"
                   >
                     <Trash2 aria-hidden className="size-5" />
                   </button>
@@ -138,7 +136,7 @@ export function QuoteLinesStep({
           Ajouter d&apos;autres produits
         </ButtonLink>
         <Button size="lg" onClick={onContinue}>
-          Indiquer mes coordonnées <ArrowRight aria-hidden />
+          Indiquer mes coordonnées
         </Button>
       </div>
     </div>

@@ -1,6 +1,5 @@
 "use client";
 
-import { ArrowLeft, Send } from "lucide-react";
 import type { FormEvent, ReactNode } from "react";
 import {
   ConsentCheckbox,
@@ -128,10 +127,9 @@ export function QuoteReviewStep({
             onClick={() => onEdit(2)}
             disabled={sending}
           >
-            <ArrowLeft aria-hidden /> Retour
+            Retour
           </Button>
           <Button type="submit" size="lg" disabled={sending}>
-            <Send aria-hidden />
             {sending ? "Envoi en cours…" : "Envoyer ma demande de devis"}
           </Button>
         </div>
@@ -152,7 +150,7 @@ function ReviewSection({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-lg border border-line bg-surface-raised p-6">
+    <section className="border-t border-ink pt-4">
       <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
         <h3 className="text-h3">{title}</h3>
         <button

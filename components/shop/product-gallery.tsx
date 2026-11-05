@@ -2,19 +2,18 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { GrainCluster } from "@/components/ui/grain";
 import { cn } from "@/lib/cn";
 
 type ProductGalleryProps = { images: string[]; productName: string };
 
-/** Image principale + miniatures. Sans photo : zone teal-soft avec le motif des grains. */
+/** Image principale + miniatures. Sans photo : aplat teal-soft et mention discrète. */
 export function ProductGallery({ images, productName }: ProductGalleryProps) {
   const [selected, setSelected] = useState(0);
   const current = images[selected];
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="relative aspect-square overflow-hidden rounded-lg bg-teal-soft">
+    <div className="flex flex-col gap-3">
+      <div className="relative aspect-square bg-teal-soft">
         {current ? (
           <Image
             src={current}
@@ -22,15 +21,12 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
             fill
             preload
             sizes="(min-width: 1024px) 600px, 100vw"
-            className="object-contain p-8"
+            className="object-contain p-10"
           />
         ) : (
-          <>
-            <GrainCluster preset="placeholder" />
-            <p className="absolute inset-x-0 bottom-6 text-center text-caption text-ink-muted">
-              Photo à venir
-            </p>
-          </>
+          <p className="absolute bottom-4 left-5 text-caption text-ink-muted">
+            Visuel à venir
+          </p>
         )}
       </div>
 
@@ -44,10 +40,10 @@ export function ProductGallery({ images, productName }: ProductGalleryProps) {
                 aria-label={`Afficher la photo ${index + 1}`}
                 aria-pressed={index === selected}
                 className={cn(
-                  "relative block aspect-square w-full overflow-hidden rounded-md bg-teal-soft ring-2 ring-transparent transition",
+                  "relative block aspect-square w-full bg-teal-soft outline-2 -outline-offset-2 transition",
                   index === selected
-                    ? "ring-teal-deep"
-                    : "hover:ring-line-strong",
+                    ? "outline-ink"
+                    : "outline-transparent hover:outline-line-strong",
                 )}
               >
                 <Image

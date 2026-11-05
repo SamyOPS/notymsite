@@ -1,14 +1,6 @@
-import {
-  ArrowRight,
-  Boxes,
-  Handshake,
-  MapPin,
-  Truck,
-  type LucideIcon,
-} from "lucide-react";
 import type { Metadata } from "next";
 import { PageHero } from "@/components/layout/page-hero";
-import { ButtonLink } from "@/components/ui/button";
+import { ProBand } from "@/components/layout/pro-band";
 import { SectionHeader } from "@/components/ui/section-header";
 import { site } from "@/lib/site";
 
@@ -19,24 +11,20 @@ export const metadata: Metadata = {
   alternates: { canonical: "/services" },
 };
 
-const services: Array<{ icon: LucideIcon; title: string; text: string }> = [
+const services = [
   {
-    icon: Truck,
     title: "Livraison partout en France",
     text: `${site.claims.deliveryTime}.`,
   },
   {
-    icon: MapPin,
     title: "Retrait au dépôt",
-    text: `Retirez vos produits à Montataire (60), du lundi au samedi de 9h30 à 17h30.`,
+    text: "À Montataire (60), du lundi au samedi de 9h30 à 17h30.",
   },
   {
-    icon: Boxes,
     title: site.claims.references,
     text: "Sodas, eaux, énergisants, jus et snacks des grandes marques.",
   },
   {
-    icon: Handshake,
     title: "Un accompagnement dédié",
     text: "Des tarifs dégressifs selon vos volumes et un interlocuteur du lundi au samedi.",
   },
@@ -70,12 +58,10 @@ export default function ServicesPage() {
   return (
     <>
       <PageHero
-        tone="inverse"
         breadcrumb={[
           { label: "Accueil", href: "/" },
           { label: "Nos services" },
         ]}
-        eyebrow="Nos services"
         title="Un grossiste au service des professionnels"
         intro={
           <p>
@@ -86,70 +72,53 @@ export default function ServicesPage() {
         }
       />
 
-      <section
-        aria-labelledby="services-titre"
-        className="container-site py-20"
-      >
+      <section aria-labelledby="services-titre" className="container-site">
         <h2 id="services-titre" className="sr-only">
           Nos services
         </h2>
-        <ul className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
-          {services.map(({ icon: Icon, title, text }) => (
+        <ul className="grid border-t border-ink sm:grid-cols-2">
+          {services.map((service) => (
             <li
-              key={title}
-              className="flex flex-col gap-4 rounded-lg border border-line bg-surface-raised p-6 shadow-card"
+              key={service.title}
+              className="border-b border-line py-8 sm:odd:pr-10 sm:even:border-l sm:even:pl-10"
             >
-              <span className="flex size-12 items-center justify-center rounded-md bg-teal-soft text-teal-deep">
-                <Icon aria-hidden className="size-6" />
-              </span>
-              <h3 className="text-h3">{title}</h3>
-              <p className="text-body text-ink-muted">{text}</p>
+              <h3 className="text-h3">{service.title}</h3>
+              <p className="mt-2 max-w-md text-body-lg text-ink-muted">
+                {service.text}
+              </p>
             </li>
           ))}
         </ul>
       </section>
 
-      <section
-        aria-labelledby="etapes-titre"
-        className="border-y border-line bg-surface-raised py-20"
-      >
-        <div className="container-site">
-          <SectionHeader
-            eyebrow="Comment ça marche"
-            title="Commander en 3 étapes"
-            titleId="etapes-titre"
-          />
-          <ol className="mt-10 grid gap-6 md:grid-cols-3">
-            {steps.map((step, index) => (
-              <li key={step.title} className="flex flex-col gap-3">
-                <span
-                  aria-hidden
-                  className="flex size-12 items-center justify-center rounded-pill bg-ink font-display text-h3 text-surface"
-                >
-                  {index + 1}
-                </span>
-                <h3 className="text-h3">
-                  <span className="sr-only">Étape {index + 1} : </span>
-                  {step.title}
-                </h3>
-                <p className="text-body text-ink-muted">{step.text}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
+      <section aria-labelledby="etapes-titre" className="container-site pt-20">
+        <SectionHeader title="Commander en 3 étapes" titleId="etapes-titre" />
+        <ol className="grid gap-10 pt-8 md:grid-cols-3">
+          {steps.map((step, index) => (
+            <li key={step.title}>
+              <span
+                aria-hidden
+                className="font-display text-h1 text-teal-deep tabular-nums"
+              >
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <h3 className="mt-3 text-h3">
+                <span className="sr-only">Étape {index + 1} : </span>
+                {step.title}
+              </h3>
+              <p className="mt-2 text-body-lg text-ink-muted">{step.text}</p>
+            </li>
+          ))}
+        </ol>
       </section>
 
-      <section aria-labelledby="cibles-titre" className="container-site py-20">
-        <SectionHeader
-          eyebrow="Nos clients"
-          title="Pour qui ?"
-          titleId="cibles-titre"
-        />
-        <ul className="mt-8 flex flex-wrap gap-3">
+      <section aria-labelledby="cibles-titre" className="container-site pt-20">
+        <SectionHeader title="Pour qui ?" titleId="cibles-titre" />
+        <ul className="grid gap-x-10 pt-2 sm:grid-cols-2 lg:grid-cols-3">
           {audiences.map((audience) => (
             <li
               key={audience}
-              className="inline-flex min-h-11 items-center rounded-pill border border-line-strong bg-surface-raised px-5 text-body font-medium"
+              className="border-b border-line py-4 text-body-lg"
             >
               {audience}
             </li>
@@ -157,26 +126,7 @@ export default function ServicesPage() {
         </ul>
       </section>
 
-      <section aria-labelledby="services-cta" className="container-site pb-20">
-        <div className="flex flex-col gap-6 rounded-lg surface-teal p-8 md:flex-row md:items-center md:justify-between md:p-12">
-          <div>
-            <h2 id="services-cta" className="text-h2">
-              Prêt à passer commande ?
-            </h2>
-            <p className="mt-3 text-body-lg">
-              Parcourez le catalogue ou envoyez-nous votre demande.
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-3">
-            <ButtonLink href="/devenir-client" size="lg" variant="dark">
-              Devenir client
-            </ButtonLink>
-            <ButtonLink href="/catalogue" size="lg" variant="secondary">
-              Voir le catalogue <ArrowRight aria-hidden />
-            </ButtonLink>
-          </div>
-        </div>
-      </section>
+      <ProBand title="Prêt à passer commande ?" />
     </>
   );
 }

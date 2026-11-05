@@ -1,27 +1,22 @@
-import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { cn } from "@/lib/cn";
 
 type SectionHeaderProps = {
-  eyebrow: string;
   title: string;
-  /** Lien « Voir tout → » à droite du titre. */
+  /** Lien texte à droite du titre (ex. « Tout le catalogue »). */
   href?: string;
   linkLabel?: string;
-  description?: string;
   /** Id du titre, pour aria-labelledby sur la section. */
   titleId?: string;
   as?: "h2" | "h3";
   className?: string;
 };
 
-/** Eyebrow en capitales + titre H2 + lien « Voir tout ». */
+/** Titre de section et lien éventuel, séparés du contenu par un filet. */
 export function SectionHeader({
-  eyebrow,
   title,
   href,
   linkLabel = "Voir tout",
-  description,
   titleId,
   as: Heading = "h2",
   className,
@@ -29,31 +24,19 @@ export function SectionHeader({
   return (
     <div
       className={cn(
-        "flex flex-wrap items-end justify-between gap-x-8 gap-y-4",
+        "flex flex-wrap items-baseline justify-between gap-x-8 gap-y-2 border-b border-ink pb-4",
         className,
       )}
     >
-      <div className="max-w-2xl">
-        <p className="text-label tracking-[0.08em] text-accent-text uppercase">
-          {eyebrow}
-        </p>
-        <Heading id={titleId} className="mt-2 text-h2">
-          {title}
-        </Heading>
-        {description && (
-          <p className="mt-3 text-body-lg text-ink-muted">{description}</p>
-        )}
-      </div>
+      <Heading id={titleId} className="text-h2">
+        {title}
+      </Heading>
       {href && (
         <Link
           href={href}
-          className="group inline-flex min-h-11 items-center gap-2 text-label text-accent-text underline-offset-4 hover:underline"
+          className="inline-flex min-h-11 items-center text-label text-ink underline underline-offset-4 hover:text-teal-deep"
         >
           {linkLabel}
-          <ArrowRight
-            aria-hidden
-            className="size-4 transition-transform duration-150 motion-safe:group-hover:translate-x-1"
-          />
         </Link>
       )}
     </div>

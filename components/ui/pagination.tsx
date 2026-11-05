@@ -17,7 +17,7 @@ type PaginationProps = {
 };
 
 const itemClass =
-  "inline-flex size-11 items-center justify-center rounded-md text-label tabular-nums transition-colors duration-150";
+  "inline-flex size-11 items-center justify-center rounded-pill text-label tabular-nums transition-colors duration-150";
 
 export function Pagination({
   page,
