@@ -9,15 +9,15 @@
 :root {
   color-scheme: light;
 
-  --surface: #faf8f3;
+  --surface: #ffffff;
   --surface-raised: #ffffff;
   --surface-inverse: #111414;
-  --line: #e3e0d8;
+  --line: #e4e6e7;
   /* Brief : #8A9294 (2,99:1 sur surface). Ajusté pour atteindre 3:1. */
   --line-strong: #888f92;
   --ink: #111414;
   --ink-muted: #5c6466;
-  --on-inverse: #faf8f3;
+  --on-inverse: #ffffff;
   /* Texte sur aplat teal ou wheat : reste foncé dans les deux thèmes. */
   --on-accent: #111414;
   --teal: #78b9c1;
@@ -36,7 +36,7 @@
   /* Pastille claire derrière le logo couleur tant que la version blanche
      n'est pas fournie : visible uniquement sur les fonds sombres. */
   --logo-plate: transparent;
-  --logo-plate-on-inverse: #faf8f3;
+  --logo-plate-on-inverse: #ffffff;
 
   /* Variables contextuelles, redéfinies par les utilitaires surface-* */
   --focus-ring: var(--teal-deep);
@@ -66,7 +66,7 @@
     --success: #6cc28e;
     --danger: #f08a76;
     --teal-on-inverse: #1f6e78;
-    --logo-plate: #faf8f3;
+    --logo-plate: #ffffff;
     --logo-plate-on-inverse: transparent;
   }
 }
@@ -92,7 +92,7 @@
   --success: #6cc28e;
   --danger: #f08a76;
   --teal-on-inverse: #1f6e78;
-  --logo-plate: #faf8f3;
+  --logo-plate: #ffffff;
   --logo-plate-on-inverse: transparent;
 }
 
