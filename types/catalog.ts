@@ -1,13 +1,12 @@
 export type ProductBadge = "best-seller" | "promo" | "new";
 
-export type CategoryTone = "teal" | "ink" | "wheat" | "teal-soft";
-
 export type Category = {
   id: string;
   slug: string;
   name: string;
   description: string;
-  tone: CategoryTone;
+  /** Univers parent (Boissons, Épicerie sucrée, Épicerie salée) ; null = univers. */
+  parentSlug: string | null;
   sort: number;
 };
 

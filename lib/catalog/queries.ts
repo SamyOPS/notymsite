@@ -105,6 +105,8 @@ export type ProductDetail = {
   product: Product;
   brand: Brand | null;
   category: Category | null;
+  /** Univers parent de la catégorie (Boissons…), s'il existe. */
+  universe: Category | null;
 };
 
 export async function getProductDetail(
@@ -114,10 +116,13 @@ export async function getProductDetail(
   cacheTag(CATALOG_TAG);
   const product = products.find((p) => p.slug === slug);
   if (!product) return null;
+  const category =
+    categories.find((c) => c.slug === product.categorySlug) ?? null;
   return {
     product,
     brand: brands.find((b) => b.slug === product.brandSlug) ?? null,
-    category: categories.find((c) => c.slug === product.categorySlug) ?? null,
+    category,
+    universe: categories.find((c) => c.slug === category?.parentSlug) ?? null,
   };
 }
 

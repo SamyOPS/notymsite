@@ -52,12 +52,13 @@ Direction sobre et éditoriale, pour éviter l'effet « gabarit » :
 
 - **Bords carrés** partout (cartes, champs, blocs, visuels) ; seul le rayon `rounded-pill` existe, réservé aux boutons et éléments cliquables (bouton « + », pagination, filtres actifs, choix en pilules).
 - **Pas d'ombres ni de décors** : la structure passe par des filets (`border-line`, `border-ink` sous les titres de section). Les produits sont présentés dans une grille à filets (`ProductGrid`).
-- **Peu d'éléments** : header réduit au logo, à la navigation et au bouton « Devis » ; recherche dans le catalogue ; accueil en quatre blocs (hero avec l'index des catégories, produits phares, bandeau professionnels, footer) ; pas de sur-titres ni d'icônes décoratives.
+- **Peu d'éléments** : header réduit au logo, à la navigation et au bouton « Devis » ; recherche dans le catalogue ; pas de sur-titres ni d'icônes décoratives.
+- **Hero plein écran en trois univers** (`components/home/hero-universes.tsx`) : Boissons à gauche sur toute la hauteur, Épicerie sucrée en haut à droite, Épicerie salée en bas à droite. Chaque panneau est entièrement cliquable. Les illustrations sont des SVG originaux (`components/illustrations/`), sur des fonds de marque fixes (`panel-teal`, `panel-wheat`, `panel-ink`) qui ne changent pas en thème sombre.
 - Palette, polices (Bricolage Grotesque, DM Sans), logo et trait sous « livrées vite. » conservés. La page `/styleguide` présente le système.
 
 ## Catalogue
 
-En attendant la base de données, le catalogue vient de `lib/catalog/data.ts`. Les pages ne lisent que `lib/catalog/queries.ts` (et `lib/catalog/routing.ts` pour les 404) : le passage à Supabase ne touchera que ces fichiers.
+En attendant la base de données, le catalogue vient de `lib/catalog/data.ts`. Il est organisé en **trois univers** : Boissons (Sodas & Eaux, Énergisants, Jus & Nectars), Épicerie sucrée (aucun produit pour l'instant) et Épicerie salée (Chips & Snacks). La page d'un univers regroupe les produits de ses catégories ; une catégorie vide affiche « Pas encore de produits en ligne ». Les pages ne lisent que `lib/catalog/queries.ts` (et `lib/catalog/routing.ts` pour les 404) : le passage à Supabase ne touchera que ces fichiers.
 
 - **Filtres dans l'URL** : `/catalogue/sodas-eaux?marque=coca-cola&conditionnement=24&dispo=en-stock&tri=nom&page=2`. La catégorie est dans le chemin, le reste dans la query. Lien partageable, rendu serveur, fonctionne sans JavaScript (formulaires GET).
 - **Tri** : les plus commandés (`popularity`), nom, prix croissant (produits « sur devis » en dernier), nouveautés.

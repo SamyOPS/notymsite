@@ -25,6 +25,8 @@ import { SortSelect } from "./sort-select";
 
 type CatalogViewProps = {
   category: Category | null;
+  /** Univers parent de la catégorie affichée, pour le fil d'Ariane. */
+  parent?: Category | null;
   searchParams: Promise<SearchParamsRecord>;
 };
 
@@ -32,11 +34,18 @@ type CatalogViewProps = {
  * Page catalogue : l'en-tête est statique, les résultats (qui dépendent de
  * l'URL) sont rendus côté serveur à chaque requête, derrière <Suspense>.
  */
-export function CatalogView({ category, searchParams }: CatalogViewProps) {
+export function CatalogView({
+  category,
+  parent,
+  searchParams,
+}: CatalogViewProps) {
   const breadcrumb: Crumb[] = category
     ? [
         { label: "Accueil", href: "/" },
         { label: "Catalogue", href: "/catalogue" },
+        ...(parent
+          ? [{ label: parent.name, href: `/catalogue/${parent.slug}` }]
+          : []),
         { label: category.name },
       ]
     : [{ label: "Accueil", href: "/" }, { label: "Catalogue" }];
@@ -77,6 +86,11 @@ async function CatalogResults({ category, searchParams }: CatalogViewProps) {
     searchCatalog({ ...filters, category: null, page: 1 }),
   ]);
 
+  const hasFilters =
+    filters.q !== "" ||
+    filters.brands.length > 0 ||
+    filters.packs.length > 0 ||
+    filters.inStockOnly;
   const activeCount =
     filters.brands.length +
     filters.packs.length +
@@ -136,6 +150,20 @@ async function CatalogResults({ category, searchParams }: CatalogViewProps) {
                   </li>
                 ))}
               </ProductGrid>
+            ) : !hasFilters ? (
+              // Catégorie sans produit en ligne (pas un effet des filtres).
+              <EmptyState
+                title="Pas encore de produits en ligne"
+                description={
+                  <p>
+                    Cette catégorie sera bientôt complétée. Dites-nous ce que
+                    vous cherchez : nous vous répondons avec un devis.
+                  </p>
+                }
+                actions={
+                  <ButtonLink href="/devenir-client">Nous contacter</ButtonLink>
+                }
+              />
             ) : (
               <EmptyState
                 title="Aucun produit ne correspond"

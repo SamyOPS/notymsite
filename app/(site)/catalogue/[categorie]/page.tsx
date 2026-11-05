@@ -29,5 +29,14 @@ export default async function CategoryPage({
   const { categorie } = await params;
   const category = await getCategoryBySlug(categorie);
   if (!category) notFound();
-  return <CatalogView category={category} searchParams={searchParams} />;
+  const parent = category.parentSlug
+    ? await getCategoryBySlug(category.parentSlug)
+    : null;
+  return (
+    <CatalogView
+      category={category}
+      parent={parent}
+      searchParams={searchParams}
+    />
+  );
 }

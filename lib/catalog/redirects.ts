@@ -19,10 +19,14 @@ export function legacyRedirects() {
 
   return [
     { source: "/shop", destination: "/catalogue", permanent: true },
-    { source: "/shop/boissons", destination: "/catalogue", permanent: true },
+    {
+      source: "/shop/boissons",
+      destination: "/catalogue/boissons",
+      permanent: true,
+    },
     {
       source: "/shop/snacks",
-      destination: "/catalogue/chips-snacks",
+      destination: "/catalogue/epicerie-salee",
       permanent: true,
     },
     { source: "/service", destination: "/services", permanent: true },

@@ -244,6 +244,35 @@
   --accent-fill: var(--teal);
 }
 
+/* Panneaux du hero : couleurs de marque fixes, identiques dans les deux
+   thèmes (les illustrations sont dessinées pour ces fonds). */
+@utility panel-teal {
+  background-color: #78b9c1;
+  color: #111414;
+  --focus-ring: #111414;
+  --accent-fill: #111414;
+  --panel-cta-bg: #111414;
+  --panel-cta-fg: #ffffff;
+}
+
+@utility panel-wheat {
+  background-color: #e8b04a;
+  color: #111414;
+  --focus-ring: #111414;
+  --accent-fill: #111414;
+  --panel-cta-bg: #111414;
+  --panel-cta-fg: #ffffff;
+}
+
+@utility panel-ink {
+  background-color: #111414;
+  color: #ffffff;
+  --focus-ring: #ffffff;
+  --accent-fill: #78b9c1;
+  --panel-cta-bg: #ffffff;
+  --panel-cta-fg: #111414;
+}
+
 /* ==========================================================================
    Base
    ========================================================================== */

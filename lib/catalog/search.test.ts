@@ -14,7 +14,7 @@ const categories: Category[] = [
     slug: "sodas",
     name: "Sodas",
     description: "",
-    tone: "teal",
+    parentSlug: null,
     sort: 1,
   },
   {
@@ -22,7 +22,7 @@ const categories: Category[] = [
     slug: "jus",
     name: "Jus",
     description: "",
-    tone: "wheat",
+    parentSlug: null,
     sort: 2,
   },
 ];
@@ -196,8 +196,8 @@ describe("searchProducts", () => {
       { value: "beta", label: "Bêta", count: 1 },
     ]);
     expect(facets.categories).toEqual([
-      { value: "sodas", label: "Sodas", count: 2 },
-      { value: "jus", label: "Jus", count: 0 },
+      { value: "sodas", label: "Sodas", count: 2, parent: null },
+      { value: "jus", label: "Jus", count: 0, parent: null },
     ]);
     expect(facets.packs).toEqual([
       { value: "24", label: "Pack de 24", count: 1 },
@@ -228,5 +228,52 @@ describe("stock non renseigné", () => {
     );
     expect(filtered.items.map((p) => p.id)).toEqual(["u2"]);
     expect(searchProducts(unknown, base, context).facets.inStock).toBe(1);
+  });
+});
+
+describe("univers (catégories parentes)", () => {
+  const nested = {
+    brands,
+    categories: [
+      {
+        id: "u",
+        slug: "boissons",
+        name: "Boissons",
+        description: "",
+        parentSlug: null,
+        sort: 1,
+      },
+      ...categories.map((c) => ({ ...c, parentSlug: "boissons" })),
+      {
+        id: "v",
+        slug: "epicerie",
+        name: "Épicerie",
+        description: "",
+        parentSlug: null,
+        sort: 9,
+      },
+    ],
+  };
+
+  it("la page d'un univers inclut les produits de ses catégories", () => {
+    const result = searchProducts(
+      products,
+      { ...base, category: "boissons" },
+      nested,
+    );
+    expect(result.total).toBe(4);
+    expect(
+      searchProducts(products, { ...base, category: "epicerie" }, nested).total,
+    ).toBe(0);
+  });
+
+  it("le compteur d'un univers additionne ses catégories", () => {
+    const { facets } = searchProducts(products, base, nested);
+    const count = (slug: string) =>
+      facets.categories.find((c) => c.value === slug)?.count;
+    expect(count("boissons")).toBe(4);
+    expect(count("sodas")).toBe(3);
+    expect(count("jus")).toBe(1);
+    expect(count("epicerie")).toBe(0);
   });
 });

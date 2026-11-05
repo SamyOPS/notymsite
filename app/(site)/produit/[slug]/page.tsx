@@ -47,12 +47,15 @@ export default async function ProductPage({
   const { slug } = await params;
   const detail = await getProductDetail(slug);
   if (!detail) notFound();
-  const { product, brand, category } = detail;
+  const { product, brand, category, universe } = detail;
   const related = await getRelatedProducts(product.id, 4);
 
   const breadcrumb: Crumb[] = [
     { label: "Accueil", href: "/" },
     { label: "Catalogue", href: "/catalogue" },
+    ...(universe
+      ? [{ label: universe.name, href: `/catalogue/${universe.slug}` }]
+      : []),
     ...(category
       ? [{ label: category.name, href: `/catalogue/${category.slug}` }]
       : []),

@@ -11,38 +11,67 @@ import type { Brand, Category, Product } from "@/types/catalog";
  *   de chaque produit, format de Perrier, descriptions et photos.
  */
 
+/**
+ * Trois univers (niveau 1) et leurs catégories (niveau 2). Un produit est
+ * rattaché à une catégorie ; la page d'un univers regroupe ses catégories.
+ */
 export const categories: Category[] = [
+  {
+    id: "cat-boissons",
+    slug: "boissons",
+    name: "Boissons",
+    description: "Sodas, eaux, énergisants, jus et nectars",
+    parentSlug: null,
+    sort: 1,
+  },
   {
     id: "cat-sodas-eaux",
     slug: "sodas-eaux",
     name: "Sodas & Eaux",
     description: "Coca-Cola, Pepsi, Evian, Badoit",
-    tone: "teal",
-    sort: 1,
+    parentSlug: "boissons",
+    sort: 2,
   },
   {
     id: "cat-energisants",
     slug: "energisants",
     name: "Énergisants",
     description: "Red Bull, Monster",
-    tone: "ink",
-    sort: 2,
+    parentSlug: "boissons",
+    sort: 3,
   },
   {
     id: "cat-jus-nectars",
     slug: "jus-nectars",
     name: "Jus & Nectars",
     description: "Tropicana, Oasis, Innocent",
-    tone: "wheat",
-    sort: 3,
+    parentSlug: "boissons",
+    sort: 4,
+  },
+  {
+    // Aucun produit pour l'instant : la page l'indique.
+    id: "cat-epicerie-sucree",
+    slug: "epicerie-sucree",
+    name: "Épicerie sucrée",
+    description: "Produits sucrés pour les commerces et la restauration",
+    parentSlug: null,
+    sort: 5,
+  },
+  {
+    id: "cat-epicerie-salee",
+    slug: "epicerie-salee",
+    name: "Épicerie salée",
+    description: "Chips, snacks et produits salés",
+    parentSlug: null,
+    sort: 6,
   },
   {
     id: "cat-chips-snacks",
     slug: "chips-snacks",
     name: "Chips & Snacks",
     description: "Lay's, Brets",
-    tone: "teal-soft",
-    sort: 4,
+    parentSlug: "epicerie-salee",
+    sort: 7,
   },
 ];
 

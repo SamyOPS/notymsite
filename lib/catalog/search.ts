@@ -93,7 +93,13 @@ export function normalizeText(value: string): string {
     .trim();
 }
 
-export type FacetOption = { value: string; label: string; count: number };
+export type FacetOption = {
+  value: string;
+  label: string;
+  count: number;
+  /** Catégories seulement : univers parent (null pour un univers). */
+  parent?: string | null;
+};
 
 export type CatalogSearchResult = {
   items: Product[];
@@ -111,16 +117,23 @@ export type CatalogSearchResult = {
 type Context = { brands: Brand[]; categories: Category[] };
 type FilterKey = "q" | "category" | "brands" | "packs" | "inStockOnly";
 
+/** Catégorie du produit et son univers parent : [« sodas-eaux », « boissons »]. */
+function categoryPath(slug: string, context: Context): string[] {
+  const parent = context.categories.find((c) => c.slug === slug)?.parentSlug;
+  return parent ? [slug, parent] : [slug];
+}
+
 function matches(
   product: Product,
   filters: CatalogFilters,
   context: Context,
   ignore?: FilterKey,
 ): boolean {
+  // La page d'un univers inclut les produits de ses catégories.
   if (
     ignore !== "category" &&
     filters.category &&
-    product.categorySlug !== filters.category
+    !categoryPath(product.categorySlug, context).includes(filters.category)
   ) {
     return false;
   }
@@ -188,13 +201,16 @@ function countBy(
   filters: CatalogFilters,
   context: Context,
   ignore: FilterKey,
-  key: (p: Product) => string | null,
+  key: (p: Product) => string | string[] | null,
 ): Map<string, number> {
   const counts = new Map<string, number>();
   for (const product of products) {
     if (!matches(product, filters, context, ignore)) continue;
     const value = key(product);
-    if (value !== null) counts.set(value, (counts.get(value) ?? 0) + 1);
+    if (value === null) continue;
+    for (const v of Array.isArray(value) ? value : [value]) {
+      counts.set(v, (counts.get(v) ?? 0) + 1);
+    }
   }
   return counts;
 }
@@ -215,12 +231,8 @@ export function searchProducts(
   const page = Math.min(filters.page, totalPages);
   const items = filtered.slice((page - 1) * pageSize, page * pageSize);
 
-  const categoryCounts = countBy(
-    products,
-    filters,
-    context,
-    "category",
-    (p) => p.categorySlug,
+  const categoryCounts = countBy(products, filters, context, "category", (p) =>
+    categoryPath(p.categorySlug, context),
   );
   const brandCounts = countBy(
     products,
@@ -248,6 +260,7 @@ export function searchProducts(
           value: c.slug,
           label: c.name,
           count: categoryCounts.get(c.slug) ?? 0,
+          parent: c.parentSlug,
         })),
       // Une marque sans produit n'apparaît que si elle est déjà sélectionnée.
       brands: [...context.brands]
