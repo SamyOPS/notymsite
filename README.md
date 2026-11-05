@@ -29,6 +29,7 @@ npm run dev                  # http://localhost:3000
 | `npm run typecheck`               | Génère les types de routes puis lance `tsc --noEmit` |
 | `npm run format` / `format:check` | Prettier (avec tri des classes Tailwind)             |
 | `npm test`                        | Tests unitaires (Vitest)                             |
+| `npm run icons`                   | Régénère favicon et icônes à partir du logo          |
 
 ## Structure
 
@@ -91,6 +92,7 @@ Aucun canal d'envoi n'est encore branché (e-mail et base de données à venir) 
 - `public/brand/notym_logo.png` : fichier source fourni (1024 × 1024, fond transparent).
 - `public/brand/notym-logo.png` : même image, recadrée sur sa zone utile (marges transparentes retirées, aucun autre changement). C'est celle qu'utilise le site.
 - Pas de version blanche : sur les fonds sombres, le logo couleur est posé sur une pastille claire.
+- **Favicon et icônes** (`app/favicon.ico` 16/32/48 px, `app/icon.png` 512 px, `app/apple-icon.png` 180 px) : logo entier centré sur un carré blanc, générés par `npm run icons` (`scripts/generate-icons.mjs`). À relancer si le logo change.
 
 ## Avancement
 
