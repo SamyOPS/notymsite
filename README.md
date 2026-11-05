@@ -103,7 +103,7 @@ Toutes les images viennent de sources à licence libre, avec un usage commercial
   - B'lue 33 cl : aucune photo fiable trouvée, laissé sans image.
   - Choix à confirmer : Capri-Sun **Multivitamines** (pack de 10), Lipton Ice Tea **pêche** en canette, Minute Maid **Orange en bouteille** 33 cl (aucun visuel propre de la canette), Perrier en **canette slim 25 cl** (cohérent avec le « 35x25 » de l'ancien site).
   - Les marques et emballages restent la propriété de leurs titulaires. Des packshots fournis par les marques ou pris au dépôt seront préférables à terme.
-- **Hero** (`public/hero/`) : Boissons, photo [Unsplash](https://unsplash.com/fr/licence) choisie par Notym (usage commercial libre, crédit facultatif ; nom du photographe à compléter) ; Épicerie sucrée et salée, photos du domaine public (CC0), qui ne font que 1024 px de large et peuvent paraître un peu douces sur grand écran Retina.
+- **Hero** (`public/hero/`) : Boissons et Épicerie salée, photos [Unsplash](https://unsplash.com/fr/licence) choisies par Notym (usage commercial libre, crédit facultatif ; photographe de la photo Boissons à compléter) ; Épicerie sucrée, photo du domaine public (CC0), qui ne fait que 1024 px de large et peut paraître un peu douce sur grand écran Retina.
 
 ## Avancement
 

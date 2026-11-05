@@ -4,8 +4,9 @@
  * - Photos produits : Open Food Facts, licence CC BY-SA 3.0. Attribution
  *   obligatoire (Open Food Facts + lien) ; les versions recadrées et
  *   redimensionnées publiées ici restent sous la même licence.
- * - Photos du hero : licence Unsplash (boissons, choisie par Notym) ou
- *   domaine public (CC0). Crédit facultatif dans les deux cas, mais indiqué.
+ * - Photos du hero : licence Unsplash (boissons et salé, choisies par Notym)
+ *   ou domaine public (CC0, sucré). Crédit facultatif dans les deux cas,
+ *   mais indiqué.
  */
 
 export type ImageCredit = {
@@ -88,9 +89,11 @@ export const heroImageCredits: ImageCredit[] = [
   },
   {
     file: "/hero/sale.webp",
-    subject: "Chips",
-    author: "rawpixel",
-    sourceUrl: "https://www.rawpixel.com/image/5914193",
-    ...CC0,
+    subject: "Rayon de nouilles instantanées",
+    author: "Zoshua Colah",
+    sourceUrl:
+      "https://unsplash.com/fr/photos/emballages-de-nouilles-instantanees-sur-les-etageres-des-magasins-MP1w4QdqTBA",
+    license: "Licence Unsplash",
+    licenseUrl: "https://unsplash.com/fr/licence",
   },
 ];
