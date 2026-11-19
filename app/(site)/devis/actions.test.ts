@@ -3,6 +3,54 @@ import { afterEach, describe, expect, it, vi } from "vitest";
 vi.mock("server-only", () => ({}));
 vi.mock("next/cache", () => ({ cacheTag: () => {}, cacheLife: () => {} }));
 
+// Catalogue de test, à la place de Supabase.
+vi.mock("@/lib/catalog/source", () => {
+  const product = (id: string, name: string, brandSlug: string) => ({
+    id,
+    slug: id,
+    sku: null,
+    name,
+    brandSlug,
+    categorySlug: "sodas-eaux",
+    volume: null,
+    unitsPerPack: 24,
+    packLabel: "Pack de 24",
+    description: null,
+    images: [],
+    isBestSeller: false,
+    isNew: false,
+    isPromo: false,
+    inStock: null,
+    featured: true,
+    popularity: 0,
+    priceFromHtCents: null,
+    legacyId: null,
+    createdAt: "2026-11-04T00:00:00.000Z",
+  });
+  return {
+    fetchCatalog: async () => ({
+      categories: [
+        {
+          id: "cat-1",
+          slug: "sodas-eaux",
+          name: "Sodas & Eaux",
+          description: "",
+          parentSlug: null,
+          sort: 1,
+        },
+      ],
+      brands: [
+        { id: "b-1", slug: "red-bull", name: "Red Bull", logoUrl: null },
+        { id: "b-2", slug: "coca-cola", name: "Coca-Cola", logoUrl: null },
+      ],
+      products: [
+        product("prod-6", "Red Bull 25 cl", "red-bull"),
+        product("prod-1", "Coca-Cola 1,5 L", "coca-cola"),
+      ],
+    }),
+  };
+});
+
 const { submitQuoteRequest, loadQuoteProducts } = await import("./actions");
 
 const details = {

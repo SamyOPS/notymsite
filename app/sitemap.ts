@@ -1,5 +1,6 @@
 import type { MetadataRoute } from "next";
 import { getAllProductSlugs, getCategories } from "@/lib/catalog/queries";
+import { getArticles } from "@/lib/news/queries";
 import { site } from "@/lib/site";
 
 const staticRoutes: Array<{ path: string; priority: number }> = [
@@ -14,9 +15,10 @@ const staticRoutes: Array<{ path: string; priority: number }> = [
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [categories, productSlugs] = await Promise.all([
+  const [categories, productSlugs, articles] = await Promise.all([
     getCategories(),
     getAllProductSlugs(),
+    getArticles(),
   ]);
   return [
     ...staticRoutes.map(({ path, priority }) => ({
@@ -30,6 +32,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     ...productSlugs.map((slug) => ({
       url: `${site.url}/produit/${slug}`,
       priority: 0.6,
+    })),
+    ...articles.map((article) => ({
+      url: `${site.url}/actualites/${article.slug}`,
+      lastModified: article.publishedAt,
+      priority: 0.4,
     })),
   ];
 }

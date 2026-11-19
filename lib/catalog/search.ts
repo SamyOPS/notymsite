@@ -140,7 +140,7 @@ function matches(
   if (
     ignore !== "brands" &&
     filters.brands.length > 0 &&
-    !filters.brands.includes(product.brandSlug)
+    (product.brandSlug === null || !filters.brands.includes(product.brandSlug))
   ) {
     return false;
   }

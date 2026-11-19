@@ -1,22 +1,10 @@
-import { products } from "./data";
-
 /**
  * Redirections permanentes des URL de l'ancien site vers les nouvelles,
  * pour conserver le référencement et les liens existants.
+ * Les anciennes fiches produit (/product/1) sont redirigées par proxy.ts,
+ * d'après la colonne legacy_id des produits.
  */
 export function legacyRedirects() {
-  const productRedirects = products.flatMap((p) =>
-    p.legacyId === null
-      ? []
-      : [
-          {
-            source: `/product/${p.legacyId}`,
-            destination: `/produit/${p.slug}`,
-            permanent: true,
-          },
-        ],
-  );
-
   return [
     { source: "/shop", destination: "/catalogue", permanent: true },
     {
@@ -37,6 +25,5 @@ export function legacyRedirects() {
     },
     { source: "/cart", destination: "/devis", permanent: true },
     { source: "/wishlist", destination: "/catalogue", permanent: true },
-    ...productRedirects,
   ];
 }

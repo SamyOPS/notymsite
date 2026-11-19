@@ -22,7 +22,8 @@ export type Product = {
   slug: string;
   sku: string | null;
   name: string;
-  brandSlug: string;
+  /** null = marque non renseignée */
+  brandSlug: string | null;
   categorySlug: string;
   /** Contenance unitaire : « 33 cl », « 1,5 L » */
   volume: string | null;
