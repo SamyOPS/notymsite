@@ -23,7 +23,8 @@ export default function QuotePage() {
           </p>
         }
       />
-      <div className="container-site">
+      {/* Plus d'air avant le pied de page, comme sur « Devenir client ». */}
+      <div className="container-site pb-12 lg:pb-20">
         <QuoteFlow />
         <noscript>
           <p className="border-2 border-danger bg-surface-raised p-5 text-body">

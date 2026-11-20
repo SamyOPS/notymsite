@@ -40,7 +40,7 @@ export default function BecomeClientPage() {
         }
       />
 
-      <div className="container-site grid gap-14 border-t border-ink pt-10 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-20">
+      <div className="container-site grid gap-14 border-t border-ink pt-10 pb-12 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-20 lg:pb-20">
         <section aria-labelledby="formulaire-titre">
           <h2 id="formulaire-titre" className="sr-only">
             Votre demande
