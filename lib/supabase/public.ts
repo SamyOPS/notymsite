@@ -16,5 +16,9 @@ export function createPublicClient() {
       autoRefreshToken: false,
       detectSessionInUrl: false,
     },
+    // Réponses non compressées : pendant `next build`, les grosses réponses
+    // gzip (pages de 1 000 produits, ~580 Ko) arrivaient parfois tronquées
+    // puis illisibles. Le catalogue est mis en cache : le surpoids est sans effet.
+    global: { headers: { "Accept-Encoding": "identity" } },
   });
 }

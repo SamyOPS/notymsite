@@ -1,10 +1,14 @@
 /**
- * Prépare une photo dans le navigateur avant l'envoi : réduite à 1600 px de
+ * Prépare une photo dans le navigateur avant l'envoi : réduite à 1200 px de
  * côté au plus, sur fond blanc, en WebP (JPEG si le navigateur ne sait pas
- * produire de WebP). Une photo de téléphone de 5 Mo pèse ensuite ~200 Ko.
+ * produire de WebP). Une photo de téléphone de 5 Mo pèse ensuite ~100 Ko.
+ *
+ * 1200 px suffit : la plus grande photo du site (fiche produit) s'affiche en
+ * 600 px, soit 1200 px sur un écran haute définition. Cela ménage le stockage
+ * Supabase (1 Go sur le plan gratuit).
  */
 
-const MAX_SIDE = 1600;
+const MAX_SIDE = 1200;
 const QUALITY = 0.85;
 
 export type PreparedImage = { blob: Blob; extension: "webp" | "jpg" };

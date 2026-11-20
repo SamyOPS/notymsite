@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
     // 64:ff9b::…, que Next.js classe comme adresse privée et refuse. Autorisé
     // en développement seulement ; la production garde la protection SSRF.
     dangerouslyAllowLocalIP: process.env.NODE_ENV === "development",
+    // Images optimisées gardées 31 jours (4 h par défaut) : moins de
+    // transformations Vercel (5 000/mois sur le plan gratuit). Sans risque :
+    // une photo remplacée dans l'admin reçoit toujours un nouveau nom.
+    minimumCacheTTL: 2678400,
   },
   experimental: {
     agentFeedback: true,
