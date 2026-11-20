@@ -46,6 +46,27 @@ export async function getBrands(): Promise<Brand[]> {
   return [...brands].sort((a, b) => a.name.localeCompare(b.name, "fr"));
 }
 
+/** Marques les plus représentées au catalogue, et le nombre total de marques. */
+export async function getTopBrands(
+  limit = 12,
+): Promise<{ names: string[]; total: number }> {
+  "use cache";
+  cacheTag(CATALOG_TAG);
+  const { products, brands } = await loadCatalog();
+  const counts = new Map<string, number>();
+  for (const p of products) {
+    if (p.brandSlug)
+      counts.set(p.brandSlug, (counts.get(p.brandSlug) ?? 0) + 1);
+  }
+  const ranked = brands
+    .filter((b) => counts.has(b.slug))
+    .sort((a, b) => (counts.get(b.slug) ?? 0) - (counts.get(a.slug) ?? 0));
+  return {
+    names: ranked.slice(0, limit).map((b) => b.name),
+    total: ranked.length,
+  };
+}
+
 export async function getFeaturedProducts(
   limit = 4,
 ): Promise<ProductCardData[]> {

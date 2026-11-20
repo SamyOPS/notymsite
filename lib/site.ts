@@ -77,6 +77,15 @@ export const site = {
   features: {
     showPrices: false as boolean,
   },
+  /**
+   * Boissons alcoolisées : univers du catalogue et mention sanitaire
+   * obligatoire (loi Évin), affichée sur ces pages et en pied de page.
+   */
+  alcohol: {
+    universe: "alcools",
+    warning:
+      "L'abus d'alcool est dangereux pour la santé, à consommer avec modération.",
+  },
   /** URLs des réseaux sociaux : à fournir. Les icônes restent masquées tant que la liste est vide. */
   social: [] as ReadonlyArray<{ label: string; href: string }>,
 } as const;

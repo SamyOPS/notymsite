@@ -26,33 +26,56 @@ async function fetchKnownPaths(): Promise<KnownPaths> {
   const supabase = createClient<Database>(url, publishableKey, {
     auth: { persistSession: false, autoRefreshToken: false },
   });
+  // L'API renvoie au plus 1 000 lignes par requête : on lit par pages.
   const [products, categories, articles] = await Promise.all([
-    supabase
-      .from("products")
-      .select("slug, legacy_id")
-      .eq("published", true)
-      .range(0, 9999),
-    supabase.from("categories").select("slug").range(0, 9999),
-    supabase
-      .from("articles")
-      .select("slug")
-      .eq("published", true)
-      .range(0, 9999),
+    fetchAllPages((from, to) =>
+      supabase
+        .from("products")
+        .select("slug, legacy_id")
+        .eq("published", true)
+        .order("slug")
+        .range(from, to),
+    ),
+    fetchAllPages((from, to) =>
+      supabase.from("categories").select("slug").order("slug").range(from, to),
+    ),
+    fetchAllPages((from, to) =>
+      supabase
+        .from("articles")
+        .select("slug")
+        .eq("published", true)
+        .order("slug")
+        .range(from, to),
+    ),
   ]);
-  if (products.error) throw products.error;
-  if (categories.error) throw categories.error;
-  if (articles.error) throw articles.error;
 
   return {
-    products: new Set(products.data.map((p) => p.slug)),
-    categories: new Set(categories.data.map((c) => c.slug)),
-    articles: new Set(articles.data.map((a) => a.slug)),
+    products: new Set(products.map((p) => p.slug)),
+    categories: new Set(categories.map((c) => c.slug)),
+    articles: new Set(articles.map((a) => a.slug)),
     legacyProducts: new Map(
-      products.data.flatMap((p) =>
+      products.flatMap((p) =>
         p.legacy_id === null ? [] : [[p.legacy_id, p.slug] as const],
       ),
     ),
   };
+}
+
+const PAGE = 1000;
+
+async function fetchAllPages<T>(
+  query: (
+    from: number,
+    to: number,
+  ) => PromiseLike<{ data: T[] | null; error: unknown }>,
+): Promise<T[]> {
+  const rows: T[] = [];
+  for (let from = 0; ; from += PAGE) {
+    const { data, error } = await query(from, from + PAGE - 1);
+    if (error) throw error;
+    rows.push(...(data ?? []));
+    if (!data || data.length < PAGE) return rows;
+  }
 }
 
 async function getKnownPaths(maxAgeMs: number): Promise<KnownPaths> {

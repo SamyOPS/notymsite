@@ -28,6 +28,9 @@ export function CategoryNav({
   const universes = categories.filter((c) => !c.parent);
   const childrenOf = (slug: string) =>
     categories.filter((c) => c.parent === slug);
+  // Seul l'univers en cours est déplié (sinon une cinquantaine de liens).
+  const current = categories.find((c) => c.value === filters.category);
+  const openUniverse = current ? (current.parent ?? current.value) : null;
 
   const item = (
     option: { value: string | null; label: string; count: number },
@@ -68,7 +71,8 @@ export function CategoryNav({
           {item({ value: null, label: "Tout le catalogue", count: totalAll })}
         </li>
         {universes.map((universe) => {
-          const children = childrenOf(universe.value);
+          const children =
+            universe.value === openUniverse ? childrenOf(universe.value) : [];
           return (
             <li key={universe.value}>
               {item(universe)}

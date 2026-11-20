@@ -98,6 +98,8 @@ export async function fetchCatalog(): Promise<CatalogData> {
       .order("popularity", { ascending: false })
       .order("created_at")
       .order("name")
+      // Ordre total : la pagination ne saute ni ne double aucun produit.
+      .order("id")
       .range(from, from + PAGE - 1);
     if (error) throw error;
     products.push(...data);

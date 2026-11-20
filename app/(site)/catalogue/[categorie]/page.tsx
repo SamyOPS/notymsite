@@ -17,7 +17,9 @@ export async function generateMetadata({
     return { title: "Catégorie introuvable", robots: { index: false } };
   return {
     title: `${category.name} en gros`,
-    description: `${category.name} pour les professionnels : ${category.description}. Devis sur demande.`,
+    description: category.description
+      ? `${category.name} pour les professionnels : ${category.description}. Devis sur demande.`
+      : `${category.name} en gros pour les professionnels. Devis sur demande.`,
     alternates: { canonical: `/catalogue/${category.slug}` },
   };
 }

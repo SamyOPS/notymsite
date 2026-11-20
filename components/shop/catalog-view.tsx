@@ -14,6 +14,7 @@ import type { SearchParamsRecord } from "@/lib/pagination";
 import { site } from "@/lib/site";
 import type { Category } from "@/types/catalog";
 import { ActiveFilters } from "./active-filters";
+import { AlcoholWarning, isAlcoholCategory } from "./alcohol-warning";
 import { CatalogNavigationProvider, ResultsRegion } from "./catalog-navigation";
 import { CategoryNav } from "./category-nav";
 import { FiltersForm } from "./filters-form";
@@ -56,11 +57,14 @@ export function CatalogView({
         breadcrumb={breadcrumb}
         title={category ? category.name : "Catalogue"}
         intro={
-          <p>
-            {category
-              ? `${category.description}.`
-              : "Sodas, eaux, énergisants, jus et snacks pour les professionnels."}
-          </p>
+          <>
+            <p>
+              {category
+                ? category.description && `${category.description}.`
+                : "Boissons, épicerie, surgelés, hygiène et emballages pour les professionnels."}
+            </p>
+            {isAlcoholCategory(category) && <AlcoholWarning className="mt-3" />}
+          </>
         }
       />
       <div className="container-site border-t border-ink pt-8">

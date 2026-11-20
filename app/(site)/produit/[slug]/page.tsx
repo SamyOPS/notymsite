@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { JsonLd } from "@/components/seo/json-ld";
 import { AddToQuotePanel } from "@/components/shop/add-to-quote-panel";
+import {
+  AlcoholWarning,
+  isAlcoholCategory,
+} from "@/components/shop/alcohol-warning";
 import { PriceTag } from "@/components/shop/price-tag";
 import { ProductCard } from "@/components/shop/product-card";
 import { ProductGallery } from "@/components/shop/product-gallery";
@@ -19,9 +23,15 @@ import { formatPrice, packagingLabel, unitPriceCents } from "@/lib/format";
 import { breadcrumbJsonLd, productJsonLd } from "@/lib/seo";
 import { site } from "@/lib/site";
 
+/**
+ * Seules les fiches les plus demandées sont prérendues au build ; les autres
+ * le sont à la première visite, puis gardées en cache.
+ */
+const PRERENDERED_PRODUCTS = 100;
+
 export async function generateStaticParams() {
   const slugs = await getAllProductSlugs();
-  return slugs.map((slug) => ({ slug }));
+  return slugs.slice(0, PRERENDERED_PRODUCTS).map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -157,6 +167,8 @@ export default async function ProductPage({
             packLabel={product.packLabel}
             disabled={product.inStock === false}
           />
+
+          {isAlcoholCategory(category) && <AlcoholWarning />}
 
           <p className="border-t border-line pt-6 text-body text-ink-muted">
             {site.delivery.shipping}. {site.delivery.pickup}.

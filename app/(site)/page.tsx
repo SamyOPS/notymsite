@@ -5,7 +5,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { ProductCard } from "@/components/shop/product-card";
 import { ProductGrid } from "@/components/shop/product-grid";
 import { SectionHeader } from "@/components/ui/section-header";
-import { getBrands, getFeaturedProducts } from "@/lib/catalog/queries";
+import { getFeaturedProducts, getTopBrands } from "@/lib/catalog/queries";
 import { localBusinessJsonLd } from "@/lib/seo";
 import { site } from "@/lib/site";
 
@@ -18,8 +18,9 @@ export const metadata: Metadata = {
 export default async function HomePage() {
   const [featured, brands] = await Promise.all([
     getFeaturedProducts(4),
-    getBrands(),
+    getTopBrands(12),
   ]);
+  const others = brands.total - brands.names.length;
 
   return (
     <>
@@ -43,7 +44,8 @@ export default async function HomePage() {
         </ProductGrid>
         <p className="mt-8 max-w-4xl text-body text-ink-muted">
           <span className="font-semibold text-ink">Marques distribuées :</span>{" "}
-          {brands.map((b) => b.name).join(", ")}.
+          {brands.names.join(", ")}
+          {others > 0 ? ` et ${others} autres` : ""}.
         </p>
       </section>
 

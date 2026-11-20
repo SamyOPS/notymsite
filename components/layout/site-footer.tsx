@@ -63,6 +63,7 @@ export function SiteFooter() {
         <p>
           © <CopyrightYear /> {site.name}
         </p>
+        <p>{site.alcohol.warning}</p>
         {site.social.length > 0 && (
           <ul className="flex gap-4">
             {site.social.map((s) => (

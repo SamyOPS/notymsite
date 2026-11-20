@@ -113,6 +113,24 @@ Toutes les images viennent de sources à licence libre, avec un usage commercial
   - Les marques et emballages restent la propriété de leurs titulaires. Des packshots fournis par les marques ou pris au dépôt seront préférables à terme.
 - **Hero** (`public/hero/`) : trois photos [Unsplash](https://unsplash.com/fr/licence) choisies par Notym (usage commercial libre, crédit facultatif ; photographe de la photo Boissons à compléter), réduites à 1600–2000 px de large.
 
+## Import depuis le logiciel de gestion
+
+Le catalogue est alimenté par l'export produits du logiciel de gestion (CSV : Référence, Description, Famille du produit, Standard Prix U. (HT), Prix de Revient).
+
+```bash
+npm run import:catalogue -- Export.csv --dry-run --out controle.csv   # contrôle, n'écrit rien
+npm run import:catalogue -- Export.csv --apply                        # import (SUPABASE_SECRET_KEY requise)
+```
+
+- **Fichier de contrôle** (`--dry-run`) : nom calculé, marque, univers, catégorie, contenance, conditionnement et prix de chaque ligne, avec une colonne « À vérifier » pour les libellés mal reconnus. S'ouvre dans Excel.
+- **Réimport** : les références déjà présentes ne voient que leur **prix** mis à jour ; nom, photos, description, visibilité et réglages modifiés dans l'admin ne sont jamais écrasés. Les nouvelles références sont créées, visibles. Les produits absents de l'export sont signalés, pas supprimés.
+- **Prix de revient** : jamais lu. **Prix de vente** : enregistré comme prix « à partir de » HT ; masqué sur le site tant que `site.features.showPrices` vaut `false`, mais lisible par l'API publique (clé publishable).
+- **Familles → catégories** : `lib/import/taxonomy.ts` (9 univers ; une famille inconnue est signalée et la ligne écartée). Les catégories manquantes sont créées ; leurs noms et descriptions restent ensuite modifiables dans l'admin.
+- **Libellés → noms** : `lib/import/label.ts` (casse, accents, marques, conditionnement `24 x 33CL`, `(6x20CL) x 4`, `1.5LX6`…), testé dans `label.test.ts`.
+- Lignes écartées : transport, palettes, consignes, lots de déstockage. Une référence en double garde son plus petit prix.
+
+**Alcool** : la mention « L'abus d'alcool est dangereux pour la santé, à consommer avec modération » (loi Évin) figure en pied de page, en tête de l'univers Alcools et sur chaque fiche de produit alcoolisé (`site.alcohol`).
+
 ## Espace admin
 
 `/admin` (non indexé). Connexion par e-mail et mot de passe, réservée aux comptes de la table `admins`.
