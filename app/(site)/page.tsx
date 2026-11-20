@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { HeroUniverses } from "@/components/home/hero-universes";
+import { Hero } from "@/components/home/hero";
 import { ProBand } from "@/components/layout/pro-band";
 import { JsonLd } from "@/components/seo/json-ld";
 import { ProductCard } from "@/components/shop/product-card";
@@ -26,7 +26,7 @@ export default async function HomePage() {
     <>
       <JsonLd data={localBusinessJsonLd()} />
 
-      <HeroUniverses />
+      <Hero />
 
       <section aria-labelledby="phares-titre" className="container-site pt-20">
         <SectionHeader

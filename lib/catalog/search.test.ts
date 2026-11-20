@@ -181,6 +181,19 @@ describe("searchProducts", () => {
     expect(normalizeText("Énergisants")).toBe("energisants");
   });
 
+  it("retrouve un produit par sa référence", () => {
+    const withSku = [
+      ...products,
+      product("p9", { name: "Cola", sku: "ICTEPE33FR" }),
+    ];
+    const result = searchProducts(
+      withSku,
+      parseCatalogParams({ q: "ictepe33fr" }),
+      { brands, categories },
+    );
+    expect(result.items.map((p) => p.id)).toEqual(["p9"]);
+  });
+
   it("combine catégorie, marques, conditionnement et disponibilité", () => {
     expect(
       run({ category: "sodas", brands: ["beta"] }).items.map((p) => p.id),

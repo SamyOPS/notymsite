@@ -57,10 +57,10 @@ public/brand       logo (ne pas redessiner, recolorer ni déformer)
 
 Direction sobre et éditoriale, pour éviter l'effet « gabarit » :
 
-- **Bords carrés** partout (cartes, champs, blocs, visuels) ; seul le rayon `rounded-pill` existe, réservé aux boutons et éléments cliquables (bouton « + », pagination, filtres actifs, choix en pilules).
+- **Bords carrés** partout (cartes, champs, blocs, visuels) ; seul le rayon `rounded-pill` existe, réservé aux boutons et éléments cliquables (bouton « + », pagination, filtres actifs, choix en pilules, barre de recherche de l'accueil).
 - **Pas d'ombres ni de décors** : la structure passe par des filets (`border-line`, `border-ink` sous les titres de section). Les produits sont présentés dans une grille à filets (`ProductGrid`).
-- **Peu d'éléments** : header réduit au logo, à la navigation et au bouton « Devis » ; recherche dans le catalogue ; pas de sur-titres ni d'icônes décoratives.
-- **Hero plein écran en trois univers** (`components/home/hero-universes.tsx`) : Boissons à gauche sur toute la hauteur, Épicerie sucrée en haut à droite, Épicerie salée en bas à droite. Chaque panneau est entièrement cliquable. Photo plein cadre (`public/hero/`) sous un voile sombre (`panel-shade`) qui garde le texte blanc lisible ; identique dans les deux thèmes.
+- **Peu d'éléments** : header réduit au logo, à la navigation et au bouton « Panier » (vers la demande de devis) ; recherche dans le catalogue ; pas de sur-titres ni d'icônes décoratives.
+- **Hero « recherche d'abord »** (`components/home/hero.tsx`), inspiré des leaders du secteur (Transgourmet, C10, France Boissons) : titre avec le trait sous « livrées vite. », recherche dans tout le catalogue (produit, marque ou référence), bouton « Demander un devis », photo Boissons ; puis les univers en raccourcis avec leur nombre de produits et quatre engagements (références et marques, livraison, retrait au dépôt, devis). Les chiffres sont lus dans le catalogue.
 - Palette, polices (Bricolage Grotesque, DM Sans), logo et trait sous « livrées vite. » conservés. La page `/styleguide` présente le système.
 
 ## Catalogue

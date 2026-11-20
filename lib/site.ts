@@ -38,8 +38,13 @@ export const site = {
    * /devenir-client, consultés le 04/11/2026). À confirmer avant mise en ligne.
    */
   claims: {
-    references: "Plus de 400 références",
+    references: "Plus de 1 600 références",
     deliveryTime: "Livraison en 48 h en France métropolitaine",
+    /** Même engagement que deliveryTime, en deux parties (accueil). */
+    delivery: {
+      title: "Livraison en 48 h",
+      area: "Partout en France métropolitaine",
+    },
     responseTime: "Réponse sous 48 h",
   },
   /** Informations légales reprises des mentions légales du site actuel. */

@@ -7,7 +7,7 @@ import { cn } from "@/lib/cn";
 import { QUOTE_ADDED_EVENT, useQuoteCount } from "@/lib/quote/store";
 
 /**
- * Bouton pilule « panier » (icône + « Devis ») avec compteur, qui rebondit à
+ * Bouton pilule « Panier » (icône + libellé) avec compteur, qui rebondit à
  * chaque ajout. Sur mobile : icône et compteur seulement.
  */
 export function QuoteButton({ className }: { className?: string }) {
@@ -22,8 +22,8 @@ export function QuoteButton({ className }: { className?: string }) {
 
   const label =
     count === 0
-      ? "Mon devis, aucun produit"
-      : `Mon devis, ${count} produit${count > 1 ? "s" : ""}`;
+      ? "Mon panier, aucun produit"
+      : `Mon panier, ${count} produit${count > 1 ? "s" : ""}`;
 
   return (
     <Link
@@ -36,7 +36,7 @@ export function QuoteButton({ className }: { className?: string }) {
       )}
     >
       <ShoppingBasket aria-hidden className="size-5 shrink-0" />
-      <span className="hidden sm:inline">Devis</span>
+      <span className="hidden sm:inline">Panier</span>
       {count > 0 && (
         <span
           key={bounce}

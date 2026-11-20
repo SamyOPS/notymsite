@@ -4,7 +4,7 @@ import { MainNav } from "./main-nav";
 import { MobileMenu } from "./mobile-menu";
 import { QuoteButton } from "./quote-button";
 
-/** En-tête : logo, navigation, bouton « Devis ». Rien d'autre. */
+/** En-tête : logo, navigation, bouton « Panier ». Rien d'autre. */
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-line bg-surface">

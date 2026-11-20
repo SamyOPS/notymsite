@@ -46,6 +46,43 @@ export async function getBrands(): Promise<Brand[]> {
   return [...brands].sort((a, b) => a.name.localeCompare(b.name, "fr"));
 }
 
+export type CatalogOverview = {
+  productCount: number;
+  brandCount: number;
+  /** Univers ayant au moins un produit, dans l'ordre du catalogue. */
+  universes: Array<{ slug: string; name: string; count: number }>;
+};
+
+/** Chiffres de l'accueil : références, marques et produits par univers. */
+export async function getCatalogOverview(): Promise<CatalogOverview> {
+  "use cache";
+  cacheTag(CATALOG_TAG);
+  const { products, categories } = await loadCatalog();
+  const universeOf = new Map(
+    categories.map((c) => [c.slug, c.parentSlug ?? c.slug]),
+  );
+  const counts = new Map<string, number>();
+  const brandSlugs = new Set<string>();
+  for (const p of products) {
+    const universe = universeOf.get(p.categorySlug) ?? p.categorySlug;
+    counts.set(universe, (counts.get(universe) ?? 0) + 1);
+    if (p.brandSlug) brandSlugs.add(p.brandSlug);
+  }
+  return {
+    productCount: products.length,
+    brandCount: brandSlugs.size,
+    universes: categories
+      .filter((c) => c.parentSlug === null)
+      .sort((a, b) => a.sort - b.sort)
+      .map((c) => ({
+        slug: c.slug,
+        name: c.name,
+        count: counts.get(c.slug) ?? 0,
+      }))
+      .filter((u) => u.count > 0),
+  };
+}
+
 /** Marques les plus représentées au catalogue, et le nombre total de marques. */
 export async function getTopBrands(
   limit = 12,

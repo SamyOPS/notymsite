@@ -165,7 +165,10 @@ function matches(
     const category =
       context.categories.find((c) => c.slug === product.categorySlug)?.name ??
       "";
-    const haystack = normalizeText(`${product.name} ${brand} ${category}`);
+    // Nom, marque, catégorie et référence (« 02979 », « ICTEPE33FR »).
+    const haystack = normalizeText(
+      `${product.name} ${brand} ${category} ${product.sku ?? ""}`,
+    );
     const terms = normalizeText(filters.q).split(/\s+/).filter(Boolean);
     if (!terms.every((term) => haystack.includes(term))) return false;
   }
